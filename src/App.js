@@ -3,7 +3,8 @@ import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Login from './page/Login';
-import InputBox from './component/InputBox';
+import JoinMembershipPage from './page/JoinMembershipPage';
+import LoginPage from './page/LoginPage';
 
 
 export const Mobile = ({children}) => {
@@ -30,7 +31,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/login_page" element={<InputBox />} />
+            <Route path="/join_page" element={<JoinMembershipPage />} />
+            <Route path="/login_page" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
      </Mobile>

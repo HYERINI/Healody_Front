@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import BackIcon from "../img/back_icon.png";
+import nextFalse from "../img/next_false.png";
 
 const styles= {
     input: {
         border: "none",
         width: 320,
         height: 40,
-        
         },
     input_box: {
         border: "1px solid #D9D9D9",
@@ -14,6 +15,7 @@ const styles= {
         textAlign: "center",
         padding: "5px",
         borderRadius: "10px",
+        
     },
     p: {
         float: "left",
@@ -28,6 +30,21 @@ const styles= {
         color: "#D9D9D9",
         fontSize: "5px",
         marginLeft: "10px",
+    },
+    box: {
+        marginLeft: "10px",
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize: "20px",
+    },
+    img: {
+        
+        marginTop: "10px",
+        marginLeft: "-10px",
+    },
+    false: {
+        marginTop: "20px",
     }
 }
 // const InputBox = (props) => {
@@ -36,7 +53,7 @@ const styles= {
 //     setInputValue(event.target.value);
 //   };
 
-const InputBox = () => {
+const JoinMembershipPage = () => {
 
     const [name, setName] = useState('')
     const [id, setId] = useState('')
@@ -132,8 +149,12 @@ const InputBox = () => {
             setNumber(e.target.value);
         }
 
+        
   return (
     <>
+    <div style={styles.box}>
+        <img style={styles.img} src={BackIcon} />
+        <p style={styles.title}>회원가입</p>
         <div>
             <div style={styles.input_box}>
             <p style={styles.p}>닉네임</p>
@@ -223,10 +244,13 @@ const InputBox = () => {
             
             </div>
         </div>
-
+        
+        <img style={styles.false} src={nextFalse} />
+        
+    </div>
 
     </>
   );
 };
 
-export default InputBox;
+export default JoinMembershipPage;
