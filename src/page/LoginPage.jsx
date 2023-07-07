@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BackIcon from "../img/back_icon.png";
 
 const styles={
     input: {
@@ -14,6 +15,27 @@ const styles={
         padding: "5px",
         borderRadius: "10px",
         
+    },
+    p: {
+        float: "left",
+        marginLeft: "10px",
+        height: 5,
+        marginTop: "-2px",
+        color: "#D9D9D9",
+        fontSize: "7px",
+        paddingBottom: "2px",
+    },
+    img: {
+        
+        marginTop: "10px",
+        marginLeft: "-10px",
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize: "20px",
+    },
+    box: {
+        marginLeft: "10px",
     },
 }
 
@@ -46,8 +68,13 @@ function LoginPage() {
         setPw(e.target.value);
     }
 
+
+
     return (
         <>
+            <div style={styles.box}>
+            <img  style={styles.img} src={BackIcon} />
+            <p style={styles.title}>로그인</p>
             
             <div style={styles.input_box}>
                 <p style={styles.p}>아이디</p>
@@ -56,7 +83,7 @@ function LoginPage() {
                     value={id}
                     style={styles.input}
                     onChange={onSubmitId}
-                    placeholder="아이디를 입력해주세요"
+                    placeholder="이메일 (example@gamil.com)"
                 /> 
             </div>
             
@@ -69,10 +96,10 @@ function LoginPage() {
                     value={pw}
                     style={styles.input}
                     onChange={onSubmitPw}
-                    placeholder="비밀번호를 입력해주세요"
+                    placeholder="비밀번호 입력"
                 />
             </div>
-            
+            </div>
 
         </>
     );
