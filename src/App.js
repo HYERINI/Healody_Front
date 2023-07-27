@@ -6,6 +6,7 @@ import Login from './page/Login';
 import JoinMembershipPage from './page/JoinMembershipPage';
 import LoginPage from './page/LoginPage';
 import AgreePage from './page/AgreePage';
+import PhoneCertified from './page/PhoneCertified';
 
 
 export const Mobile = ({children}) => {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/join_page" element={<JoinMembershipPage />} />
             <Route path="/login_page" element={<LoginPage />} />
             <Route path="/agree_page" element={<AgreePage />} />
+            <Route path="/phone_certified" element={<PhoneCertified />} />
           </Routes>
         </BrowserRouter>
      </Mobile>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BackIcon from "../img/back_icon.png";
 import LoginFalse from "../img/login_false.png";
-
+import Dropdown from "../component/Dropdown";
 const styles={
     input: {
         border: "none",
@@ -82,10 +82,11 @@ const styles={
 //   }; 
 
   
-function LoginPage() {
+function PhoneCertified() {
 
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
+    const [isDropdownView, setDropdownView] = useState(false);
 
     const onSubmitId = (e) => {
         setId(e.target.value);
@@ -95,24 +96,48 @@ function LoginPage() {
         setPw(e.target.value);
     }
 
+    const handleClickContainer = () => {
+        setDropdownView(!isDropdownView)
+    }
 
+    const handleBlurContainer = () => {
+        setTimeout(() => {
+            setDropdownView(false)
+        }, 200);
+    }
 
     return (
         <>
             <div style={styles.box}>
             <img  style={styles.img} src={BackIcon} />
-            <p style={styles.title}>로그인</p>
-            
-            <div style={styles.input_box}>
-                <p style={styles.p}>아이디</p>
+            <p style={styles.title}>휴대전화 인증</p>
+            <div className="container" onBlur={handleBlurContainer}>
+                <label onClick={handleClickContainer}>
+                <button>Dropdown Menu{isDropdownView ? '▲' : '▼'}</button>
+                </label>
+                {isDropdownView && <Dropdown /> }
+            </div>
+            {/* <div style={styles.input_box}>
+                <p style={styles.p}>통신사 선택</p>
+                <button onClick={toggleDropdown}>
                 <input
                     type="text"
                     value={id}
                     style={styles.input}
                     onChange={onSubmitId}
                     placeholder="이메일 (example@gamil.com)"
-                /> 
-            </div>
+                    
+                />
+                </button>
+                {isOpen && (
+                    <ul>
+                        <li onClick={() => handleItemClick('SKT')}>SKT</li>
+                        <li onClick={() => handleItemClick('LG U+')}>LG U+</li>
+                        <li onClick={() => handleItemClick('KT')}>KT</li>
+                        <li onClick={() => handleItemClick('알뜰폰')}>알뜰폰</li>
+                    </ul>
+                )}
+            </div> */}
             
 
             <br />
@@ -153,4 +178,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default PhoneCertified;
