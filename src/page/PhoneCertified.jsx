@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import BackIcon from "../img/back_icon.png";
 import LoginFalse from "../img/login_false.png";
-import Dropdown from "../component/Dropdown";
+import Dropdown from './../component/Dropdown';
+
 const styles={
     input: {
         border: "none",
@@ -63,6 +64,11 @@ const styles={
         position: "fixed",
         bottom: "65px",
         right: "55px",
+    },
+    abt: {
+        display: "flex",
+        float: "right",
+        marginTop: "-20px",
     }
 }
 
@@ -86,7 +92,14 @@ function PhoneCertified() {
 
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
+    const [selectedOption, setSelectedOption] = useState('SKT');
     const [isDropdownView, setDropdownView] = useState(false);
+
+    
+
+    const handleDropdownChange = (event) => {
+        setSelectedOption(event.target.value);
+    };
 
     const onSubmitId = (e) => {
         setId(e.target.value);
@@ -111,12 +124,25 @@ function PhoneCertified() {
             <div style={styles.box}>
             <img  style={styles.img} src={BackIcon} />
             <p style={styles.title}>휴대전화 인증</p>
-            <div className="container" onBlur={handleBlurContainer}>
-                <label onClick={handleClickContainer}>
-                <button>Dropdown Menu{isDropdownView ? '▲' : '▼'}</button>
-                </label>
-                {isDropdownView && <Dropdown /> }
+
+
+            
+                
+            <div style={styles.input_box}>
+                <p style={styles.p}>통신사</p>
+                <select style={styles.input}>{selectedOption}
+                    <option value="SKT">SKT</option>
+                    <option value="LG U+">LG U+</option>
+                    <option value="KT">KT</option>
+                    <option value="알뜰폰">알뜰폰</option>
+                </select>
             </div>
+               
+                
+                {isDropdownView && <Dropdown /> }
+           
+
+
             {/* <div style={styles.input_box}>
                 <p style={styles.p}>통신사 선택</p>
                 <button onClick={toggleDropdown}>
@@ -141,16 +167,20 @@ function PhoneCertified() {
             
 
             <br />
+
             <div style={styles.input_box}>
-                <p style={styles.p}>비밀번호</p>
+                <p style={styles.p}>전화번호</p>
                 <input
                     type="text"
                     value={pw}
                     style={styles.input}
                     onChange={onSubmitPw}
-                    placeholder="비밀번호 입력"
+                    placeholder="전화번호를 입력해주세요"
                 />
+                <button style={styles.abt}>인증</button>
             </div>
+
+
             </div>
             <div style={styles.listbox}>
                 <ul style={styles.list}>
