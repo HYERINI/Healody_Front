@@ -11,7 +11,11 @@ import Family_care_detail from './page/Family_care_detail';
 import Family_invite from './page/Family_invite';
 import Family_main_none from './page/Family_main_none';
 import Family_main from './page/Family_main';
-import tailwindcss from 'tailwind.css';
+import CreateNewGoalPage from './page/CreateNewGoalPage';
+import CreateNewRecordPage from './page/CreateNewRecordPage';
+import MyTodayPage from './page/MyTodayPage';
+import MyTodayRecordListPage from "./page/MyTodayRecordListPage";
+// import tailwindcss from 'tailwind.css';
 
 export const Mobile = ({children}) => {
   const isMobile = useMediaQuery({
@@ -45,10 +49,14 @@ function App() {
             <Route path="/agree_page" element={<AgreePage />} />
             <Route path="/phone_certified" element={<PhoneCertified />} />
 
+            <Route path="/my_today" element={<MyTodayPage />}/>
+            <Route path="/my_todayRecord" element={<MyTodayRecordListPage />}/>
+            <Route path="/create_newGoal" element={<CreateNewGoalPage />} />
+            <Route path="/create_newRecord" element={<CreateNewRecordPage />} />
             {isCreated ? (
-              <Route exact path="/" element={<Family_main />} />
+              <Route exact path="/family" element={<Family_main />} />
             ) : (
-              <Route exact path="/" element={<Family_main_none />} />
+              <Route exact path="/family" element={<Family_main_none />} />
             )}
             {isCreated && (
               <>
