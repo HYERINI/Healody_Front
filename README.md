@@ -6,7 +6,7 @@
 4. tailwind.config.js 수정
 
 << styled-component >>
-1. npm install styled-component
+1. npm install styled-components
 
 ### 경로
 로그인 선택 : /login <br/>
