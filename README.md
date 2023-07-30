@@ -9,17 +9,17 @@
 1. npm install styled-component
 
 ### 경로
-로그인 선택 : /login
-로그인 : /login_page
-회원가입 : /join_page
-약관 동의 : /agree_page
-휴대전화 인증 : /phone_certified
-
-오늘의 나 : /my_today
-오늘의 나 기록 : /my_todayRecord
-목표 추가하기 : /create_newGoal
-기록 추가하기 : /create_newRecord
-
-가족 : /family
-가족 추가(?) : /Family_invite
-가족케어디테일 : /Family_care_detail
+로그인 선택 : /login <br/>
+로그인 : /login_page <br/>
+회원가입 : /join_page <br/>
+약관 동의 : /agree_page <br/>
+휴대전화 인증 : /phone_certified <br/>
+<br/> <br/>
+오늘의 나 : /my_today <br/>
+오늘의 나 기록 : /my_todayRecord <br/>
+목표 추가하기 : /create_newGoal <br/>
+기록 추가하기 : /create_newRecord <br/>
+<br/> <br/>
+가족 : /family <br/>
+가족 추가(?) : /Family_invite <br/>
+가족케어디테일 : /Family_care_detail <br/>
