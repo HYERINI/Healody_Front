@@ -15,6 +15,13 @@ import CreateNewGoalPage from './page/CreateNewGoalPage';
 import CreateNewRecordPage from './page/CreateNewRecordPage';
 import MyTodayPage from './page/MyTodayPage';
 import MyTodayRecordListPage from "./page/MyTodayRecordListPage";
+import MypagePassword from './page/MypagePassword'
+import MypageLayout from './page/MypageLayout'
+import MypageFamilyManagementMain from './page/MypageFamilyManagementMain'
+import MypageMemberInformation from './page/MypageMemberInformation'
+import MypageProfile from './page/MypageProfile'
+import MypageFamilyInvite from './page/MypageFamilyInvite'
+
 // import tailwindcss from 'tailwind.css';
 
 export const Mobile = ({children}) => {
@@ -53,6 +60,14 @@ function App() {
             <Route path="/my_todayRecord" element={<MyTodayRecordListPage />}/>
             <Route path="/create_newGoal" element={<CreateNewGoalPage />} />
             <Route path="/create_newRecord" element={<CreateNewRecordPage />} />
+
+            <Route path="/Mypage_Password" element={<MypagePassword />} />
+            <Route path="/Mypage_Layout" element={<MypageLayout />} />
+            <Route path="/Mypage_FamilyManagementMain" element={<MypageFamilyManagementMain />} />
+            <Route path="/Mypage_MemberInformation" element={<MypageMemberInformation />} />
+            <Route path="/Mypage_Profile" element={<MypageProfile />} />
+            <Route path="/Mypage_FamilyInvite" element={<MypageFamilyInvite />} />
+
             {isCreated ? (
               <Route exact path="/family" element={<Family_main />} />
             ) : (
