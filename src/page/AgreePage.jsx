@@ -3,6 +3,7 @@ import AgreeBox from "../component/AgreeBox";
 import BackIcon from "../img/back_icon.png";
 import { AiOutlineCheck } from 'react-icons/ai';
 import Nextfalse from "../img/next_false.png";
+import Nexttrue from "../img/Next_true.png";
 
 const styles={
     img: {
@@ -37,13 +38,53 @@ const styles={
 function AgreePage() {
     const [agree, setAgree ] = useState(false);
     const [agree1, setAgree1 ] = useState(false);
-    
+    const [allAgree, setAllAgree] = useState(false);
+    const [imag, setImag] = useState(Nextfalse);
+
     const handleAgreeChange = (event) => {
         setAgree(event.target.checked);
+
+        if (agree1 && agree) {
+            setImag(Nextfalse);
+        }
+        else{
+            setImag(Nexttrue);
+        }
     };
     const handleAgreeChange1 = (event) => {
         setAgree1(event.target.checked);
+
+        if (agree1 && agree) {
+            setImag(Nextfalse);
+        }
+        else {
+            setImag(Nexttrue);
+        }
     };
+
+    const handleAgreeAll = (event) => {
+        setAgree(event.target.checked);
+        setAgree1(event.target.checked);
+        setAllAgree(event.target.checked);
+
+        if (agree1 && agree) {
+            setImag(Nextfalse);
+        }
+        else {
+            setImag(Nexttrue);
+        }
+    };
+
+    const ChangeImg = () => {
+        if (agree1 && agree) {
+            setImag(Nexttrue);
+        }
+        else{
+            setImag(Nextfalse);
+        }
+    };
+
+
     return (
     <>
     <img style={styles.img} src={BackIcon} />
@@ -61,7 +102,7 @@ function AgreePage() {
 
     <div style={styles.under}>
         <label style={styles.label}>
-            <input type="checkbox" checked={agree} onChange={handleAgreeChange} />
+            <input type="checkbox" checked={allAgree} onClick={handleAgreeAll} />
             <span>
             {agree && <AiOutlineCheck />}
             </span>
@@ -69,7 +110,7 @@ function AgreePage() {
             
         </label>
 
-        <img style={styles.false} src={Nextfalse} />
+        <img style={styles.false} src={imag} onChange={handleAgreeAll} onClick={() => window.location.href = '/my_today'}/>
     </div>
     </>
     

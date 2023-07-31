@@ -21,7 +21,7 @@ import MypageFamilyManagementMain from './page/MypageFamilyManagementMain'
 import MypageMemberInformation from './page/MypageMemberInformation'
 import MypageProfile from './page/MypageProfile'
 import MypageFamilyInvite from './page/MypageFamilyInvite'
-
+import Celendar from './page/Celendar';
 // import tailwindcss from 'tailwind.css';
 
 export const Mobile = ({children}) => {
@@ -53,7 +53,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join_page" element={<JoinMembershipPage />} />
             <Route path="/login_page" element={<LoginPage />} />
-            <Route path="/agree_page" element={<AgreePage />} />
+            <Route path="/api/auth/kakao/callback" element={<AgreePage />} />
             <Route path="/phone_certified" element={<PhoneCertified />} />
 
             <Route path="/my_today" element={<MyTodayPage />}/>
@@ -67,6 +67,8 @@ function App() {
             <Route path="/Mypage_MemberInformation" element={<MypageMemberInformation />} />
             <Route path="/Mypage_Profile" element={<MypageProfile />} />
             <Route path="/Mypage_FamilyInvite" element={<MypageFamilyInvite />} />
+
+            <Route path="/celendar" element={<Celendar />} />
 
             {isCreated ? (
               <Route exact path="/family" element={<Family_main />} />

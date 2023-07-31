@@ -1,9 +1,8 @@
 import Kakaobtn from "../img/kakaobtn.png";
 
 const KakaoLogin = () => {
-    const CLIENT_ID = "5b43320b1c067a813d0d15ef55f6ebf3";
-    const REDIRECT_URI = "http://localhost:3000/home";
-    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
+    
+    const kakaoURL = 'https://kauth.kakao.com/oauth/authorize?client_id=c33420b52702ac0ebf8805e80e6078f1&redirect_uri=http://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/kakao/callback&response_type=code';
 
     return(
         <img
