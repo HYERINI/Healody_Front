@@ -44,7 +44,6 @@ const styles = {
         border: "none",
         marginTop: "-50px",
         marginLeft: "18px",
-        display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         flexShrink: 0,

@@ -26,9 +26,14 @@ const ButtonTitle = styled.p`
   font-size: 12px;
 `
 
-const TodayRecordTypeButton = ({ content, width }) => { // Receive 'width' as a prop
+const TodayRecordTypeButton = ({ content, width, onClick }) => { // Receive 'width' as a prop
+
+    const handleItemClick = (item) => {
+        onClick(item);
+    };
+
     return (
-        <Button width={width}>
+        <Button width={width} onClick={() => handleItemClick({ content })}>
             <ButtonImg src={check} />
             <ButtonTitle>{content}</ButtonTitle>
         </Button>

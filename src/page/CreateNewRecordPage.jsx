@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import plusBtn from './../img/TodayPlusBt.svg';
 import TodayHeader from './../component/Today/TodayHeader';
 import TodayNav from './../component/Today/TodayNav';
@@ -85,26 +86,124 @@ const TodayMemoInput = styled.textarea`
   box-sizing: border-box;
   line-height: 1.5;
   color: #B6B6B5;
-  resize: vertical; 
-  min-height: 50px; 
+  resize: vertical;
+  min-height: 50px;
 `;
 
 const TodayMedicWrap = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `
 
 const TodayMedicAddBt = styled.img`
+  padding-bottom: 5px;
+  box-sizing: border-box;
 `
 
 const ChangeContainer = styled.div`
   margin-bottom: 80px;
+  margin-top: 15px;
 `
 
 function CreateNewRecordPage(){
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
+    const [selectedPurpose, setSelectedPurpose] = useState('');
+    const [formData, setFormData] = useState({
+        date: "",
+        title: "",
+        purpose: "",
+        name: "",
+        surgery: "",
+        medicine1: "",
+        medicine2: "",
+        medicine3: "",
+        place: "",
+        memo: ""
+    });
 
+    const [medicineInputs, setMedicineInputs] = useState(1);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleAddMedicineInput = () => {
+        if (medicineInputs < 3) {
+            setMedicineInputs(medicineInputs + 1);
+        }
+    };
+
+    const handleRemoveMedicineInput = () => {
+        if (medicineInputs > 1) {
+            setMedicineInputs(medicineInputs - 1);
+            setFormData((prevFormData) => {
+                const updatedFormData = { ...prevFormData };
+                delete updatedFormData[`medicine${medicineInputs}`];
+                return updatedFormData;
+            });
+        }
+    };
+    const handleSave = () => {
+        // 병원일 때 호출
+        if (selectedDropDownValue === '병원') {
+            const requestBody = {
+                userId: "1",
+                date: formData.date + ' ' + formData.time,
+                title: formData.title,
+                purpose: selectedPurpose.content,
+                name: formData.name,
+                surgery: formData.surgery,
+                memo: formData.memo
+            };
+            axios.defaults.withCredentials = true;
+            axios({
+                url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/hospital',
+                method: 'POST',
+                withCredentials: true,
+                data: requestBody,
+                success: function(){
+                    console.log(requestBody);
+                }
+            })
+        } else if (selectedDropDownValue === '약') {
+            const requestBody = {
+                userId: "1",
+                date: formData.date + ' ' + formData.time,
+                title: formData.title,
+                medicine1: formData.medicine1,
+                medicine2: formData.medicine2,
+                medicine3: formData.medicine3,
+                place: formData.place,
+                memo: formData.memo
+            };
+            axios({
+                url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/medicine',
+                method: 'POST',
+                data: requestBody,
+                success: function(){
+                    console.log(requestBody);
+                }
+            })
+        } else if (selectedDropDownValue === '증상') {
+            const requestBody = {
+                userId: "1",
+                date: formData.date + ' ' + formData.time,
+                title: formData.title,
+                name: formData.name,
+                memo: formData.memo
+            };
+            axios({
+                url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/symptom',
+                method: 'POST',
+                data: requestBody,
+                success: function(){
+                    console.log(requestBody);
+                }
+            })
+        }
+    };
     return(
         <Container>
             <TodayHeader/>
@@ -113,90 +212,134 @@ function CreateNewRecordPage(){
             <TodayListWrap>
                 <TodayGoalTitle content="날짜" width="65" />
                 <TodayDateInputWrap>
-                    <TodayDateInput type="date" />
-                    <TodayTimeInput type="time" />
+                    <TodayDateInput type="date"
+                                    name="date"
+                                    value={formData.date}
+                                    onChange={handleInputChange}/>
+                    <TodayTimeInput type="time"
+                                    name="time"
+                                    value={formData.time}
+                                    onChange={handleInputChange}/>
                 </TodayDateInputWrap>
             </TodayListWrap>
             <TodayListWrap>
                 <TodayGoalTitle content="제목" width="65" />
                 <TodayInputWrap>
-                    <TodayTitleInput type="text" placeholder='제목을 입력하세요.'/>
+                    <TodayTitleInput type="text" placeholder='제목을 입력하세요.'
+                                     name="title"
+                                     value={formData.title}
+                                     onChange={handleInputChange}/>
                 </TodayInputWrap>
             </TodayListWrap>
             <TodayDropDown
                 selectedValue={selectedDropDownValue}
                 options={['병원', '약', '증상']}
-                onChange={(value) => setSelectedDropDownValue(value)}
+                onClick={(value) => setSelectedDropDownValue(value)}
             />
-            {selectedDropDownValue === '병원' && (
+            {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
-                        <TodayRecordTypeButton content="외래" width="70" />
-                        <TodayRecordTypeButton content="입원" width="70" />
-                        <TodayRecordTypeButton content="응급" width="70" />
+                        <TodayRecordTypeButton content="외래" width="70" onClick={(value) => setSelectedPurpose(value)}/>
+                        <TodayRecordTypeButton content="입원" width="70" onClick={(value) => setSelectedPurpose(value)}/>
+                        <TodayRecordTypeButton content="응급" width="70" onClick={(value) => setSelectedPurpose(value)}/>
                     </TodayTypeListWrap>
                     <TodayListWrap>
                         <TodayGoalTitle content="병원*" width="70" />
                         <TodayInputWrap>
-                            <TodayTitleInput type="text" placeholder='병원 이름을 입력하세요.'/>
+                            <TodayTitleInput type="text" placeholder='병원 이름을 입력하세요.'
+                                             name="name"
+                                             value={formData.name}
+                                             onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                     <TodayListWrap>
                         <TodayGoalTitle content="검사, 시술, 수술" width="120" />
                         <TodayInputWrap>
-                            <TodayTitleInput type="text" placeholder='검사, 시술, 수술에 대해 입력하세요.'/>
+                            <TodayTitleInput type="text" placeholder='검사, 시술, 수술에 대해 입력하세요.'
+                                             name="surgery"
+                                             value={formData.surgery}
+                                             onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                     <TodayListWrap>
-                        <TodayGoalTitle content="메모" width="70" />
+                        <TodayGoalTitle content="메모" width="60" />
                         <TodayInputWrap>
-                            <TodayMemoInput type="text" placeholder='방문 전에는 궁금한 점을 메모하고, 이후에는 진료 내용을 남겨보세요'/>
+                            <TodayMemoInput type="text" placeholder='방문 전에는 궁금한 점을 메모하고, 이후에는 진료 내용을 남겨보세요'
+                                            name="memo"
+                                            value={formData.memo}
+                                            onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                 </ChangeContainer>
-            )}
-            {selectedDropDownValue === '약' && (
+            ) : selectedDropDownValue === '약' ? (
                 <ChangeContainer>
                     <TodayListWrap>
                         <TodayMedicWrap>
                             <TodayGoalTitle content="약*" width="65" />
-                            <TodayMedicAddBt src={plusBtn} />
+                            {medicineInputs < 3 ? (
+                                <TodayMedicAddBt src={plusBtn} onClick={handleAddMedicineInput} />
+                            ) : null}
                         </TodayMedicWrap>
                         <TodayInputWrap>
-                            <TodayTitleInput type="text" placeholder='약의 종류를 입력하세요'/>
+                            {Array.from({ length: medicineInputs }, (_, index) => (
+                                <TodayTitleInput
+                                    key={`medicineInput_${index}`}
+                                    type="text"
+                                    placeholder={`약의 종류 ${index + 1}를 입력하세요`}
+                                    name={`medicine${index + 1}`}
+                                    value={formData[`medicine${index + 1}`] || ""}
+                                    onChange={handleInputChange}
+                                />
+                            ))}
                         </TodayInputWrap>
                     </TodayListWrap>
                     <TodayListWrap>
                         <TodayGoalTitle content="처방 병원 / 약국" width="120" />
                         <TodayInputWrap>
-                            <TodayTitleInput type="text" placeholder='처방 받은 병원과 약국을 입력하세요'/>
+                            <TodayTitleInput type="text" placeholder='처방 받은 병원과 약국을 입력하세요'
+                                             name="place"
+                                             value={formData.place}
+                                             onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                     <TodayListWrap>
-                        <TodayGoalTitle content="메모" width="70" />
+                        <TodayGoalTitle content="메모" width="60" />
                         <TodayInputWrap>
-                            <TodayMemoInput type="text" placeholder='자세히 적을수록 좋아요. (ex.효과, 부작용)'/>
+                            <TodayMemoInput type="text" placeholder='자세히 적을수록 좋아요. (ex.효과, 부작용)'
+                                            name="memo"
+                                            value={formData.memo}
+                                            onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                 </ChangeContainer>
-            )}
-            {selectedDropDownValue === '증상' && (
+            ) : (
                 <ChangeContainer>
                     <TodayListWrap>
                         <TodayGoalTitle content="증상*" width="70" />
                         <TodayInputWrap>
-                            <TodayTitleInput type="text" placeholder='나타나는 증상을 입력하세요'/>
+                            <TodayTitleInput type="text" placeholder='나타나는 증상을 입력하세요'
+                                             name="name"
+                                             value={formData.name}
+                                             onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                     <TodayListWrap>
-                        <TodayGoalTitle content="메모" width="70" />
+                        <TodayGoalTitle content="메모" width="60" />
                         <TodayInputWrap>
-                            <TodayMemoInput type="text" placeholder='자세히 적을수록 좋아요. (ex. 증상, 통증)'/>
+                            <TodayMemoInput type="text" placeholder='자세히 적을수록 좋아요. (ex. 증상, 통증)'
+                                            name="memo"
+                                            value={formData.memo}
+                                            onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
                 </ChangeContainer>
             )}
-            <TodayButton content="저장" />
+
+            <TodayButton
+                isActive={selectedDropDownValue !== ''}
+                onClick={handleSave}
+                content="저장"
+            />
         </Container>
     )
 }

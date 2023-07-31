@@ -44,28 +44,29 @@ const DropDownItem = styled.li`
   }
 `;
 
-export default function TodayDropDown() {
+export default function TodayDropDown({ selectedValue, options, onClick }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState('병원'); // 기본값을 '병원'으로 설정
 
     const handleDropDownClick = () => {
         setIsOpen(!isOpen);
     };
 
     const handleItemClick = (item) => {
-        setSelectedItem(item); // 선택된 아이템의 값을 상태로 설정
+        onClick(item);
         setIsOpen(false);
     };
 
     return (
         <DropDownContainer>
             <DropDownButton onClick={handleDropDownClick}>
-                {selectedItem}
+                {selectedValue}
             </DropDownButton>
             <DropDownListContainer open={isOpen}>
-                <DropDownItem onClick={() => handleItemClick('병원')}>병원</DropDownItem>
-                <DropDownItem onClick={() => handleItemClick('약')}>약</DropDownItem>
-                <DropDownItem onClick={() => handleItemClick('증상')}>증상</DropDownItem>
+                {options.map((option) => (
+                    <DropDownItem key={option} onClick={() => handleItemClick(option)}>
+                        {option}
+                    </DropDownItem>
+                ))}
             </DropDownListContainer>
         </DropDownContainer>
     );
