@@ -11,6 +11,8 @@ import TodayRecordTypeButton from "../component/Today/TodayRecordTypeButton";
 import TodayButton from "../component/Today/TodayButton";
 import TodayMakeGoal from './../component/Today/TodayMakeGoal';
 
+axios.defaults.withCredentials = true;
+
 const Container = styled.div`
   width: 360px;
   margin: 0 auto;
@@ -107,6 +109,8 @@ const ChangeContainer = styled.div`
   margin-top: 15px;
 `
 
+
+
 function CreateNewRecordPage(){
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
@@ -152,16 +156,19 @@ function CreateNewRecordPage(){
                 userId: "1",
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
-                purpose: selectedPurpose.content,
+                purpose: formData.purpose,
                 name: formData.name,
                 surgery: formData.surgery,
                 memo: formData.memo
             };
-            axios.defaults.withCredentials = true;
             axios({
                 url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/hospital',
                 method: 'POST',
-                withCredentials: true,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true
+                },
                 data: requestBody,
                 success: function(){
                     console.log(requestBody);

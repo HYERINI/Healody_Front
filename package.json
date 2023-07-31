@@ -2,6 +2,7 @@
   "name": "healody",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
