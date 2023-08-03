@@ -22,6 +22,7 @@ import MypageMemberInformation from './page/MypageMemberInformation'
 import MypageProfile from './page/MypageProfile'
 import MypageFamilyInvite from './page/MypageFamilyInvite'
 import Celendar from './page/Celendar';
+// import KakaoLoginRedirect from './component/KakaoLoginRedirect';
 // import tailwindcss from 'tailwind.css';
 
 export const Mobile = ({children}) => {
