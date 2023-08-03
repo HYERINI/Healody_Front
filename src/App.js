@@ -22,6 +22,8 @@ import MypageMemberInformation from './page/MypageMemberInformation'
 import MypageProfile from './page/MypageProfile'
 import MypageFamilyInvite from './page/MypageFamilyInvite'
 import Celendar from './page/Celendar';
+import Hospital from './page/Hospital';
+import Dosomething from './page/Dosomething';
 // import KakaoLoginRedirect from './component/KakaoLoginRedirect';
 // import tailwindcss from 'tailwind.css';
 
@@ -69,7 +71,9 @@ function App() {
             <Route path="/Mypage_Profile" element={<MypageProfile />} />
             <Route path="/Mypage_FamilyInvite" element={<MypageFamilyInvite />} />
 
-            <Route path="/celendar" element={<Celendar />} />
+            <Route path="/calendar" element={<Celendar />} />
+            <Route path="/hospital" element={<Hospital />} />
+            <Route path="/dosomething" element={<Dosomething />} />
 
             {isCreated ? (
               <Route exact path="/family" element={<Family_main />} />
