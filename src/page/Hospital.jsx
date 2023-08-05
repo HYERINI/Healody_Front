@@ -4,11 +4,21 @@ import TodayNav from "../component/Today/TodayNav";
 import CalendarNav from "../component/CalendarNav";
 import CalendarComponent from "../component/CalendarComponent";
 import TodayDropDown from "../component/Today/TodayDropDown";
+import styled from 'styled-components';
+import SelectComponent from "../component/SelectComponent";
+
 
 function Hospital() {
+    const Container = styled.div`
+        width: 360px;
+        margin: 0 auto;
+        position: relative;
+        `;
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('본가');
+    
     return (
         <>
+            <Container>
             <TodayHeader />
             <TodayNav />
             <CalendarNav />
@@ -18,6 +28,20 @@ function Hospital() {
                 options={['본가', '친가', '외가']}
                 onClick={(value) => setSelectedDropDownValue(value)}
             />
+
+            {selectedDropDownValue === '본가' ? (
+                <Container>
+                    <SelectComponent />
+                </Container>
+            ) : selectedDropDownValue === '친가' ? (
+                <Container>
+                    시발년아
+                </Container>
+            ) : (
+                <Container>
+                    개새끼야
+                </Container>
+            )}
             {/* {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
@@ -116,6 +140,7 @@ function Hospital() {
                     </TodayListWrap>
                 </ChangeContainer>
             )} */}
+            </Container>
         </>
     )
 }
