@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const DropDownContainer = styled.div`
-  position: relative;
-  width: 360px;
-`;
-
 const DropDownButton = styled.button`
   margin: 0 auto;
   background-color: #6F02DB;
@@ -53,7 +48,7 @@ export default function TodayDropDown({ selectedValue, options, onClick }) {
     };
 
     return (
-        <DropDownContainer>
+        <>
             <DropDownButton onClick={handleDropDownClick}>
                 {selectedValue}
             </DropDownButton>
@@ -64,6 +59,6 @@ export default function TodayDropDown({ selectedValue, options, onClick }) {
                     </DropDownItem>
                 ))}
             </DropDownListContainer>
-        </DropDownContainer>
+        </>
     );
 }
