@@ -4,6 +4,7 @@ import Delete from './../../img/threeDot.svg';
 import TodayDeleteModal from "./TodayDeleteModal";
 
 const TodayRecordBoxWrap = styled.div`
+  position: relative; /* 추가 */
   border-radius: 10px;
   border: 1px solid #B6B6B5;
   background-color: #F5F5F5;
