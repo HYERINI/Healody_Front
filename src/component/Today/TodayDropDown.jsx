@@ -15,7 +15,6 @@ const DropDownButton = styled.button`
 
 const DropDownListContainer = styled.ul`
   position: absolute;
-  top: 100%;
   background-color: white;
   border: 1px solid #B6B6B5;
   border-radius: 5px;

@@ -16,7 +16,6 @@ axios.defaults.withCredentials = true;
 const Container = styled.div`
   width: 360px;
   margin: 0 auto;
-  position: relative;
 `;
 
 const TodayListWrap = styled.div`
@@ -107,11 +106,6 @@ const TodayMedicAddBt = styled.img`
 const ChangeContainer = styled.div`
   margin-bottom: 80px;
   margin-top: 15px;
-`
-
-const TodayDropDownWrap = styled.div`
-  display: flex;
-  justify-content: center;
 `
 
 function CreateNewRecordPage(){
@@ -241,13 +235,13 @@ function CreateNewRecordPage(){
                                      onChange={handleInputChange}/>
                 </TodayInputWrap>
             </TodayListWrap>
-            <TodayDropDownWrap>
+            <div style={{ position: 'relative', paddingLeft: '20px' }}>
                 <TodayDropDown
                     selectedValue={selectedDropDownValue}
                     options={['병원', '약', '증상']}
                     onClick={(value) => setSelectedDropDownValue(value)}
                 />
-            </TodayDropDownWrap>
+            </div>
             {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
