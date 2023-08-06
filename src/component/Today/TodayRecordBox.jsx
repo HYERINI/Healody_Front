@@ -4,7 +4,7 @@ import Delete from './../../img/threeDot.svg';
 import TodayDeleteModal from "./TodayDeleteModal";
 
 const TodayRecordBoxWrap = styled.div`
-  position: relative; /* 추가 */
+  position: relative; 
   border-radius: 10px;
   border: 1px solid #B6B6B5;
   background-color: #F5F5F5;
@@ -71,12 +71,16 @@ const TodayDeleteModalBox = styled.div`
   top: 35px;
   right: 10px;
 `;
-
-export default function TodayRecordBox({ type, date, content }) {
+export default function TodayRecordBox({ type, date, content, onOpenModal }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleThreedotClick = () => {
         setIsModalOpen(!isModalOpen);
+    };
+
+    const handleDeleteButtonClick = () => {
+        setIsModalOpen(false); // 혹시 모달이 열려있다면 닫습니다.
+        onOpenModal(); // "삭제하기" 버튼을 누르면 TodayDeleteCheckBox를 나타내는 콜백 함수를 호출합니다.
     };
 
     return (
@@ -89,8 +93,9 @@ export default function TodayRecordBox({ type, date, content }) {
                 <TodayRecordDelete src={Delete} onClick={handleThreedotClick} />
             </TodayRecordBoxTitleWrap>
             <TodayRecordContent>{content}</TodayRecordContent>
-            {isModalOpen && <TodayDeleteModalBox>삭제하기</TodayDeleteModalBox>}
+            {isModalOpen && (
+                <TodayDeleteModalBox onClick={handleDeleteButtonClick}>삭제하기</TodayDeleteModalBox>
+            )}
         </TodayRecordBoxWrap>
     );
 }
-
