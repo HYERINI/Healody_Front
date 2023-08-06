@@ -6,6 +6,7 @@ import TodayHeader from './../component/Today/TodayHeader';
 import TodayNav from './../component/Today/TodayNav';
 import {BsPlus} from 'react-icons/bs';
 import {FaUserAlt} from 'react-icons/fa';
+import { Container } from 'postcss';
 
 const Family_main = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -53,11 +54,20 @@ const Family_main = () => {
     setCreateCareAccount(false);
   };
 
+  const styles={
+    b: {
+      margin: "0 auto",
+      position: "relative",
+      width: "360px",
+    }
+  }
   return (
     <div className="h-screen">
       <div className="w-360px max-w-lg">
+        <div style={styles.b}>
         <TodayHeader/>
           <TodayNav />
+        </div>
         {/* Centered Box */}
         {/* Main */}
         <div className="text-center ml-6 mr-6">

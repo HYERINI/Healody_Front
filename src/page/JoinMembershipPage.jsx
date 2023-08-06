@@ -7,10 +7,11 @@ const styles= {
         border: "none",
         width: 320,
         height: 40,
+        marginTop: "10px",
         },
     input_box: {
         border: "1px solid #D9D9D9",
-        height: 60,
+        height: 70,
         width: 328,
         textAlign: "center",
         padding: "5px",
@@ -32,7 +33,9 @@ const styles= {
         marginLeft: "10px",
     },
     box: {
-        marginLeft: "10px",
+        margin: "0 auto",
+        position: "relative",
+        marginLeft: "20px",
     },
     title: {
         fontWeight: "bold",
@@ -155,6 +158,7 @@ const JoinMembershipPage = () => {
     <div style={styles.box}>
         <img style={styles.img} src={BackIcon} />
         <p style={styles.title}>회원가입</p>
+        <br />
         <div>
             <div style={styles.input_box}>
             <p style={styles.p}>닉네임</p>
@@ -169,7 +173,7 @@ const JoinMembershipPage = () => {
             </div>
             <p style={styles.under}>{nameMessage}</p>
         </div>
-
+        
         <div>
             <div style={styles.input_box}>
             <p style={styles.p}>아이디</p>

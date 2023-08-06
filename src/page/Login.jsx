@@ -3,6 +3,8 @@ import LoginLogo from "../img/login_logo.png"
 import KakaoLogin from "../component/KakaoLogin";
 import Idpw from "../component/Idpw";
 import Email from "../component/Email";
+import { Container } from "postcss";
+
 const styles= {
     l_logo: {
         width: 226,
@@ -11,8 +13,9 @@ const styles= {
     },
 
     logo_space: {
-        textAlign: 'center',
+        // textAlign: 'center',
         marginTop: 150,
+        marginLeft: "60px",
     },
     kakaobtn_cage: {
         width: "100%",
@@ -33,11 +36,20 @@ const styles= {
         height: "100%",
         marginTop: "300px",
     },
-};
+    all: {
+        margin: "0 auto",
+        position: "relative",
+        width: "360px",
+    }
+    
+}
+
 
 function Login() {
     return (
         <>
+        <div style={styles.all}>
+        
             <div style={styles.logo_space}>
                 <img
                     src={LoginLogo}
@@ -58,6 +70,7 @@ function Login() {
             <div style={styles.email_cage}>
                 <Idpw />
             </div>
+        </div>
         </div>
         </>
     )
