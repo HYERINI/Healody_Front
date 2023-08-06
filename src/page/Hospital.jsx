@@ -8,7 +8,9 @@ import Select from "../component/Select";
 import styled from 'styled-components';
 import CalendarAddList from "../component/CalendarAddList";
 
-
+const HospitalSelectWrap = styled.div`
+  margin-top: 0;
+`
 
 
 function Hospital() {
@@ -36,34 +38,34 @@ function Hospital() {
     return (
         <>
             <Container>
-            <TodayHeader />
-            <TodayNav />
-            <CalendarNav />
-            <CalendarComponent />
-            <div style={styles.drop}>
-                <TodayDropDown
-                    selectedValue={selectedDropDownValue}
-                    options={['본가', '친가', '외가']}
-                    onClick={(value) => setSelectedDropDownValue(value)}
-                />
-            </div>
+                <TodayHeader />
+                <TodayNav />
+                <CalendarNav />
+                <CalendarComponent />
+                <HospitalSelectWrap style={styles.drop}>
+                    <TodayDropDown
+                        selectedValue={selectedDropDownValue}
+                        options={['본가', '친가', '외가']}
+                        onClick={(value) => setSelectedDropDownValue(value)}
+                    />
+                </HospitalSelectWrap>
 
-            {selectedDropDownValue === '본가' ? (
-                <Container>
-                    <Select options={optionsHome} onChange={handleOptionChange}/>
-                    <CalendarAddList options={optionsHome} onChange={handleOptionChange}/>
-                </Container>
-            ) : selectedDropDownValue === '친가' ? (
-                <Container>
-                    <Select options={optionsHome2} onChange={handleOptionChange}/>
-                    <CalendarAddList options={optionsHome2} onChange={handleOptionChange}/>
-                </Container>
-            ) : (
-                <Container>
-                    <Select options={optionsHome3} onChange={handleOptionChange}/>
-                    <CalendarAddList options={optionsHome3} onChange={handleOptionChange}/>
-                </Container>
-            )}
+                {selectedDropDownValue === '본가' ? (
+                    <HospitalSelectWrap>
+                        <Select options={optionsHome} onChange={handleOptionChange}/>
+                        <CalendarAddList options={optionsHome} onChange={handleOptionChange}/>
+                    </HospitalSelectWrap>
+                ) : selectedDropDownValue === '친가' ? (
+                    <HospitalSelectWrap>
+                        <Select options={optionsHome2} onChange={handleOptionChange}/>
+                        <CalendarAddList options={optionsHome2} onChange={handleOptionChange}/>
+                    </HospitalSelectWrap>
+                ) : (
+                    <HospitalSelectWrap>
+                        <Select options={optionsHome3} onChange={handleOptionChange}/>
+                        <CalendarAddList options={optionsHome3} onChange={handleOptionChange}/>
+                    </HospitalSelectWrap>
+                )}
             
             </Container>
         </>

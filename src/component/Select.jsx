@@ -12,7 +12,7 @@ const Select = ({options}) => {
 
     const styles={
         div: {
-            marginTop: "100px",
+            marginTop: "15px",
         }
     }
 

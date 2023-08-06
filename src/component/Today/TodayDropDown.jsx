@@ -4,9 +4,6 @@ import styled from 'styled-components';
 const DropDownContainer = styled.div`
   position: relative;
   width: 360px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 `;
 
 const DropDownButton = styled.button`
@@ -24,7 +21,6 @@ const DropDownButton = styled.button`
 const DropDownListContainer = styled.ul`
   position: absolute;
   top: 100%;
-  left: 41%;
   background-color: white;
   border: 1px solid #B6B6B5;
   border-radius: 5px;

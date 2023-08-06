@@ -1,44 +1,54 @@
 import React, { useState } from 'react';
 
 const SelectButton = ({ options, onChange }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
 
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    onChange(option);
-  };
+    const handleOptionChange = (option) => {
+        setSelectedOption(option);
+        onChange(option);
+    };
 
-  const styles={
-    button: {
-        width: "20px",
-        height: "20px",
-        backgroundColor: "black",
-        marginLeft: "20px",
-    },
-    cont: {
-        display: "flex",
-        justifyContnet: "center",
-        width: "370px",
-    }
-  }
+    const styles = {
+        label: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            marginLeft: "10px",
+            width: "50px",
+            height: "50px",
+            whiteSpace: "nowrap",
+            backgroundColor: selectedOption === options ? "black" : "#D9D9D9",
+            color: selectedOption === options ? "white" : "black",
+            borderRadius: "50%",
+            fontSize: '70%'
+        },
+        circle: {
+            display: "none",
+        },
+        cont: {
+            display: "flex",
+            justifyContent: "center",
+            width: "365px",
+        },
+    };
 
- 
-  return (
-    <div style={styles.cont}>
-      {options.map((option) => (
-        <label key={option}>
-          <input
-            style={styles.button}
-            type="radio"
-            value={option}
-            checked={selectedOption === option}
-            onChange={() => handleOptionChange(option)}
-          />
-          {option}
-        </label>
-      ))}
-    </div>
-  );
+    return (
+        <div style={styles.cont}>
+            {options.map((options) => (
+                <label
+                    key={options}
+                    style={styles.label}
+                    onClick={() => handleOptionChange(options)}
+                        >
+                  <span style={styles.circle}>
+                    {selectedOption === options && <span>&#10003;</span>}
+                  </span>
+                    {options}
+                </label>
+            ))}
+        </div>
+    );
 };
 
 export default SelectButton;
