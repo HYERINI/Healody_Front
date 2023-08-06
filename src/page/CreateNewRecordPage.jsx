@@ -108,6 +108,11 @@ const ChangeContainer = styled.div`
   margin-top: 15px;
 `
 
+const TodayDropDownWrap = styled.div`
+  position: relative;
+  padding-left: 20px;
+`
+
 function CreateNewRecordPage(){
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
@@ -235,13 +240,13 @@ function CreateNewRecordPage(){
                                      onChange={handleInputChange}/>
                 </TodayInputWrap>
             </TodayListWrap>
-            <div style={{ position: 'relative', paddingLeft: '20px' }}>
+            <TodayDropDownWrap>
                 <TodayDropDown
                     selectedValue={selectedDropDownValue}
                     options={['병원', '약', '증상']}
                     onClick={(value) => setSelectedDropDownValue(value)}
                 />
-            </div>
+            </TodayDropDownWrap>
             {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
