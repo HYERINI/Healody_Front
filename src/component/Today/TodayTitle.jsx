@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 5px 0;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   position: relative;
 `
 
