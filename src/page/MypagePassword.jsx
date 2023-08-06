@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Header } from "../component/Header";
 import HealodyLogo from "../img/HealodyLogo.png";
-
-
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
 
@@ -85,6 +84,12 @@ function MypagePassword() {
         setPw(e.target.value);
     }
 
+    const navigate = useNavigate();
+   
+    const handleMemberInformationClick = () => {
+        navigate('/Mypage_MemberInformation');
+    };
+
     return (
         <>
             <div style={styles.box}>
@@ -108,7 +113,7 @@ function MypagePassword() {
                     />
                 </div>
 
-                <div style={styles.input_box2}>
+                <div style={styles.input_box2} onClick={handleMemberInformationClick}>
                     <p style={styles.p}>확인</p>
                 </div>
 
@@ -117,4 +122,4 @@ function MypagePassword() {
     );
 }
 
-export default MypagePassword; 
+export default MypagePassword;

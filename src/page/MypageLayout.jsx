@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Header } from "../component/Header";
+import { useNavigate } from 'react-router-dom';
+
+
 const styles = {
 
     header: {
@@ -118,7 +121,7 @@ const styles = {
         height: "29px",
         width: "143.823px",
         border: "none",
-        
+
     },
 
     input_box5: {
@@ -135,7 +138,7 @@ const styles = {
         fontSize: "12.5px",
         fontStyle: "normal",
         fontWeight: 700,
-      
+
     },
 
     p2: {
@@ -144,7 +147,7 @@ const styles = {
         fontSize: "10px",
         fontStyle: "normal",
         fontWeight: 300,
-    
+
     },
 
     p3: {
@@ -154,6 +157,7 @@ const styles = {
         fontSize: "13px",
         fontStyle: "normal",
         fontWeight: 600,
+        marginTop: "6px",
     },
 
     p4: {
@@ -195,7 +199,7 @@ const styles = {
         fontSize: "18px",
         fontStyle: "normal",
         fontWeight: 600,
-       
+
     },
 
     p8: {         //탈퇴 취소
@@ -266,18 +270,36 @@ function MypageLayout() {
         setShowLogoutModal(false);
     };
 
+    const navigate = useNavigate();
+
+    const handleProfileClick = () => {
+        navigate('/Mypage_Profile');
+    };
+
+    const handleFamilyInviteClick = () => {
+        navigate('/Mypage_FamilyInvite');
+    };
+
+    const handleFamilyManagementClick = () => {
+        navigate('/Mypage_FamilyManagementMain');
+    };
+
+    const handlePasswordClick = () => {
+        navigate('/Mypage_Password');
+    };
+
     return (
         <>
             <div style={styles.total_box}>
                 <div style={styles.header}>
                     <Header />
                 </div>
-                
+
                 <div style={styles.healodyLogo}>
-                    <healodyLogo/>
+                    <healodyLogo />
                 </div>
 
-                <div style={styles.profile_box}>
+                <div style={styles.profile_box} onClick={handleProfileClick}>
                     <div style={styles.ellipse}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="71" height="68" viewBox="0 0 71 68" fill="none">
                             <path d="M70.1096 34C70.1096 52.6316 54.4791 67.75 35.1798 67.75C15.8805 67.75 0.25 52.6316 0.25 34C0.25 15.3684 15.8805 0.25 35.1798 0.25C54.4791 0.25 70.1096 15.3684 70.1096 34Z" fill="white" stroke="black" stroke-width="0.5" />
@@ -309,7 +331,7 @@ function MypageLayout() {
                     <div style={styles.input_box4}>
                         <p style={styles.p4}>계정</p>
                     </div>
-                    <div style={styles.input_box5}>
+                    <div style={styles.input_box5} onClick={handlePasswordClick}>
                         <p style={styles.p5}>회원/개인 정보 관리</p>
                     </div>
                 </div>
@@ -318,10 +340,10 @@ function MypageLayout() {
                     <div style={styles.input_box4}>
                         <p style={styles.p4}>내 가족 </p>
                     </div>
-                    <div style={styles.input_box5}>
+                    <div style={styles.input_box5} onClick={handleFamilyManagementClick}>
                         <p style={styles.p5}>내 가족 관리</p>
                     </div>
-                    <div style={styles.input_box5}>
+                    <div style={styles.input_box5} onClick={handleFamilyInviteClick}>
                         <p style={styles.p5}>가족 초대</p>
                     </div>
                 </div>
@@ -343,7 +365,7 @@ function MypageLayout() {
                         <p style={styles.p4}>로그아웃</p>
                     </div>
                 </div>
-                
+
                 {showLogoutModal && (
                     <div style={styles.LogoutModalBackdrop}>
                         <div style={styles.LogoutModal}>

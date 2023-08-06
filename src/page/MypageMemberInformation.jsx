@@ -118,7 +118,7 @@ const styles = {
         flexDirection: "column",
         justifyContent: "center",
         flexShrink: 0,
-        marginTop:"10px"
+        marginTop: "10px"
     },
 
     p4: {           //정말 탈퇴하시겠습니까?
@@ -195,6 +195,8 @@ function MypageMemberInformation() {
 
     const [phone, setPhone] = useState('')
     const [email, setEmail] = useState('')
+    const [emailMessage, setEmailMessage] = useState('')
+    const [isEmail, setIsEmail] = useState(false)
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [passwordMessage, setPasswordMessage] = useState('')
@@ -205,10 +207,22 @@ function MypageMemberInformation() {
     const onSubmitphone = (e) => {
         setPhone(e.target.value);
     }
+
     const onSubmitemail = (e) => {
-        setEmail(e.target.value);
-    }
- 
+        const emailRegex =
+            /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+        const emailCurrnet = e.target.value;
+        setEmail(emailCurrnet);
+
+        if (!emailRegex.test(emailCurrnet)) {
+            setEmailMessage('올바르지 않은 이메일 형식입니다');
+            setIsEmail(false);
+        } else {
+            setEmailMessage('올바른 이메일 형식입니다');
+            setIsEmail(true);
+        }
+    };
+
     const onSubmitPassword = (e) => {
         const passwordRegex =
             /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
@@ -259,7 +273,7 @@ function MypageMemberInformation() {
                 </div>
 
                 <div style={styles.healodyLogo}>
-                    <healodyLogo/>
+                    <healodyLogo />
                 </div>
 
                 <div style={styles.frame}>
@@ -284,6 +298,8 @@ function MypageMemberInformation() {
                         onChange={onSubmitemail}
                         placeholder="이메일              example@gmail.com "
                     />
+
+                    <p2 style={styles.under}>{emailMessage}</p2>
                 </div>
 
                 <div style={styles.input_box}>
@@ -336,4 +352,4 @@ function MypageMemberInformation() {
     );
 }
 
-export default MypageMemberInformation; 
+export default MypageMemberInformation;

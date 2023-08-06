@@ -4,15 +4,18 @@ import 'react-calendar/dist/Calendar.css';
 import Modal from 'react-modal';
 Modal.setAppElement('#root');
 
-function CalendarAddList() {
+function CalendarAddList({options}) {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showModal, setShowModal] = useState(false);
     const [eventTitle, setEventTitle] = useState('');
     const [events, setEvents] = useState([]);
-
+    const [selectedOption, setSelectedOption] = useState(null);
     const handleEventTitleChange = (e) => {
         setEventTitle(e.target.value);
       };
+      const handleOptionChange = (option) => {
+        setSelectedOption(option);
+    };
     
       const handleEventSubmit = () => {
         if (eventTitle.trim() !== '') {
@@ -32,6 +35,9 @@ function CalendarAddList() {
             border: "none",
             borderRadius: "5px",
           },
+          in: {
+            backgroundColor: "grey",
+          }
     }
     return (
         <>
@@ -47,6 +53,7 @@ function CalendarAddList() {
         <div>
           <label>일정 제목: </label>
           <input
+          style={styles.in}
             type="text"
             value={eventTitle}
             onChange={handleEventTitleChange}
@@ -63,6 +70,7 @@ function CalendarAddList() {
           {events.map((event, index) => (
             <li key={index}>
               {event.date.toDateString()} - {event.title}
+              {selectedOption}
             </li>
           ))}
         </ul>

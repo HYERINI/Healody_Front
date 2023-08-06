@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Header } from "../component/Header";
+import { useNavigate } from 'react-router-dom';
 
 const styles = {
     header: {
@@ -44,6 +45,7 @@ const styles = {
         border: "none",
         marginTop: "-50px",
         marginLeft: "18px",
+        display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         flexShrink: 0,
@@ -59,7 +61,7 @@ const styles = {
         borderRadius: "13px",
         marginTop: "15px",
         marginLeft: "34px",
-        marginRight: "34px"
+        marginRight: "34px",
     },
 
     box3: {
@@ -433,12 +435,12 @@ const styles = {
     UserImg: {
         position: "absolute",
         marginLeft: "26px",
-        marginTop: "-46px",
+        marginTop: "-44px",
     },
 
     UserImg2: {
         position: "absolute",
-        marginLeft: "28px",
+        marginLeft: "27px",
         marginTop: "-54px",
     },
     camera: {
@@ -548,6 +550,13 @@ function MypageFamilyManagementMain() {
         setCreateNameInput(e.target.value);
     };
 
+    const navigate = useNavigate();
+
+    const handleFamilyInviteClick = () => {
+      // 페이지 이동 처리
+      navigate('/Mypage_FamilyInvite');
+    };
+
     return (
         <>
             <div style={styles.total_box}>
@@ -625,7 +634,7 @@ function MypageFamilyManagementMain() {
                     {showModifyModal2 && (
                         <div style={styles.ModifyModalBackdrop}>
                             <div style={styles.ModifyModal}>
-                                <p style={styles.p10}> <div style={styles.ellipse2}>
+                                <p style={styles.p10}> <div style={styles.ellipse}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="56" height="54" viewBox="0 0 56 54" fill="none">
                                         <path d="M55.75 27C55.75 41.7651 43.3345 53.75 28 53.75C12.6655 53.75 0.25 41.7651 0.25 27C0.25 12.2349 12.6655 0.25 28 0.25C43.3345 0.25 55.75 12.2349 55.75 27Z" fill="white" stroke="black" stroke-width="0.5" />
                                     </svg>
@@ -692,7 +701,7 @@ function MypageFamilyManagementMain() {
                 </div>
 
                 <div style={styles.box2}>
-                    <p style={styles.p3}>가족 초대하기</p>
+                    <p style={styles.p3} onClick={handleFamilyInviteClick}>가족 초대하기</p>
                 </div>
 
                 <div style={styles.purple_box2}>
