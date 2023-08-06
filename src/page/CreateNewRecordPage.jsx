@@ -88,8 +88,8 @@ const TodayMemoInput = styled.textarea`
   box-sizing: border-box;
   line-height: 1.5;
   color: #B6B6B5;
-  resize: vertical;
   min-height: 50px;
+  resize: none;
 `;
 
 const TodayMedicWrap = styled.div`
@@ -154,9 +154,9 @@ function CreateNewRecordPage(){
         if (selectedDropDownValue === '병원') {
             const requestBody = {
                 userId: "1",
-                date: formData.date + ' ' + formData.time,
+                // date: formData.date + ' ' + formData.time,
                 title: formData.title,
-                purpose: formData.purpose,
+            purpose: selectedPurpose,
                 name: formData.name,
                 surgery: formData.surgery,
                 memo: formData.memo
@@ -246,9 +246,9 @@ function CreateNewRecordPage(){
             {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
-                        <TodayRecordTypeButton content="외래" width="70" onClick={(value) => setSelectedPurpose(value)}/>
-                        <TodayRecordTypeButton content="입원" width="70" onClick={(value) => setSelectedPurpose(value)}/>
-                        <TodayRecordTypeButton content="응급" width="70" onClick={(value) => setSelectedPurpose(value)}/>
+                        <TodayRecordTypeButton content="외래" width="70" onClick={(value) => setSelectedPurpose('OUTPATIENT')}/>
+                        <TodayRecordTypeButton content="입원" width="70" onClick={(value) => setSelectedPurpose('HOSPITALIZATION')}/>
+                        <TodayRecordTypeButton content="응급" width="70" onClick={(value) => setSelectedPurpose('EMERGENCY')}/>
                     </TodayTypeListWrap>
                     <TodayListWrap>
                         <TodayGoalTitle content="병원*" width="70" />

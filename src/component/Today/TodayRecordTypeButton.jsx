@@ -13,6 +13,7 @@ const Button = styled.div`
   align-items: center;
   justify-content: center;
   width: ${props => props.width}px;
+  cursor: pointer;
 `
 
 const ButtonImg = styled.img`

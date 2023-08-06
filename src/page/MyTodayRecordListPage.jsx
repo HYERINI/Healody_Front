@@ -6,6 +6,7 @@ import TodayTitle from "../component/Today/TodayTitle";
 import TodayRecordBox from "../component/Today/TodayRecordBox";
 import TodayDeleteModal from "../component/Today/TodayDeleteModal";
 import TodayPlusBt from './../img/TodayPlusBt.svg';
+import {useNavigate} from "react-router-dom";
 
 const Container = styled.div`
   width: 360px;
@@ -47,12 +48,16 @@ const TodayDefault = styled.div`
 `
 export default function MyTodayRecordListPage() {
 
+    const navigate = useNavigate();
+    function onMoveAddRecord(){
+        navigate('/create_newRecord');
+    }
     return(
         <Container>
             <TodayHeader />
             <TodayNav />
             <TodayTitle content="기록 목록"/>
-            <TodayAddRecord src={TodayPlusBt}/>
+            <TodayAddRecord src={TodayPlusBt} onClick={onMoveAddRecord}/>
             {/*<TodayDefault>*/}
             {/*    오늘 하루 나는 어땠나요?<br/>*/}
             {/*    나의 건강을 기록하고 추적해봐요!*/}

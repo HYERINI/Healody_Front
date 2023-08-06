@@ -62,17 +62,17 @@ function CreateNewGoalPage() {
             setActiveButton(buttonContent);
             setActiveGoal(buttonContent);
         }
-        if(activeButton !== ''){
+        if (activeButton !== '') {
             setActiveCompleteButton(true);
-        }else{
+        } else {
             setActiveCompleteButton(false);
         }
     };
 
     return (
         <Container>
-            <TodayHeader />
-            <TodayNav />
+            <TodayHeader/>
+            <TodayNav/>
             <TodayTitle content="오늘 나의 목표관리"/>
             <TodayListWrap isVisible={showListWrap}>
                 <TodayGoalTitle content="목표 설정하기" width="120"/>
@@ -99,45 +99,63 @@ function CreateNewGoalPage() {
             </TodayListWrap>
             {activeButton === '운동하기' ?
                 <TodayGoalWrap>
-                <TodayGoalTitle content="하루 목표량" width="100"/>
-                <TodayGoalButtonWrap>
-                        <TodayGoalButton content="1시간"
-                                         isActive={activeButton === '1시간'}
-                                         onClick={() => handleButtonClick('1시간')}/>
-                        <TodayGoalButton content="2시간"
-                                         isActive={activeButton === '2시간'}
-                                         onClick={() => handleButtonClick('2시간')}/>
-                        <TodayGoalButton content="3시간"
-                                         isActive={activeButton === '3시간'}
-                                         onClick={() => handleButtonClick('3시간')}/>
-                        <TodayGoalButton content="직접입력"
-                                         isActive={activeButton === '입력한 값'}
-                                         onClick={() => handleButtonClick('입력한 값')}/>
+                    <TodayGoalTitle content="하루 목표량" width="100"/>
+                    <TodayGoalButtonWrap>
+                        <TodayGoalButton
+                            content="1시간"
+                            isActive={activeGoal === '1시간'}
+                            onClick={() => handleButtonClick('1시간')}
+                        />
+                        <TodayGoalButton
+                            content="2시간"
+                            isActive={activeGoal === '2시간'}
+                            onClick={() => handleButtonClick('2시간')}
+                        />
+                        <TodayGoalButton
+                            content="3시간"
+                            isActive={activeGoal === '3시간'}
+                            onClick={() => handleButtonClick('3시간')}
+                        />
+                        <TodayGoalButton
+                            content="직접입력"
+                            isActive={activeGoal === '입력한 값'}
+                            onClick={() => handleButtonClick('입력한 값')}
+                        />
                     </TodayGoalButtonWrap>
                 </TodayGoalWrap> : ''}
             {activeButton === '물마시기' ?
                 <TodayGoalWrap>
                     <TodayGoalTitle content="하루 목표량" width="100"/>
                     <TodayGoalButtonWrap>
-                        <TodayGoalButton content="0.5L"
-                                         isActive={activeButton === '0.5L'}
-                                         onClick={() => handleButtonClick('0.5L')}/>
-                        <TodayGoalButton content="1L"
-                                         isActive={activeButton === '1L'}
-                                         onClick={() => handleButtonClick('1L')}/>
-                        <TodayGoalButton content="1.5L"
-                                         isActive={activeButton === '1.5L'}
-                                         onClick={() => handleButtonClick('1.5L')}/>
-                        <TodayGoalButton content="직접입력"
-                                         isActive={activeButton === '입력한 값'}
-                                         onClick={() => handleButtonClick('입력한 값')}/>
+                        <TodayGoalButton
+                            content="0.5L"
+                            isActive={activeGoal === '0.5L'}
+                            onClick={() => handleButtonClick('0.5L')}
+                        />
+                        <TodayGoalButton
+                            content="1L"
+                            isActive={activeGoal === '1L'}
+                            onClick={() => handleButtonClick('1L')}
+                        />
+                        <TodayGoalButton
+                            content="1.5L"
+                            isActive={activeGoal === '1.5L'}
+                            onClick={() => handleButtonClick('1.5L')}
+                        />
+                        <TodayGoalButton
+                            content="직접입력"
+                            isActive={activeGoal === '입력한 값'}
+                            onClick={() => handleButtonClick('입력한 값')}
+                        />
                     </TodayGoalButtonWrap>
                 </TodayGoalWrap> : ''}
 
-            <FixedTodayButton isActive={activeCompleteButton} onClick={() => setShowListWrap(!showListWrap)} content='목표 설정하기'>
+            <FixedTodayButton isActive={activeCompleteButton} onClick={() => setShowListWrap(!showListWrap)}
+                              content='목표 설정하기'>
             </FixedTodayButton>
         </Container>
     );
 }
 
 export default CreateNewGoalPage;
+

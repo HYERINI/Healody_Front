@@ -34,7 +34,7 @@ export default function TodayMoreBt({content, link}){
     }
 
     return(
-        <Button onClick={() => movePageRecord({link})}>
+        <Button onClick={() => movePageRecord(link)}>
             <MoreBtImage src={MoreBottom} onClick={() => movePageRecord({link})}/>
             <MoreText>{content}</MoreText>
         </Button>

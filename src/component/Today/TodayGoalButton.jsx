@@ -1,3 +1,4 @@
+// TodayGoalButton.js
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
@@ -31,13 +32,16 @@ const Button = styled.div`
   }
 `;
 
-const TodayGoalButton = ({ content , isActive}) => {
+const TodayGoalButton = ({ content, isActive, onClick }) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const inputRef = useRef(null);
 
     const handleButtonClick = () => {
         if (content === '직접입력') {
             setIsInputVisible(true);
+        } else {
+            setIsInputVisible(false); // 직접입력 창이 사라지도록 변경
+            onClick(content);
         }
     };
 
@@ -46,7 +50,7 @@ const TodayGoalButton = ({ content , isActive}) => {
     };
 
     return (
-        <Button isInputVisible={isInputVisible} onClick={handleButtonClick}>
+        <Button isActive={isActive} onClick={handleButtonClick}>
             {isInputVisible ? (
                 <input
                     ref={inputRef}
@@ -55,7 +59,7 @@ const TodayGoalButton = ({ content , isActive}) => {
                     placeholder="직접입력"
                 />
             ) : (
-                content
+                <span>{content}</span>
             )}
         </Button>
     );

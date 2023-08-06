@@ -79,7 +79,6 @@ export default function TodayProfile({ content, link }) {
     const navigate = useNavigate();
 
     function movePageTo(link) {
-        alert('click');
         navigate(link);
     }
 

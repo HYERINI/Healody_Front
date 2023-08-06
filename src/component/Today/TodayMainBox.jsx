@@ -29,22 +29,18 @@ const MoreBt = styled.img`
   cursor: pointer;
 `
 
-export default function TodayMainBox({ title, content, width }){
+export default function TodayMainBox({ title, content, width, link }){
 
     const navigate = useNavigate();
 
-    const onMoveNewGoal = (e) => {
-        navigate('/create_newGoal');
-    }
-
-    const onMoveNewRecord = (e) => {
-        navigate('/create_newRecord');
+    function onMoveLink(){
+        navigate(link);
     }
     return(
         <TodayBox>
             <TodayMainTopWrap>
                 <TodayGoalTitle content={ title } width={ width }/>
-                {{title} === '목표 관리' ? <MoreBt src={TodayPlusBt} onClick={onMoveNewGoal}/> : <MoreBt src={TodayPlusBt} onClick={onMoveNewRecord}/> }
+                <MoreBt src={TodayPlusBt} onClick={onMoveLink}/>
             </TodayMainTopWrap>
 
             <TodayMoreBt content={ content } />
