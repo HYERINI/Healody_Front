@@ -1,5 +1,7 @@
 // CreateNewGoalPage.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import TodayHeader from './../component/Today/TodayHeader';
 import TodayNav from './../component/Today/TodayNav';
@@ -49,25 +51,81 @@ const FixedTodayButton = styled(TodayButton)`
   transform: translateX(-50%);
 `
 
+const GoalInput = styled.input`
+  cursor: pointer;
+  width: 80px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #B6B6B5;
+  background-color: white;
+  color: black;
+`
+
 function CreateNewGoalPage() {
+    const navigate = useNavigate();
     const [showListWrap, setShowListWrap] = useState(true);
     const [activeButton, setActiveButton] = useState(null);
     const [activeGoal, setActiveGoal] = useState(null);
+    const [customGoal, setCustomGoal] = useState('');
     const [activeCompleteButton, setActiveCompleteButton] = useState(false);
+
     const handleButtonClick = buttonContent => {
         if (activeButton === buttonContent) {
             setActiveButton(null);
-            setActiveGoal(null);
-        } else {
+        }else{
             setActiveButton(buttonContent);
+        }
+
+        setActiveCompleteButton(buttonContent !== '');
+    };
+
+    const handleGoalClick = buttonContent => {
+        setCustomGoal('');
+        if (activeGoal === buttonContent) {
+            setActiveGoal(null);
+        } else{
             setActiveGoal(buttonContent);
         }
-        if (activeButton !== '') {
-            setActiveCompleteButton(true);
-        } else {
-            setActiveCompleteButton(false);
-        }
+
+        setActiveCompleteButton(buttonContent !== '');
     };
+
+    const handleCustomGoalInput = (event) => {
+        setCustomGoal(event.target.value);
+    };
+
+    const handleCompleteClick = (e) => {
+        var behavior;
+        if(activeButton === '물마시기'){
+            behavior = 'DRINK_WATER';
+        }else if(activeButton === '금주하기'){
+            behavior = 'ABSTAIN_DRINK';
+        } else if(activeButton === '금연하기'){
+            behavior = 'QUIT_SMOKING';
+        } else{
+            behavior = 'DO_EXERCISE';
+        }
+
+        const requestBody = {
+            "userId" : "1",
+            "behavior" : behavior,
+            "quantity": (customGoal !== null && customGoal !== '') ? customGoal : activeGoal
+        }
+        axios({
+            url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/goal',
+            method: 'POST',
+            data: requestBody
+        }).then((response) =>{
+            console.log(response);
+            if(response.data.code === 200){
+                alert(response.data.data);
+                navigate('/my_today');
+            }
+        }).catch(function(){
+            alert('목표가 설정되지 않았습니다.');
+        })
+    }
 
     return (
         <Container>
@@ -104,22 +162,26 @@ function CreateNewGoalPage() {
                         <TodayGoalButton
                             content="1시간"
                             isActive={activeGoal === '1시간'}
-                            onClick={() => handleButtonClick('1시간')}
+                            onClick={() => handleGoalClick('1시간')}
                         />
                         <TodayGoalButton
                             content="2시간"
                             isActive={activeGoal === '2시간'}
-                            onClick={() => handleButtonClick('2시간')}
+                            onClick={() => handleGoalClick('2시간')}
                         />
                         <TodayGoalButton
                             content="3시간"
                             isActive={activeGoal === '3시간'}
-                            onClick={() => handleButtonClick('3시간')}
+                            onClick={() => handleGoalClick('3시간')}
                         />
-                        <TodayGoalButton
-                            content="직접입력"
-                            isActive={activeGoal === '입력한 값'}
-                            onClick={() => handleButtonClick('입력한 값')}
+                        <GoalInput
+                            type="text"
+                            value={ customGoal }
+                            onChange={(event) => {
+                                setActiveGoal(null);
+                                setCustomGoal(event.target.value);
+                            }}
+                            placeholder="직접 입력"
                         />
                     </TodayGoalButtonWrap>
                 </TodayGoalWrap> : ''}
@@ -130,27 +192,31 @@ function CreateNewGoalPage() {
                         <TodayGoalButton
                             content="0.5L"
                             isActive={activeGoal === '0.5L'}
-                            onClick={() => handleButtonClick('0.5L')}
+                            onClick={() => handleGoalClick('0.5L')}
                         />
                         <TodayGoalButton
                             content="1L"
                             isActive={activeGoal === '1L'}
-                            onClick={() => handleButtonClick('1L')}
+                            onClick={() => handleGoalClick('1L')}
                         />
                         <TodayGoalButton
                             content="1.5L"
                             isActive={activeGoal === '1.5L'}
-                            onClick={() => handleButtonClick('1.5L')}
+                            onClick={() => handleGoalClick('1.5L')}
                         />
-                        <TodayGoalButton
-                            content="직접입력"
-                            isActive={activeGoal === '입력한 값'}
-                            onClick={() => handleButtonClick('입력한 값')}
+                        <GoalInput
+                            type="text"
+                            value={ customGoal }
+                            onChange={(event) => {
+                                setActiveGoal(null);
+                                setCustomGoal(event.target.value);
+                            }}
+                            placeholder="직접 입력"
                         />
                     </TodayGoalButtonWrap>
                 </TodayGoalWrap> : ''}
 
-            <FixedTodayButton isActive={activeCompleteButton} onClick={() => setShowListWrap(!showListWrap)}
+            <FixedTodayButton isActive={activeCompleteButton} onClick={handleCompleteClick}
                               content='목표 설정하기'>
             </FixedTodayButton>
         </Container>

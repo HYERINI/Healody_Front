@@ -29,13 +29,14 @@ const MoreBt = styled.img`
   cursor: pointer;
 `
 
-export default function TodayMainBox({ title, content, width, link }){
+export default function TodayMainBox({ title, content, width, link, moreLink}){
 
     const navigate = useNavigate();
 
     function onMoveLink(){
         navigate(link);
     }
+
     return(
         <TodayBox>
             <TodayMainTopWrap>
@@ -43,7 +44,7 @@ export default function TodayMainBox({ title, content, width, link }){
                 <MoreBt src={TodayPlusBt} onClick={onMoveLink}/>
             </TodayMainTopWrap>
 
-            <TodayMoreBt content={ content } />
+            <TodayMoreBt content={ content } link={ moreLink }/>
         </TodayBox>
     )
 }
