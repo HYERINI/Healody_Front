@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BackIcon from "../img/back_icon.png";
 import nextFalse from "../img/next_false.png";
+import axios from 'axios';
 
 const styles= {
     input: {
@@ -58,9 +59,9 @@ const styles= {
 
 const JoinMembershipPage = () => {
 
-    const [name, setName] = useState('')
+    const [name1, setName1] = useState('')
     const [id, setId] = useState('')
-    const [email, setEmail] = useState('')
+    const [email1, setEmail1] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [number, setNumber] = useState('')
@@ -77,9 +78,89 @@ const JoinMembershipPage = () => {
     const [isPassword, setIsPassword] = useState(false)
     const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
 
-    const onSubmitName = (e) => {
-        setName(e.target.value);
-        if (e.target.value.length < 1 || e.target.value.length > 10) {
+    const [formData, setFormData] = useState({
+        name: "",
+        birth: "",
+        email: "",
+        gender: "",
+        password: "",
+        nickname: "",
+    });
+
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setFormData({ ...formData, [name]: value});
+    }
+
+    
+    const handleSaveEmail = () => {
+        const requestBodyemail = {
+            email : formData.email
+        };
+        axios({
+            url: `https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/email/${requestBodyemail.email}/exists`,
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                withCredentials: true
+            },
+            data: requestBodyemail,
+            success: function(){
+                console.log(requestBodyemail);
+            }
+        })
+
+        
+    }
+
+    const handleSaveNickname = () => {
+        var nickname =new String(formData.nickname);
+
+        const requestBodynickname = {
+            nickname : nickname
+        };
+        console.log(nickname);
+        axios({
+            url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                withCredentials: true
+            },
+            data: requestBodynickname,
+            success: function(){
+                console.log(requestBodynickname);
+            }
+        })
+    }
+
+    const handleSave = () => {
+        const requestBody = {
+                name : formData.name,
+                birth : formData.birth,
+                email : formData.email,
+                gender : formData.gender,
+                password : formData.password,
+                nickname : formData.nickname
+        };
+        axios({
+            url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/join',
+            method: 'POST',
+            data: requestBody,
+            success: function() {
+                console.log(requestBody);
+            }
+        })
+    }
+
+    const onSubmitName = (e,event) => {
+        const {name, value} = event.target;
+        setName1(e.target.value1);
+        
+        setFormData({ ...formData, [name]: value});
+        if (e.target.value1.length < 1 || e.target.value1.length > 10) {
           setNameMessage('한글 혹은 영문을 포함하여 1~10자로 입력하세요.');
           setIsName(false);
         } else {
@@ -105,11 +186,13 @@ const JoinMembershipPage = () => {
       };
 
       const onSubmitEmail = (e) => {
+        const [name, value] = e.target;
+        setFormData({ ...formData, [name]: value});
         const emailRegex =
             /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         
         const emailCurrent = e.target.value;
-        setEmail(emailCurrent);
+        setEmail1(emailCurrent);
 
         if(!emailRegex.test(emailCurrent)) {
             setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해줘요');
@@ -161,48 +244,80 @@ const JoinMembershipPage = () => {
         <br />
         <div>
             <div style={styles.input_box}>
-            <p style={styles.p}>닉네임</p>
+            <p style={styles.p}>이름</p>
             <input
+                name="name"
+                value={formData.name}
                 type="text"
-                value={name}
                 style={styles.input}
-                onChange={onSubmitName}
-                placeholder="닉네임을 입력해주세요"
+                onChange={handleInputChange}
+                placeholder="이름을 입력해주세요"
             />
-            
             </div>
-            <p style={styles.under}>{nameMessage}</p>
-        </div>
-        
-        <div>
-            <div style={styles.input_box}>
-            <p style={styles.p}>아이디</p>
-            <input
-                type="text"
-                value={id}
-                style={styles.input}
-                onChange={onSubmitId}
-                placeholder="아이디를 입력해주세요"
-            />
-            
-            </div>
-            <p style={styles.under}>{idMessage}</p>
+            {/* <p style={styles.under}>{nameMessage}</p> */}
         </div>
 
+        <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>생일</p>
+            <input
+                name="birth"
+                value={formData.birth}
+                type="text"
+                style={styles.input}
+                onChange={handleInputChange}
+                placeholder="생일 입력해"
+            />
+            </div>
+            {/* <p style={styles.under}>{nameMessage}</p> */}
+        </div>
+
+        <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>이메일</p>
+            <input
+                type="text"
+                name="email"
+                value={formData.email}
+                style={styles.input}
+                onChange={handleInputChange}
+                placeholder="이메일을 입력해주세요"
+            />
+            <button onClick={handleSaveEmail}>눌러</button>
+            </div>
+            <p style={styles.under}>{emailMessage}</p>
+        </div>
+
+        <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>성별</p>
+            <input
+                type="text"
+                name="gender"
+                value={formData.gender}
+                style={styles.input}
+                onChange={handleInputChange}
+                placeholder="성별을 입력해주세요"
+            />
+            {/* <button onClick={handleSaveEmail}>눌러</button> */}
+            </div>
+            {/* <p style={styles.under}>{emailMessage}</p> */}
+        </div>
 
         <div>
             <div style={styles.input_box}>
             <p style={styles.p}>비밀번호</p>
             <input
                 type="text"
-                value={password}
+                name= "password"
+                value={formData.password}
                 style={styles.input}
-                onChange={onSubmitPassword}
+                onChange={handleInputChange}
                 placeholder="비밀번호를 입력해주세요"
             />
             
             </div>
-            <p style={styles.under}>{passwordMessage}</p>
+            {/* <p style={styles.under}>{passwordMessage}</p> */}
         </div>
 
         <div>
@@ -217,25 +332,92 @@ const JoinMembershipPage = () => {
             />
             
             </div>
-            <p style={styles.under}>{passwordConfirmMessage}</p>
+            {/* <p style={styles.under}>{passwordConfirmMessage}</p> */}
         </div>
 
+
+
+
         <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>닉네임</p>
+            <input
+                name="nickname"
+                value={formData.nickname}
+                value1={name1}
+                type="text"
+                style={styles.input}
+                onChange={handleInputChange}
+                placeholder="닉네임을 입력해주세요"
+            />
+            <button onClick={handleSaveNickname}>눌러</button>
+            </div>
+            <p style={styles.under}>{nameMessage}</p>
+        </div>
+        
+        {/* <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>생년월일</p>
+            <input
+                type="text"
+                value={id}
+                style={styles.input}
+                onChange={onSubmitId}
+                placeholder="아이디를 입력해주세요"
+            />
+            
+            </div>
+            <p style={styles.under}>{idMessage}</p>
+        </div> */}
+
+
+        {/* <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>비밀번호</p>
+            <input
+                type="text"
+                value={password}
+                style={styles.input}
+                onChange={onSubmitPassword}
+                placeholder="비밀번호를 입력해주세요"
+            />
+            
+            </div>
+            <p style={styles.under}>{passwordMessage}</p>
+        </div> */}
+
+        {/* <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>비밀번호 확인</p>
+            <input
+                type="text"
+                value={passwordConfirm}
+                style={styles.input}
+                onChange={onSubmitPasswordConfirm}
+                placeholder="비밀번호를 다시 입력해주세요"
+            />
+            
+            </div>
+            <p style={styles.under}>{passwordConfirmMessage}</p>
+        </div> */}
+
+        {/* <div>
             <div style={styles.input_box}>
             <p style={styles.p}>이메일</p>
             <input
                 type="text"
-                value={email}
+                name="email"
+                value={formData.email}
                 style={styles.input}
-                onChange={onSubmitEmail}
+                onChange={handleInputChange}
                 placeholder="이메일을 입력해주세요"
             />
-            
+            <button onClick={handleSaveEmail}>눌러</button>
             </div>
             <p style={styles.under}>{emailMessage}</p>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
             <div style={styles.input_box}>
             <p style={styles.p}>인증번호</p>
             <input
@@ -247,9 +429,9 @@ const JoinMembershipPage = () => {
             />
             
             </div>
-        </div>
+        </div> */}
         
-        <img style={styles.false} src={nextFalse} />
+        <img style={styles.false} src={nextFalse} onClick={handleSave}/>
         
     </div>
 
