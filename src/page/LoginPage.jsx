@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import BackIcon from "../img/back_icon.png";
 import LoginFalse from "../img/login_false.png";
+import axios from 'axios';
 
 const styles={
     input: {
         border: "none",
         width: 320,
         height: 40,
+        marginTop: "10px",
         },
-    input_box: {
-        border: "1px solid #D9D9D9",
-        height: 60,
-        width: 328,
-        textAlign: "center",
-        padding: "5px",
-        borderRadius: "10px",
-        
-    },
+        input_box: {
+            border: "1px solid #D9D9D9",
+            height: 70,
+            width: 328,
+            textAlign: "center",
+            padding: "5px",
+            borderRadius: "10px",
+            marginTop: "10px"
+            
+        },
     p: {
         float: "left",
         marginLeft: "10px",
@@ -86,14 +89,72 @@ function LoginPage() {
 
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
+    const [formData, setFormData] = useState({
+        phone: "",
+        password: "",
+    });
 
-    const onSubmitId = (e) => {
-        setId(e.target.value);
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setFormData({...formData, [name]: value});
     }
 
-    const onSubmitPw = (e) => {
-        setPw(e.target.value);
+    const handleLogin = () => {
+        const requestBody = {
+            phone: formData.phone,
+            password : formData.password,
+        };
+        axios({
+            url: 'http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login',
+            method: 'POST',
+            data: requestBody,
+            success: function() {
+                console.log(requestBody);
+                const token = Response.token;
+                console.log(token);
+                console.log(Response);
+                console.log("dsds");
+
+                localStorage.setItem('jwt_token',token);
+                console.log(token);
+            }
+           
+          
+        })
+
+        
+        // axios.post('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login', {
+        //     data: requestBody,
+        //   })
+        //   .then(response => {
+        //     const token = response.data.token;
+        //     // 로컬 스토리지에 토큰 저장
+        //     localStorage.setItem('jwt_token', token);
+        //   });
+
+        //   const token = localStorage.getItem('jwt_token');
+        //   axios.get('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login', {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`
+        //     }
+        //   })
+        //   .then(response => {
+        //     // 서버로부터 받은 데이터 처리
+        //   })
+        //   .catch(error => {
+        //     // 에러 처리
+        //   });
     }
+
+    
+
+    // const onSubmitId = (e) => {
+    //     setId(e.target.value);
+    // }
+
+    // const onSubmitPw = (e) => {
+    //     setPw(e.target.value);
+    // }
 
 
 
@@ -106,11 +167,12 @@ function LoginPage() {
             <div style={styles.input_box}>
                 <p style={styles.p}>아이디</p>
                 <input
+                    name="phone"
                     type="text"
-                    value={id}
+                    value={formData.phone}
                     style={styles.input}
-                    onChange={onSubmitId}
-                    placeholder="이메일 (example@gamil.com)"
+                    onChange={handleInputChange}
+                    placeholder="전화번호(- 빼고 번호만 입력)를 입력해주세요"
                 /> 
             </div>
             
@@ -119,10 +181,11 @@ function LoginPage() {
             <div style={styles.input_box}>
                 <p style={styles.p}>비밀번호</p>
                 <input
+                    name="password"
                     type="text"
-                    value={pw}
+                    value={formData.password}
                     style={styles.input}
-                    onChange={onSubmitPw}
+                    onChange={handleInputChange}
                     placeholder="비밀번호 입력"
                 />
             </div>
@@ -147,7 +210,7 @@ function LoginPage() {
                 </ul>
             </div>
             <div style={styles.logbox}>
-                <img src={LoginFalse} />
+                <img onClick={handleLogin} src={LoginFalse} />
             </div>
         </>
     );

@@ -2,7 +2,7 @@ import Kakaobtn from "../img/kakaobtn.png";
 
 const KakaoLogin = () => {
     
-    const kakaoURL = 'https://kauth.kakao.com/oauth/authorize?client_id=c33420b52702ac0ebf8805e80e6078f1&redirect_uri=http://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/kakao/callback&response_type=code';
+    const kakaoURL = 'https://kauth.kakao.com/oauth/authorize?client_id=c33420b52702ac0ebf8805e80e6078f1&redirect_uri=http://localhost:8080/api/auth/kakao/callback&response_type=code';
 
     return(
         <img

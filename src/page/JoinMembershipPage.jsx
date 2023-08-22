@@ -17,6 +17,7 @@ const styles= {
         textAlign: "center",
         padding: "5px",
         borderRadius: "10px",
+        marginTop: "10px"
         
     },
     p: {
@@ -85,6 +86,8 @@ const JoinMembershipPage = () => {
         gender: "",
         password: "",
         nickname: "",
+        confirm: "",
+        phone: "",
     });
 
     const handleInputChange = (event) => {
@@ -92,13 +95,13 @@ const JoinMembershipPage = () => {
         setFormData({ ...formData, [name]: value});
     }
 
-    
+    //이메일 중복체크
     const handleSaveEmail = () => {
         const requestBodyemail = {
             email : formData.email
         };
         axios({
-            url: `https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/email/${requestBodyemail.email}/exists`,
+            url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/email/${requestBodyemail.email}/exists`,
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -113,6 +116,52 @@ const JoinMembershipPage = () => {
 
         
     }
+    //이메일 인증번호 발송
+    const handlecertifyEmail = () => {
+        var email = new String(formData.email);
+
+        const requestBodyemail = {
+            email : email,
+        };
+
+        axios({
+            url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/email-confirm`,
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                withCredentials: true
+            },
+            data: requestBodyemail,
+            success: function(){
+                console.log(requestBodyemail);
+            }
+        })
+
+    }
+
+    //이메일 인증번호 확인
+    const handleconfirmEmail = () => {
+        var confirm = new String(formData.confirm);
+
+        const requestBodyConfirm = {
+            confirm : confirm,
+        };
+
+        axios({
+            url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/email-confirm/check`,
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                withCredentials: true
+            },
+            data: requestBodyConfirm,
+            success: function(){
+                console.log(requestBodyConfirm);
+            }
+        })
+    }
 
     const handleSaveNickname = () => {
         var nickname =new String(formData.nickname);
@@ -122,7 +171,7 @@ const JoinMembershipPage = () => {
         };
         console.log(nickname);
         axios({
-            url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
+            url: 'http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -136,6 +185,8 @@ const JoinMembershipPage = () => {
         })
     }
 
+
+
     const handleSave = () => {
         const requestBody = {
                 name : formData.name,
@@ -143,10 +194,12 @@ const JoinMembershipPage = () => {
                 email : formData.email,
                 gender : formData.gender,
                 password : formData.password,
-                nickname : formData.nickname
+                nickname : formData.nickname,
+                confirm : formData.confirm,
+                phone: formData.phone
         };
         axios({
-            url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/auth/join',
+            url: 'http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/join',
             method: 'POST',
             data: requestBody,
             success: function() {
@@ -235,6 +288,28 @@ const JoinMembershipPage = () => {
             setNumber(e.target.value);
         }
 
+        const handlecertifyPhone = () => {
+             var phone =new String(formData.phone);
+
+             const requestBodyPhone = {
+                phone : phone
+            };
+            console.log(phone);
+            axios({
+                url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/phone/${requestBodyPhone.phone}/exists`,
+                method: 'GET',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json',
+                    withCredentials: true
+                },
+                data: requestBodyPhone,
+                success: function(){
+                    console.log(requestBodyPhone);
+                }
+            })
+        }
+
         
   return (
     <>
@@ -283,9 +358,40 @@ const JoinMembershipPage = () => {
                 onChange={handleInputChange}
                 placeholder="이메일을 입력해주세요"
             />
-            <button onClick={handleSaveEmail}>눌러</button>
+            <button onClick={handleSaveEmail}>이메일 중복체크 버튼</button>
+            <button onClick={handlecertifyEmail}>이메일 인증번호 발송 버튼</button>
             </div>
             <p style={styles.under}>{emailMessage}</p>
+        </div>
+
+        <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>인증번호</p>
+            <input
+                type="text"
+                name="confirm"
+                value={formData.confirm}
+                style={styles.input}
+                onChange={handleInputChange}
+                placeholder="인증번호를 입력해주세요"
+            />
+            <button onClick={handleconfirmEmail}>인증번호 확인 버튼</button>
+            </div>
+        </div>
+
+        <div>
+            <div style={styles.input_box}>
+            <p style={styles.p}>전화번호</p>
+            <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                style={styles.input}
+                onChange={handleInputChange}
+                placeholder="전화번호를 입력해주세요"
+            />
+            <buton onClick={handlecertifyPhone}>전화번호 중복체크</buton>
+            </div>
         </div>
 
         <div>

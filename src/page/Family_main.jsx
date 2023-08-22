@@ -6,7 +6,7 @@ import TodayHeader from './../component/Today/TodayHeader';
 import TodayNav from './../component/Today/TodayNav';
 import {BsPlus} from 'react-icons/bs';
 import {FaUserAlt} from 'react-icons/fa';
-import { Container } from 'postcss';
+import axios from 'axios';
 
 const Family_main = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -15,6 +15,7 @@ const Family_main = () => {
   const [selectedFamily, setSelectedFamily] = useState('본가');
   const [profilePicture, setProfilePicture] = useState(null);
   const [nickname, setNickname] = useState('');
+  const [newCareNickname, setNewCareNickname] = useState('');
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -54,20 +55,26 @@ const Family_main = () => {
     setCreateCareAccount(false);
   };
 
-  const styles={
-    b: {
-      margin: "0 auto",
-      position: "relative",
-      width: "360px",
-    }
-  }
+  const handleNewCareAccountCreate = () => {
+    // API 엔드포인트에 POST 요청 보내기
+    axios.post('/api/care-user', { nickname: newCareNickname })
+      .then(response => {
+        // 성공적으로 생성된 경우 처리 (필요하면)
+        console.log('새로운 돌봄 계정 생성됨:', response.data);
+        setNewCareNickname(''); // 입력 필드 초기화
+        setCreateCareAccount(false); // 팝업 닫기
+      })
+      .catch(error => {
+        // 에러 처리 (필요하면)
+        console.error('새로운 돌봄 계정 생성 에러:', error);
+      });
+  };
+
   return (
     <div className="h-screen">
       <div className="w-360px max-w-lg">
-        <div style={styles.b}>
         <TodayHeader/>
           <TodayNav />
-        </div>
         {/* Centered Box */}
         {/* Main */}
         <div className="text-center ml-6 mr-6">
@@ -149,7 +156,7 @@ const Family_main = () => {
                             className="text-center text-xs border border-gray-300 rounded-3xl p-2 w-full text-#B6B6B5" />
                         </div>
                         <div>
-                          <button className="bg-black text-white py-2 px-4 rounded-3xl rounded-3xl border border-gray-300 w-full my-2">확인</button>
+                          <button className="bg-black text-white py-2 px-4 rounded-3xl rounded-3xl border border-gray-300 w-full my-2" onClick={handleNewCareAccountCreate}>확인</button>
                         </div>
                       </div>
                     </div>
