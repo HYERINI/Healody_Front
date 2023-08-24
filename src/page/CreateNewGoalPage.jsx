@@ -113,7 +113,7 @@ function CreateNewGoalPage() {
             "quantity": (customGoal !== null && customGoal !== '') ? customGoal : activeGoal
         }
         axios({
-            url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/goal',
+            url: 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/goal',
             method: 'POST',
             data: requestBody
         }).then((response) =>{

@@ -54,44 +54,24 @@ export default function MyTodayRecordListPage() {
     const [recordData, setRecordData] = useState([]); // 데이터 가져오기
     const navigate = useNavigate();
 
+    const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
+    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0MTIzNCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjEsImV4cCI6MTY5Mjk0MTkyNX0.rIznSbIJ22-NbUrnthILwd5GL6CSuBLuIUcTibgwUeGCsoF3buQii7eSNC_Vw0lv0UECgnpxxVRUeNmyGM68KA'
+    const userId = '1'
+
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
-        // 실제로는 서버에서 데이터를 가져오는 API 호출 등의 로직을 수행해야 합니다.
         const fetchData = async () => {
             try {
-                const response = await fetch('url_for_data_api');
-                // const data = await response.json();
-                const data = [{
-                    "date": "2023-07-17T12:32:21.000+00:00",
-                    "title": "기침 증상 체크",
-                    "memo": "검사 결과는 음성이고 2일 뒤에 다시 오라고 하심",
-                    "purpose": "OUTPATIENT",
-                    "name": "아주대학교병원",
-                    "surgery": "코로나 검사"
-                },{
-                    "date": "2023-07-17T12:32:21.000+00:00",
-                    "title": "기침 증상 체크",
-                    "memo": "검사 결과는 음성이고 2일 뒤에 다시 오라고 하심",
-                    "purpose": "HOSPITALIZATION",
-                    "name": "아주대학교병원",
-                    "surgery": "코로나 검사"
-                },{
-                    "date": "2023-07-17T12:32:21.000+00:00",
-                    "title": "기침 증상 체크",
-                    "memo": "검사 결과는 음성이고 2일 뒤에 다시 오라고 하심",
-                    "purpose": "OUTPATIENT",
-                    "name": "아주대학교병원",
-                    "surgery": "코로나 검사"
-                },{
-                    "date": "2023-07-17T12:32:21.000+00:00",
-                    "title": "기침 증상 체크",
-                    "memo": "검사 결과는 음성이고 2일 뒤에 다시 오라고 하심",
-                    "purpose": "EMERGENCY",
-                    "name": "아주대학교병원",
-                    "surgery": "코로나 검사"
-                }]
-                setRecordData(data);
-                setDeleteCheckBoxStates(new Array(data.length).fill(false));
+                const response = await fetch(host + '/api/note/' + userId,{
+                    method: 'GET',
+                    headers: {
+                        'Authorization' : 'Bearer ' + token
+                    }
+                });
+                const data = await response.json();
+                setRecordData(data.data);
+                console.log(recordData);
+                setDeleteCheckBoxStates(new Array(data.data.length).fill(false));
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -128,14 +108,17 @@ export default function MyTodayRecordListPage() {
         // purpose 값에 따라 다른 URL 생성
         let deleteUrl;
         switch (purpose) {
-            case 'OUTPATIENT':
-                deleteUrl = `/api/note/hospital/${recordData[index].noteId}`;
+            case '병원':
+                deleteUrl = host + `/api/note/hospital/${recordData[index].noteId}`;
+                navigate('/my_todayRecord');
                 break;
-            case 'HOSPITALIZATION':
-                deleteUrl = `/api/note/medicine/${recordData[index].noteId}`;
+            case '약':
+                deleteUrl = host + `/api/note/medicine/${recordData[index].noteId}`;
+                navigate('/my_todayRecord');
                 break;
-            case 'EMERGENCY':
-                deleteUrl = `/api/note/symptom/${recordData[index].noteId}`;
+            case '응급':
+                deleteUrl = host + `/api/note/symptom/${recordData[index].noteId}`;
+                navigate('/my_todayRecord');
                 break;
             default:
                 console.log('Invalid purpose');
@@ -143,17 +126,29 @@ export default function MyTodayRecordListPage() {
         }
 
         try {
-            const response = await fetch(deleteUrl, { method: 'DELETE' });
-            if (response.ok) {
+            const response = await fetch(deleteUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            if (response.status === 204) {
                 // 성공적으로 삭제된 경우
                 console.log('Record deleted successfully');
-                // 필요한 경우 데이터 재로드
+            } else if (response.status === 503) {
+                console.error('Service Unavailable - Retry later');
             } else {
                 console.error('Failed to delete record');
             }
         } catch (error) {
-            console.error('Error deleting record:', error);
+            if (error instanceof TypeError) {
+                console.error('Network error:', error.message);
+            } else {
+                console.error('Error deleting record:', error);
+            }
         }
+
     };
 
     return (
@@ -167,11 +162,11 @@ export default function MyTodayRecordListPage() {
                 {recordData.map((record, index) => (
                     <React.Fragment key={index}>
                         <TodayRecordBox
-                            type={record.purpose === 'OUTPATIENT' ? '외래' : record.purpose === 'HOSPITALIZATION' ? '입원' : '응급'}
+                            type={record.noteType}
                             date={new Date(record.date).toISOString().split('T')[0]}
-                            content={record.memo}
+                            content={record.title}
                             onOpenModal={() => handleDeleteCheckBoxOpen(index)} // "점점점" 버튼을 클릭하면 모달 열기
-                            onDelete={() => handleDeleteRecord(index, record.purpose)}
+                            onDelete={() => handleDeleteRecord(index, record.noteType)}
                         />
                         {deleteCheckBoxStates[index] && (
                             <React.Fragment>
@@ -179,7 +174,7 @@ export default function MyTodayRecordListPage() {
                                 <TodayDeleteCheckBox
                                     content="삭제하시겠습니까?"
                                     buttonText="삭제하기"
-                                    onDelete={() => handleDeleteRecord(index, record.purpose)}
+                                    onDelete={() => handleDeleteRecord(index, record.noteType)}
                                 />
                             </React.Fragment>
                         )}

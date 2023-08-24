@@ -92,7 +92,7 @@ export default function TodayRecordBox({ type, date, content, onOpenModal }) {
                 </TodayRecordBoxTitleSmallWrap>
                 <TodayRecordDelete src={Delete} onClick={handleThreedotClick} />
             </TodayRecordBoxTitleWrap>
-            <TodayRecordContent>{content}</TodayRecordContent>
+            <TodayRecordContent>{ content }</TodayRecordContent>
             {isModalOpen && (
                 <TodayDeleteModalBox onClick={handleDeleteButtonClick}>삭제하기</TodayDeleteModalBox>
             )}

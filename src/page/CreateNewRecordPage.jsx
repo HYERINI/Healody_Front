@@ -114,6 +114,7 @@ const TodayDropDownWrap = styled.div`
 `
 
 function CreateNewRecordPage(){
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0MTIzNCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjEsImV4cCI6MTY5Mjk0MTkyNX0.rIznSbIJ22-NbUrnthILwd5GL6CSuBLuIUcTibgwUeGCsoF3buQii7eSNC_Vw0lv0UECgnpxxVRUeNmyGM68KA'
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
     const [formData, setFormData] = useState({
@@ -156,25 +157,26 @@ function CreateNewRecordPage(){
         if (selectedDropDownValue === '병원') {
             const requestBody = {
                 userId: "1",
-                // date: formData.date + ' ' + formData.time,
-                title: formData.title,
-            purpose: selectedPurpose,
+                date: formData.date + ' ' + formData.time,
+                purpose: selectedPurpose,
                 name: formData.name,
                 surgery: formData.surgery,
-                memo: formData.memo
+                memo: formData.memo,
+                title: formData.title,
             };
             axios({
-                url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/hospital',
+                url: 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/note/hospital',
                 method: 'POST',
                 headers: {
-                    'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
-                    withCredentials: true
+                    'Authorization':  'Bearer ' + token,
+                    "Access-Control-Allow-Origin" : "*"
                 },
-                data: requestBody,
-                success: function(){
-                    console.log(requestBody);
-                }
+                data: requestBody
+            }).then(function(data){
+              console.log(data);
+           }).catch(function(error){
+               console.log(error.code)
             })
         } else if (selectedDropDownValue === '약') {
             const requestBody = {
