@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Header } from "../component/Header";
 import HealodyLogo from "../img/HealodyLogo.png";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const styles = {
 
@@ -79,9 +80,34 @@ function MypagePassword() {
 
 
     const [pw, setPw] = useState('')
+    const [formData, setFormData] = useState({
+        password: "",
+    })
 
-    const onSubmitPw = (e) => {
-        setPw(e.target.value);
+    const handleInputChange = (event) => {
+        const {name, value} = event.target;
+        setFormData({...formData, [name]: value});
+    }
+
+    const handlePassword = () => {
+        const requestBody = {
+            password: formData.password,
+        };
+        axios('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/user/password/check',{
+            data: requestBody,
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+            },
+        })
+        .then(function () {
+            console.log(requestBody);
+            // const token = localStorage.getItem('jwt_token');
+            // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
     }
 
     const navigate = useNavigate();
@@ -105,15 +131,16 @@ function MypagePassword() {
 
                 <div style={styles.input_box}>
                     <input
+                        name="password"
                         type="text"
-                        value={pw}
+                        value={formData.password}
                         style={styles.input}
-                        onChange={onSubmitPw}
+                        onChange={handleInputChange}
                         placeholder="비밀번호 입력"
                     />
                 </div>
 
-                <div style={styles.input_box2} onClick={handleMemberInformationClick}>
+                <div style={styles.input_box2} onClick={handlePassword}>
                     <p style={styles.p}>확인</p>
                 </div>
 
