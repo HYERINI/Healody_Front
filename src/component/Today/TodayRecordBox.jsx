@@ -71,7 +71,7 @@ const TodayDeleteModalBox = styled.div`
   top: 35px;
   right: 10px;
 `;
-export default function TodayRecordBox({ type, date, content, onOpenModal }) {
+export default function TodayRecordBox({ type, date, content, onOpenModal, onClick }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleThreedotClick = () => {
@@ -83,10 +83,11 @@ export default function TodayRecordBox({ type, date, content, onOpenModal }) {
         onOpenModal(); // "삭제하기" 버튼을 누르면 TodayDeleteCheckBox를 나타내는 콜백 함수를 호출합니다.
     };
 
+
     return (
         <TodayRecordBoxWrap>
             <TodayRecordBoxTitleWrap>
-                <TodayRecordBoxTitleSmallWrap>
+                <TodayRecordBoxTitleSmallWrap onClick={onClick}>
                     <TodayRecordBoxTitle>{type}</TodayRecordBoxTitle>
                     <TodayRecordBoxTime>{date}</TodayRecordBoxTime>
                 </TodayRecordBoxTitleSmallWrap>

@@ -105,24 +105,19 @@ function LoginPage() {
             password : formData.password,
         };
         axios('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login',{
-            data: requestBody,
-            method: 'POST',
+                data: requestBody,
+                method: 'POST',
             })
-            .then(function (response) {
+            .then(function(response) {
                 console.log(requestBody);
                 console.log(response.data.token);
                 const token = response.data.token;
-                localStorage.setItem('jwt_token', token);
+                localStorage.setItem('token', token);
                 // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             })
             .catch(function (error) {
                 console.log(error);
             })
-            // success: function() {
-            //     console.log(requestBody);
-            //     localStorage.setItem('token', Response.data.token);
-            //     alert('성공적으로 로그인');
-            // }
             
         
 

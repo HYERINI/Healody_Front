@@ -15,6 +15,7 @@ import CreateNewGoalPage from './page/CreateNewGoalPage';
 import CreateNewRecordPage from './page/CreateNewRecordPage';
 import MyTodayPage from './page/MyTodayPage';
 import MyTodayRecordListPage from "./page/MyTodayRecordListPage";
+import MyTodayRecordDetailPage from './page/MyTodayRecordDetailPage';
 import MypagePassword from './page/MypagePassword'
 import MypageLayout from './page/MypageLayout'
 import MypageFamilyManagementMain from './page/MypageFamilyManagementMain'
@@ -61,6 +62,7 @@ function App() {
 
             <Route path="/my_today" element={<MyTodayPage />}/>
             <Route path="/my_todayRecord" element={<MyTodayRecordListPage />}/>
+            <Route path="/my_todayRecord/:type/:id" element={<MyTodayRecordDetailPage />} />
             <Route path="/create_newGoal" element={<CreateNewGoalPage />} />
             <Route path="/create_newRecord" element={<CreateNewRecordPage />} />
 

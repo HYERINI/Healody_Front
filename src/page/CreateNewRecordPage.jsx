@@ -9,6 +9,7 @@ import TodayGoalTitle from "../component/Today/TodayGoalTitle";
 import TodayDropDown from "../component/Today/TodayDropDown";
 import TodayRecordTypeButton from "../component/Today/TodayRecordTypeButton";
 import TodayButton from "../component/Today/TodayButton";
+import { useNavigate } from "react-router-dom";
 import TodayMakeGoal from './../component/Today/TodayMakeGoal';
 
 axios.defaults.withCredentials = true;
@@ -114,7 +115,9 @@ const TodayDropDownWrap = styled.div`
 `
 
 function CreateNewRecordPage(){
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0MTIzNCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjEsImV4cCI6MTY5Mjk0MTkyNX0.rIznSbIJ22-NbUrnthILwd5GL6CSuBLuIUcTibgwUeGCsoF3buQii7eSNC_Vw0lv0UECgnpxxVRUeNmyGM68KA'
+    const navigate = useNavigate();
+    const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
+    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjQsImV4cCI6MTY5MzI0MzYwNn0.i2U-zXONOGbSudC3QUCR95S6plN6aa0lZlGnxG2XhG6yw_IOqtuHaFH6QlPS80gQkdOwDxR6RSaRDrsAwBS7cw'
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
     const [formData, setFormData] = useState({
@@ -165,7 +168,7 @@ function CreateNewRecordPage(){
                 title: formData.title,
             };
             axios({
-                url: 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/note/hospital',
+                url: host + '/api/note/hospital',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -173,10 +176,14 @@ function CreateNewRecordPage(){
                     "Access-Control-Allow-Origin" : "*"
                 },
                 data: requestBody
-            }).then(function(data){
-              console.log(data);
-           }).catch(function(error){
-               console.log(error.code)
+            }).then(function(response){
+                alert('기록이 생성되었습니다')
+                navigate('/my_todayRecord')
+            }).catch(function(error){
+                console.log(error)
+                if(error.response.status === 400){
+                    alert('빈칸 없이 입력해주세요')
+                }
             })
         } else if (selectedDropDownValue === '약') {
             const requestBody = {
@@ -190,12 +197,19 @@ function CreateNewRecordPage(){
                 memo: formData.memo
             };
             axios({
-                url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/medicine',
+                url: host + '/api/note/medicine',
                 method: 'POST',
-                data: requestBody,
-                success: function(){
-                    console.log(requestBody);
-                }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':  'Bearer ' + token,
+                    "Access-Control-Allow-Origin" : "*"
+                },
+                data: requestBody
+            }).then(function(data){
+                alert('기록이 생성되었습니다')
+                navigate('/my_todayRecord')
+            }).catch(function(error){
+                console.log(error.code)
             })
         } else if (selectedDropDownValue === '증상') {
             const requestBody = {
@@ -206,11 +220,20 @@ function CreateNewRecordPage(){
                 memo: formData.memo
             };
             axios({
-                url: 'https://port-0-healody-ac2nlkqfipr3.sel4.cloudtype.app/api/note/symptom',
+                url: host + '/api/note/symptom',
                 method: 'POST',
-                data: requestBody,
-                success: function(){
-                    console.log(requestBody);
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':  'Bearer ' + token,
+                    "Access-Control-Allow-Origin" : "*"
+                },
+                data: requestBody
+            }).then(function(response){
+                alert('기록이 생성되었습니다')
+                navigate('/my_todayRecord')
+            }).catch(function(error){
+                if(error.status === 400){
+                    alert('빈칸 없이 입력해주세요')
                 }
             })
         }

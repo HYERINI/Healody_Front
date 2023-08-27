@@ -50,6 +50,7 @@ export default function TodayDeleteCheckBox({ content, buttonText, onDelete }) {
         // 삭제 버튼 클릭 시 onDelete 함수 호출
         if (onDelete) {
             onDelete();
+            navigate('/my_todayRecord')
         }
     };
 

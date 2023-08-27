@@ -48,6 +48,13 @@ const TodayDefault = styled.div`
   align-items: center;
 `;
 
+const TodayNotRecord = styled.div`
+  height: calc(100vh - 250px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+`
 export default function MyTodayRecordListPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteCheckBoxStates, setDeleteCheckBoxStates] = useState([]); // 삭제 확인 체크박스 상태 배열 추가
@@ -55,7 +62,7 @@ export default function MyTodayRecordListPage() {
     const navigate = useNavigate();
 
     const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
-    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0MTIzNCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjEsImV4cCI6MTY5Mjk0MTkyNX0.rIznSbIJ22-NbUrnthILwd5GL6CSuBLuIUcTibgwUeGCsoF3buQii7eSNC_Vw0lv0UECgnpxxVRUeNmyGM68KA'
+    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjQsImV4cCI6MTY5MzI0MTk1MX0.lkPAU4jak_556Yf6MxKHtlQ4If6Nn2xoBbefQlF7HYpMjl5C0SqnWz8WcyVOSlN5EmycJCzT2bsO6G0fMJ9-dA';
     const userId = '1'
 
     useEffect(() => {
@@ -70,7 +77,6 @@ export default function MyTodayRecordListPage() {
                 });
                 const data = await response.json();
                 setRecordData(data.data);
-                console.log(recordData);
                 setDeleteCheckBoxStates(new Array(data.data.length).fill(false));
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -106,50 +112,55 @@ export default function MyTodayRecordListPage() {
 
     const handleDeleteRecord = async (index, purpose) => {
         // purpose 값에 따라 다른 URL 생성
+        console.log(recordData)
+        console.log(index)
         let deleteUrl;
         switch (purpose) {
             case '병원':
                 deleteUrl = host + `/api/note/hospital/${recordData[index].noteId}`;
-                navigate('/my_todayRecord');
                 break;
             case '약':
                 deleteUrl = host + `/api/note/medicine/${recordData[index].noteId}`;
-                navigate('/my_todayRecord');
                 break;
-            case '응급':
+            case '증상':
                 deleteUrl = host + `/api/note/symptom/${recordData[index].noteId}`;
-                navigate('/my_todayRecord');
                 break;
             default:
-                console.log('Invalid purpose');
                 return;
         }
 
+        console.log(deleteUrl)
         try {
-            const response = await fetch(deleteUrl, {
+            console.log(deleteUrl)
+            await fetch(deleteUrl, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
-            });
+            })
+            window.location.reload()
 
-            if (response.status === 204) {
-                // 성공적으로 삭제된 경우
-                console.log('Record deleted successfully');
-            } else if (response.status === 503) {
-                console.error('Service Unavailable - Retry later');
-            } else {
-                console.error('Failed to delete record');
-            }
         } catch (error) {
-            if (error instanceof TypeError) {
-                console.error('Network error:', error.message);
-            } else {
-                console.error('Error deleting record:', error);
-            }
+            alert('기록을 삭제할 수 없습니다.');
         }
 
     };
+
+    function moveDetailRecord(type, id){
+        switch(type){
+            case '병원':
+                navigate(`/my_todayRecord/hospital/${id}`);
+                break;
+            case '약':
+                navigate(`/my_todayRecord/medicine/${id}`);
+                break;
+            case '증상':
+                navigate(`/my_todayRecord/symptom/${id}`);
+                break;
+            default:
+                return;
+        }
+    }
 
     return (
         <Container>
@@ -158,28 +169,31 @@ export default function MyTodayRecordListPage() {
             <TodayTitle content="기록 목록" />
             <TodayAddRecord src={TodayPlusBt} onClick={onMoveAddRecord} />
             <TodayRecordBoxWrap>
-                {/* 데이터를 기반으로 TodayRecordBox 컴포넌트 렌더링 */}
-                {recordData.map((record, index) => (
-                    <React.Fragment key={index}>
-                        <TodayRecordBox
-                            type={record.noteType}
-                            date={new Date(record.date).toISOString().split('T')[0]}
-                            content={record.title}
-                            onOpenModal={() => handleDeleteCheckBoxOpen(index)} // "점점점" 버튼을 클릭하면 모달 열기
-                            onDelete={() => handleDeleteRecord(index, record.noteType)}
-                        />
-                        {deleteCheckBoxStates[index] && (
-                            <React.Fragment>
-                                <TodayDeleteModal isOpen={isModalOpen} onClose={() => handleDeleteCheckBoxClose(index)} />
-                                <TodayDeleteCheckBox
-                                    content="삭제하시겠습니까?"
-                                    buttonText="삭제하기"
+                {recordData.length !== 0 ?
+                    <>
+                        {recordData.map((record, index) => (
+                            <React.Fragment key={index}>
+                                <TodayRecordBox
+                                    onClick={() => moveDetailRecord(record.noteType, record.noteId)}
+                                    type={record.noteType}
+                                    date={new Date(record.date).toISOString().split('T')[0]}
+                                    content={record.title}
+                                    onOpenModal={() => handleDeleteCheckBoxOpen(index)}
                                     onDelete={() => handleDeleteRecord(index, record.noteType)}
                                 />
+                                {deleteCheckBoxStates[index] && (
+                                    <React.Fragment>
+                                        <TodayDeleteModal isOpen={isModalOpen} onClose={() => handleDeleteCheckBoxClose(index)} />
+                                        <TodayDeleteCheckBox
+                                            content="삭제하시겠습니까?"
+                                            buttonText="삭제하기"
+                                            onDelete={() => handleDeleteRecord(index, record.noteType)}
+                                        />
+                                    </React.Fragment>
+                                )}
                             </React.Fragment>
-                        )}
-                    </React.Fragment>
-                ))}
+                        ))}
+                    </> : <TodayNotRecord>오늘 하루 나는 어땠나요?<br/> 나의 건강을 기록하고 추적해봐요!</TodayNotRecord>}
             </TodayRecordBoxWrap>
         </Container>
     );
