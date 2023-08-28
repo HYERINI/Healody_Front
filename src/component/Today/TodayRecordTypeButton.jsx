@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import check from './../../img/CheckhospitalCheck.svg';
+import checked from './../../img/CircleCheckedIcon.svg';
 
 const Button = styled.div`
   background-color: white;
@@ -27,15 +28,17 @@ const ButtonTitle = styled.p`
   font-size: 12px;
 `
 
-const TodayRecordTypeButton = ({ content, width, onClick }) => { // Receive 'width' as a prop
+const TodayRecordTypeButton = ({ content, width, selectedValue, onClick }) => {
 
-    const handleItemClick = (item) => {
-        onClick(item);
+    const isActive = selectedValue === content;
+
+    const handleItemClick = () => {
+        onClick(content);
     };
 
     return (
-        <Button width={width} onClick={() => handleItemClick({ content })}>
-            <ButtonImg src={check} />
+        <Button width={width} onClick={handleItemClick}>
+            {isActive ? <ButtonImg src={checked} /> : <ButtonImg src={check} />}
             <ButtonTitle>{content}</ButtonTitle>
         </Button>
     )

@@ -50,7 +50,6 @@ export default function MyTodayRecordDetailPage(){
     const navigate = useNavigate();
     const host = 'http://15.165.115.39:8080';
     const token = localStorage.getItem('token');
-    const userId = '1'
     const { type, id } = useParams()
 
     const [detailData, setDetailData] = useState(null);
@@ -61,9 +60,9 @@ export default function MyTodayRecordDetailPage(){
             try {
                 const response = await fetch(`${host}/api/note/${type}/${id}`,{
                     method: 'GET',
-                    headers: {
+                    headers:{
                         'Authorization' : 'Bearer ' + token
-                    }
+                    },
                 });
                 const data = await response.json();
                 setDetailData(data.data)

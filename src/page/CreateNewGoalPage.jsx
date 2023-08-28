@@ -71,8 +71,7 @@ function CreateNewGoalPage() {
     const [activeCompleteButton, setActiveCompleteButton] = useState(false);
 
     const host = 'http://15.165.115.39:8080';
-    const token = localStorage.getItem('token');
-
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAyMjIyMjIyMiIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjEsImV4cCI6MTY5MzMwMDQ4NX0.zioMnhSYMw2t4Dhu1UlWSR2WWniR8_BoduqlmlF0se0BRf-1_Af73B1CIceJjHbMNEJxH_YAFF_3jvn3EzfAxw';
     const handleButtonClick = buttonContent => {
         if (activeButton === buttonContent) {
             setActiveButton(null);
@@ -111,7 +110,6 @@ function CreateNewGoalPage() {
         }
 
         const requestBody = {
-            "userId" : "1",
             "behavior" : behavior,
             "quantity": (customGoal !== null && customGoal !== '') ? customGoal : activeGoal
         }
@@ -119,7 +117,7 @@ function CreateNewGoalPage() {
             url: host + '/api/goal',
             method: 'POST',
             headers:{
-                'Authorization': 'Bearer ' + token
+                'Authorization' : 'Bearer ' + token
             },
             data: requestBody
         }).then((response) =>{

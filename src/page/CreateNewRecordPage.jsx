@@ -159,7 +159,6 @@ function CreateNewRecordPage(){
         // 병원일 때 호출
         if (selectedDropDownValue === '병원') {
             const requestBody = {
-                userId: "1",
                 date: formData.date + ' ' + formData.time,
                 purpose: selectedPurpose,
                 name: formData.name,
@@ -187,7 +186,6 @@ function CreateNewRecordPage(){
             })
         } else if (selectedDropDownValue === '약') {
             const requestBody = {
-                userId: "1",
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
                 medicine1: formData.medicine1,
@@ -199,9 +197,9 @@ function CreateNewRecordPage(){
             axios({
                 url: host + '/api/note/medicine',
                 method: 'POST',
-                headers: {
+                headers:{
+                    'Authorization' : 'Bearer ' + token,
                     'Content-Type': 'application/json',
-                    'Authorization':  'Bearer ' + token,
                     "Access-Control-Allow-Origin" : "*"
                 },
                 data: requestBody
@@ -213,7 +211,6 @@ function CreateNewRecordPage(){
             })
         } else if (selectedDropDownValue === '증상') {
             const requestBody = {
-                userId: "1",
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
                 name: formData.name,
@@ -223,8 +220,8 @@ function CreateNewRecordPage(){
                 url: host + '/api/note/symptom',
                 method: 'POST',
                 headers: {
+                    'Authorization':'Bearer '+ token,
                     'Content-Type': 'application/json',
-                    'Authorization':  'Bearer ' + token,
                     "Access-Control-Allow-Origin" : "*"
                 },
                 data: requestBody
@@ -275,9 +272,24 @@ function CreateNewRecordPage(){
             {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
-                        <TodayRecordTypeButton content="외래" width="70" onClick={(value) => setSelectedPurpose('OUTPATIENT')}/>
-                        <TodayRecordTypeButton content="입원" width="70" onClick={(value) => setSelectedPurpose('HOSPITALIZATION')}/>
-                        <TodayRecordTypeButton content="응급" width="70" onClick={(value) => setSelectedPurpose('EMERGENCY')}/>
+                        <TodayRecordTypeButton
+                            content="외래"
+                            width="70"
+                            active={selectedPurpose === 'OUTPATIENT'}
+                            onClick={() => setSelectedPurpose('OUTPATIENT')}
+                        />
+                        <TodayRecordTypeButton
+                            content="입원"
+                            width="70"
+                            active={selectedPurpose === 'HOSPITALIZATION'}
+                            onClick={() => setSelectedPurpose('HOSPITALIZATION')}
+                        />
+                        <TodayRecordTypeButton
+                            content="응급"
+                            width="70"
+                            active={selectedPurpose === 'EMERGENCY'}
+                            onClick={() => setSelectedPurpose('EMERGENCY')}
+                        />
                     </TodayTypeListWrap>
                     <TodayListWrap>
                         <TodayGoalTitle content="병원*" width="70" />

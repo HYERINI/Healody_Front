@@ -109,12 +109,13 @@ function LoginPage() {
                 method: 'POST',
             })
             .then(function(response) {
-                // console.log(requestBody);
-                // console.log(response.data.token);
                 const token = response.data.token;
                 localStorage.setItem('token', token);
-                console.log(localStorage.getItem('token'));
-                // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+                // const userId = response.data.userId;
+                // localStorage.getItem('userId', userId);
+                // console.log(localStorage.getItem('token'));
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             })
             .catch(function (error) {
                 console.log(error);

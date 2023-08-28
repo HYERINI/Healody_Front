@@ -17,8 +17,9 @@ const Family_main = () => {
   const [nickname, setNickname] = useState('');
   const [newCareNickname, setNewCareNickname] = useState('');
   const [image, setImage] = useState(null);
-  const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
-  const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0MTIzNCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjEsImV4cCI6MTY5Mjk0MTkyNX0.rIznSbIJ22-NbUrnthILwd5GL6CSuBLuIUcTibgwUeGCsoF3buQii7eSNC_Vw0lv0UECgnpxxVRUeNmyGM68KA";
+  const host = 'http://15.165.115.39:8080';
+  const token = localStorage.getItem('token');
+
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
@@ -36,50 +37,57 @@ const Family_main = () => {
     setShowOptions(false); // 선택하기 버튼을 누르면 옵션 창을 닫도록 추가
   };
 
-  const handleProfilePictureSelect = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setProfilePicture(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleProfilePictureSelect = (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setProfilePicture(reader.result);
+  //   };
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleNicknameChange = (event) => {
-    setNickname(event.target.value);
-  };
-
-  const handleProfileConfirm = () => {
-    // Perform any validation or additional actions here
-    // For now, let's simply close the profile edit popup
-    setCreateCareAccount(false);
-  };
+  // const handleNicknameChange = (event) => {
+  //   setNickname(event.target.value);
+  // };
+  //
+  // const handleProfileConfirm = () => {
+  //   // Perform any validation or additional actions here
+  //   // For now, let's simply close the profile edit popup
+  //   setCreateCareAccount(false);
+  // };
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
-    const imageObject = new Blob([selectedImage], { type: selectedImage.type });
+    console.log(selectedImage)
 
-    setImage(imageObject);
+    // const imageObject = new Blob([selectedImage], { type: selectedImage.type });
+    // console.log(imageObject)
+    setImage(selectedImage);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(image);
+    console.log(image);
 
     if (image) {
-      const formData = new FormData();
-      const data = {
-        'homeId': '1',
-        'nickname': newCareNickname
-      }
-      formData.append('requestDTO', JSON.stringify(data));
-      formData.append('imageFile', image);
-      console.log(formData);
-      axios.post(host + '/api/care-user', formData,{
+      const data = new FormData();
+
+      data.append('image', image);
+
+      const requestDTO = {
+        homeId: '1',
+        nickname: newCareNickname
+      };
+
+      const requestDataBlob = new Blob([JSON.stringify(requestDTO)], { type: 'application/json' });
+      data.append('requestDTO', requestDataBlob);
+
+
+      axios.post(host + '/api/care-user', data, {
         headers: {
-          Authorization: `Bearer ${token}`
+          'Authorization': 'Bearer ' + token
         }
       })
           .then(response => {
@@ -93,28 +101,6 @@ const Family_main = () => {
           });
     }
   };
-
-  //
-  //
-  // const handleNewCareAccountCreate = () => {
-  //   // API 엔드포인트에 POST 요청 보내기
-  //   axios.post(host + '/api/care-user',
-  //   {
-  //           homeId: '1',
-  //           nickname: newCareNickname,
-  //           // image: file
-  //         }
-  //     )
-  //     .then(response => {
-  //       console.log('새로운 돌봄 계정 생성됨:', response.data);
-  //       setNewCareNickname(''); // 입력 필드 초기화
-  //       setCreateCareAccount(false); // 팝업 닫기
-  //     })
-  //     .catch(error => {
-  //       // 에러 처리 (필요하면)
-  //       console.error('새로운 돌봄 계정 생성 에러:', error);
-  //     });
-  // };
 
   return (
     <div className="h-screen">
@@ -199,16 +185,15 @@ const Family_main = () => {
                       <div className='flex-col'>
                         <div className='text-center mb-1'>
                           <input type="text" placeholder='돌봄 계정의 닉네임을 입력하세요'
+                                 onChange={(event) => setNewCareNickname(event.target.value)}
                             className="text-center text-xs border border-gray-300 rounded-3xl p-2 w-full text-#B6B6B5" />
                         </div>
                         <div>
                           {/*<button className="bg-black text-white py-2 px-4 rounded-3xl rounded-3xl border border-gray-300 w-full my-2" onClick={handleNewCareAccountCreate}>확인</button>*/}
                         </div>
 
-                        <form onSubmit={handleSubmit}>
                           <input type="file" accept="image/*" onChange={handleImageChange} />
-                          <button type="submit">업로드</button>
-                        </form>
+                          <button type="button" onClick={handleSubmit}>업로드</button>
 
                       </div>
                     </div>

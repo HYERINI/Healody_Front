@@ -63,7 +63,7 @@ export default function MyTodayRecordListPage() {
 
     const host = 'http://15.165.115.39:8080';
     const token = localStorage.getItem('token');
-    const userId = '1'
+    var userId = '1';
 
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
@@ -71,9 +71,9 @@ export default function MyTodayRecordListPage() {
             try {
                 const response = await fetch(host + '/api/note/' + userId,{
                     method: 'GET',
-                    headers: {
+                    headers:{
                         'Authorization' : 'Bearer ' + token
-                    }
+                    },
                 });
                 const data = await response.json();
                 setRecordData(data.data);
@@ -134,9 +134,9 @@ export default function MyTodayRecordListPage() {
             console.log(deleteUrl)
             await fetch(deleteUrl, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
+                headers:{
+                    'Authorization' : 'Bearer ' + token
+                },
             })
             window.location.reload()
 
