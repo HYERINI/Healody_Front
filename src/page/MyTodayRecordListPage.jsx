@@ -63,7 +63,7 @@ export default function MyTodayRecordListPage() {
 
     const host = 'http://15.165.115.39:8080';
     const token = localStorage.getItem('token');
-    var userId = '1';
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)

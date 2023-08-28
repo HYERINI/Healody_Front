@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import BackIcon from "../img/back_icon.png";
 import LoginFalse from "../img/login_false.png";
 import axios from 'axios';
@@ -87,6 +88,7 @@ const styles={
   
 function LoginPage() {
 
+    const navigate = useNavigate();
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
     const [formData, setFormData] = useState({
@@ -109,13 +111,15 @@ function LoginPage() {
                 method: 'POST',
             })
             .then(function(response) {
+                alert('로그인 되었습니다.')
                 const token = response.data.token;
                 localStorage.setItem('token', token);
 
-                // const userId = response.data.userId;
-                // localStorage.getItem('userId', userId);
-                // console.log(localStorage.getItem('token'));
+                console.log(response.data.userId);
+                const userId = response.data.userId;
+                localStorage.setItem('userId', userId);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                navigate('/my_today');
             })
             .catch(function (error) {
                 console.log(error);

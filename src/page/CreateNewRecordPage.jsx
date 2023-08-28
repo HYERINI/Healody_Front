@@ -118,6 +118,7 @@ function CreateNewRecordPage(){
     const navigate = useNavigate();
     const host = 'http://15.165.115.39:8080';
     const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
     const [formData, setFormData] = useState({
