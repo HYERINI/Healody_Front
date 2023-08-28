@@ -54,7 +54,7 @@ function App() {
      <Mobile>
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/join_page" element={<JoinMembershipPage />} />
             <Route path="/login_page" element={<LoginPage />} />
             <Route path="/api/auth/kakao/callback" element={<AgreePage />} />

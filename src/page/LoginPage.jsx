@@ -104,15 +104,16 @@ function LoginPage() {
             phone: formData.phone,
             password : formData.password,
         };
-        axios('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login',{
+        axios('http://15.165.115.39:8080/api/auth/login',{
                 data: requestBody,
                 method: 'POST',
             })
             .then(function(response) {
-                console.log(requestBody);
-                console.log(response.data.token);
+                // console.log(requestBody);
+                // console.log(response.data.token);
                 const token = response.data.token;
                 localStorage.setItem('token', token);
+                console.log(localStorage.getItem('token'));
                 // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             })
             .catch(function (error) {

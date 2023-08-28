@@ -70,6 +70,9 @@ function CreateNewGoalPage() {
     const [customGoal, setCustomGoal] = useState('');
     const [activeCompleteButton, setActiveCompleteButton] = useState(false);
 
+    const host = 'http://15.165.115.39:8080';
+    const token = localStorage.getItem('token');
+
     const handleButtonClick = buttonContent => {
         if (activeButton === buttonContent) {
             setActiveButton(null);
@@ -113,8 +116,11 @@ function CreateNewGoalPage() {
             "quantity": (customGoal !== null && customGoal !== '') ? customGoal : activeGoal
         }
         axios({
-            url: 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/goal',
+            url: host + '/api/goal',
             method: 'POST',
+            headers:{
+                'Authorization': 'Bearer ' + token
+            },
             data: requestBody
         }).then((response) =>{
             console.log(response);

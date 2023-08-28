@@ -116,8 +116,8 @@ const TodayDropDownWrap = styled.div`
 
 function CreateNewRecordPage(){
     const navigate = useNavigate();
-    const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
-    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjQsImV4cCI6MTY5MzI0MzYwNn0.i2U-zXONOGbSudC3QUCR95S6plN6aa0lZlGnxG2XhG6yw_IOqtuHaFH6QlPS80gQkdOwDxR6RSaRDrsAwBS7cw'
+    const host = 'http://15.165.115.39:8080';
+    const token = localStorage.getItem('token');
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
     const [formData, setFormData] = useState({
