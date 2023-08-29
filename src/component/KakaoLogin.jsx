@@ -1,19 +1,10 @@
-import Kakaobtn from "../img/kakaobtn.png";
-
-const KakaoLogin = () => {
-    
-    const kakaoURL = 'https://kauth.kakao.com/oauth/authorize?client_id=c33420b52702ac0ebf8805e80e6078f1&redirect_uri=http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/kakao/callback&response_type=code';
-
+function KakaoLogin() {
     return(
-        <img
-            alt="카카오 로그인"
-            src={Kakaobtn}
-            width="328"
-            height="55"
-            style={{margin: '0px 24px 16px 24px'}}
-            onClick={() => window.location.href = kakaoURL}
-        />
-    )
+        <>
+<button href="https://kauth.kakao.com/oauth/authorize?client_id=c33420b52702ac0ebf8805e80e6078f1&redirect_uri=http://15.165.115.39:8080/oauth/callback/kakao&response_type=code">
+    눌러
+</button>
+</>
+    );
 }
-
 export default KakaoLogin;

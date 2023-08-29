@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BackIcon from "../img/back_icon.png";
 import LoginFalse from "../img/login_false.png";
 import axios from 'axios';
+import LoginModal from "../component/LoginModal";
 
 const styles={
     input: {
@@ -114,9 +115,17 @@ function LoginPage() {
                 const token = response.data.token;
                 localStorage.setItem('token', token);
                 // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                window.location.href="/agree_page";
             })
-            .catch(function (error) {
-                console.log(error);
+            .catch(function(error) {
+                console.log(error.response.status);
+                if(error.response.status == 401) {
+                    return(
+                    <>
+                     <LoginModal message="This is Modal" />
+                     </>
+                    )
+                }
             })
             
         

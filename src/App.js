@@ -28,6 +28,7 @@ import Dosomething from './page/Dosomething';
 // import KakaoLoginRedirect from './component/KakaoLoginRedirect';
 // import tailwindcss from 'tailwind.css';
 
+
 export const Mobile = ({children}) => {
   const isMobile = useMediaQuery({
     query : "(max-width:730px)"
@@ -54,10 +55,11 @@ function App() {
      <Mobile>
         <BrowserRouter>
           <Routes>
+            
             <Route path="/login" element={<Login />} />
             <Route path="/join_page" element={<JoinMembershipPage />} />
             <Route path="/login_page" element={<LoginPage />} />
-            <Route path="/api/auth/kakao/callback" element={<AgreePage />} />
+            <Route path="/agree_page" element={<AgreePage />} />
             <Route path="/phone_certified" element={<PhoneCertified />} />
 
             <Route path="/my_today" element={<MyTodayPage />}/>
