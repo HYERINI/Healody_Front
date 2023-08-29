@@ -25,6 +25,7 @@ import MypageFamilyInvite from './page/MypageFamilyInvite'
 import Celendar from './page/Celendar';
 import Hospital from './page/Hospital';
 import Dosomething from './page/Dosomething';
+import Loading from './page/Loading';
 // import KakaoLoginRedirect from './component/KakaoLoginRedirect';
 // import tailwindcss from 'tailwind.css';
 
@@ -78,6 +79,7 @@ function App() {
             <Route path="/hospital" element={<Hospital />} />
             <Route path="/dosomething" element={<Dosomething />} />
 
+            <Route path="/loading" element={<Loading />} />
             {isCreated ? (
               <Route exact path="/family" element={<Family_main />} />
             ) : (
