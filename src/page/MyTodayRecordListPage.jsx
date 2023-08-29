@@ -61,9 +61,9 @@ export default function MyTodayRecordListPage() {
     const [recordData, setRecordData] = useState([]); // 데이터 가져오기
     const navigate = useNavigate();
 
-    const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
-    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjQsImV4cCI6MTY5MzI0MTk1MX0.lkPAU4jak_556Yf6MxKHtlQ4If6Nn2xoBbefQlF7HYpMjl5C0SqnWz8WcyVOSlN5EmycJCzT2bsO6G0fMJ9-dA';
-    const userId = '1'
+    const host = 'http://15.165.115.39:8080';
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
@@ -71,9 +71,9 @@ export default function MyTodayRecordListPage() {
             try {
                 const response = await fetch(host + '/api/note/' + userId,{
                     method: 'GET',
-                    headers: {
+                    headers:{
                         'Authorization' : 'Bearer ' + token
-                    }
+                    },
                 });
                 const data = await response.json();
                 setRecordData(data.data);
@@ -134,9 +134,9 @@ export default function MyTodayRecordListPage() {
             console.log(deleteUrl)
             await fetch(deleteUrl, {
                 method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
+                headers:{
+                    'Authorization' : 'Bearer ' + token
+                },
             })
             window.location.reload()
 

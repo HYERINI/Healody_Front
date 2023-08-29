@@ -48,9 +48,9 @@ const TodayGoalTypeButton = styled.div`
 `
 export default function MyTodayRecordDetailPage(){
     const navigate = useNavigate();
-    const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
-    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjQsImV4cCI6MTY5MzI0MTk1MX0.lkPAU4jak_556Yf6MxKHtlQ4If6Nn2xoBbefQlF7HYpMjl5C0SqnWz8WcyVOSlN5EmycJCzT2bsO6G0fMJ9-dA';
-    const userId = '1'
+    const host = 'http://15.165.115.39:8080';
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     const { type, id } = useParams()
 
     const [detailData, setDetailData] = useState(null);
@@ -61,9 +61,9 @@ export default function MyTodayRecordDetailPage(){
             try {
                 const response = await fetch(`${host}/api/note/${type}/${id}`,{
                     method: 'GET',
-                    headers: {
+                    headers:{
                         'Authorization' : 'Bearer ' + token
-                    }
+                    },
                 });
                 const data = await response.json();
                 setDetailData(data.data)

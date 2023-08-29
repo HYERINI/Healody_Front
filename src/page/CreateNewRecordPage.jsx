@@ -116,8 +116,9 @@ const TodayDropDownWrap = styled.div`
 
 function CreateNewRecordPage(){
     const navigate = useNavigate();
-    const host = 'https://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app';
-    const token ='eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIwMTAxMjM0NTY3OCIsImF1dGgiOiJST0xFX1VTRVIiLCJ1c2VySWQiOjQsImV4cCI6MTY5MzI0MzYwNn0.i2U-zXONOGbSudC3QUCR95S6plN6aa0lZlGnxG2XhG6yw_IOqtuHaFH6QlPS80gQkdOwDxR6RSaRDrsAwBS7cw'
+    const host = 'http://15.165.115.39:8080';
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('병원');
     const [selectedPurpose, setSelectedPurpose] = useState('');
     const [formData, setFormData] = useState({
@@ -159,7 +160,6 @@ function CreateNewRecordPage(){
         // 병원일 때 호출
         if (selectedDropDownValue === '병원') {
             const requestBody = {
-                userId: "1",
                 date: formData.date + ' ' + formData.time,
                 purpose: selectedPurpose,
                 name: formData.name,
@@ -187,7 +187,6 @@ function CreateNewRecordPage(){
             })
         } else if (selectedDropDownValue === '약') {
             const requestBody = {
-                userId: "1",
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
                 medicine1: formData.medicine1,
@@ -199,9 +198,9 @@ function CreateNewRecordPage(){
             axios({
                 url: host + '/api/note/medicine',
                 method: 'POST',
-                headers: {
+                headers:{
+                    'Authorization' : 'Bearer ' + token,
                     'Content-Type': 'application/json',
-                    'Authorization':  'Bearer ' + token,
                     "Access-Control-Allow-Origin" : "*"
                 },
                 data: requestBody
@@ -213,7 +212,6 @@ function CreateNewRecordPage(){
             })
         } else if (selectedDropDownValue === '증상') {
             const requestBody = {
-                userId: "1",
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
                 name: formData.name,
@@ -223,8 +221,8 @@ function CreateNewRecordPage(){
                 url: host + '/api/note/symptom',
                 method: 'POST',
                 headers: {
+                    'Authorization':'Bearer '+ token,
                     'Content-Type': 'application/json',
-                    'Authorization':  'Bearer ' + token,
                     "Access-Control-Allow-Origin" : "*"
                 },
                 data: requestBody
@@ -275,9 +273,24 @@ function CreateNewRecordPage(){
             {selectedDropDownValue === '병원' ? (
                 <ChangeContainer>
                     <TodayTypeListWrap>
-                        <TodayRecordTypeButton content="외래" width="70" onClick={(value) => setSelectedPurpose('OUTPATIENT')}/>
-                        <TodayRecordTypeButton content="입원" width="70" onClick={(value) => setSelectedPurpose('HOSPITALIZATION')}/>
-                        <TodayRecordTypeButton content="응급" width="70" onClick={(value) => setSelectedPurpose('EMERGENCY')}/>
+                        <TodayRecordTypeButton
+                            content="외래"
+                            width="70"
+                            active={selectedPurpose === 'OUTPATIENT'}
+                            onClick={() => setSelectedPurpose('OUTPATIENT')}
+                        />
+                        <TodayRecordTypeButton
+                            content="입원"
+                            width="70"
+                            active={selectedPurpose === 'HOSPITALIZATION'}
+                            onClick={() => setSelectedPurpose('HOSPITALIZATION')}
+                        />
+                        <TodayRecordTypeButton
+                            content="응급"
+                            width="70"
+                            active={selectedPurpose === 'EMERGENCY'}
+                            onClick={() => setSelectedPurpose('EMERGENCY')}
+                        />
                     </TodayTypeListWrap>
                     <TodayListWrap>
                         <TodayGoalTitle content="병원*" width="70" />

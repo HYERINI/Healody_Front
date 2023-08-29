@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import BackIcon from "../img/back_icon.png";
 import LoginFalse from "../img/login_false.png";
 import axios from 'axios';
@@ -88,6 +89,7 @@ const styles={
   
 function LoginPage() {
 
+    const navigate = useNavigate();
     const [id, setId] = useState('')
     const [pw, setPw] = useState('')
     const [formData, setFormData] = useState({
@@ -105,17 +107,25 @@ function LoginPage() {
             phone: formData.phone,
             password : formData.password,
         };
-        axios('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login',{
+        axios('http://15.165.115.39:8080/api/auth/login',{
                 data: requestBody,
                 method: 'POST',
             })
             .then(function(response) {
-                console.log(requestBody);
-                console.log(response.data.token);
+                alert('로그인 되었습니다.')
                 const token = response.data.token;
                 localStorage.setItem('token', token);
+<<<<<<< HEAD
                 // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 window.location.href="/agree_page";
+=======
+
+                console.log(response.data.userId);
+                const userId = response.data.userId;
+                localStorage.setItem('userId', userId);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                navigate('/my_today');
+>>>>>>> 31fdbd6384b69a3156d80518094c71328ee90a5a
             })
             .catch(function(error) {
                 console.log(error.response.status);
