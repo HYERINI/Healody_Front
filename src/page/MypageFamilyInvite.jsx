@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Header } from "../component/Header";
 import Search from "../img/Search.png";
+import axios from 'axios';
 
 const styles = {
     header: {
@@ -80,17 +81,48 @@ const styles = {
 
 
 function MypageFamilyInvite() {
+    const host = 'http://15.165.115.39:8080';
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
 
-    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
     const [namesList, setNamesList] = useState([]);
 
-    const onSubmitName = (e) => {
-        e.preventDefault();
-        if (name.trim() !== "") {
-            setNamesList([...namesList, name]);
-            setName("");
-        }
+    const handleInputChange = (event) => {
+        setPhone(event.target.value);
     }
+
+    const sendPostRequest = async () => {
+        axios({
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
+            data: {
+                'userPhone': phone,
+                'homeId': '1'
+            }
+        }).then(function(response){
+            console.log(response);
+        }).catch(function(error){
+
+        });
+    }
+
+    const handleEnterKey = (event) => {
+        if (event.key === 'Enter') {
+            console.log('enter');
+            sendPostRequest();
+        }
+    };
+
+    // const onSubmitName = (e) => {
+    //     e.preventDefault();
+    //     if (name.trim() !== "") {
+    //         setNamesList([...namesList, name]);
+    //         setName("");
+    //     }
+    // }
 
     return (
         <>
@@ -105,16 +137,14 @@ function MypageFamilyInvite() {
 
                 <div style={styles.input_box}>
                     <img style={styles.img} src={Search} />
-                    <form onSubmit={onSubmitName}>
-                        <input
-                            type="text"
-                            value={name}
-                            style={styles.input}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="가족의 전화번호를 입력하고 집에 초대해보세요"
-                        />
-                        <button type="submit" style={{ display: "none" }}></button>
-                    </form>
+                    <input
+                        type="text"
+                        value={phone}
+                        style={styles.input}
+                        onChange={handleInputChange}
+                        onKeyDown={handleEnterKey}
+                        placeholder="가족의 전화번호를 입력하고 집에 초대해보세요"
+                    />
                 </div>
 
                 {namesList.map((item, index) => (

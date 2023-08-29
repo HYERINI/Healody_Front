@@ -37,6 +37,11 @@ const RightImage = styled.img`
 
 const TodayHeader = () => {
 
+    const navigate = useNavigate();
+    function moveMypage(){
+        navigate('/Mypage_Password');
+    }
+
     return (
         <Container>
             <LeftBox>
@@ -44,7 +49,7 @@ const TodayHeader = () => {
             </LeftBox>
             <RightBox>
                 <RightImage src={info} />
-                <RightImage src={profile} />
+                <RightImage src={profile} onClick={moveMypage}/>
             </RightBox>
         </Container>
     );

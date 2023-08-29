@@ -29,7 +29,23 @@ const MoreBt = styled.img`
   cursor: pointer;
 `
 
-export default function TodayMainBox({ title, content, width, link, moreLink}){
+const TodayGoalBox = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #B6B6B5;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 5px;
+`
+
+const Text = styled.p`
+  color: #60605F;
+  font-size: 15px;
+`
+
+export default function TodayMainBox({ title, content, width, link, moreLink, text}){
 
     const navigate = useNavigate();
 
@@ -43,8 +59,17 @@ export default function TodayMainBox({ title, content, width, link, moreLink}){
                 <TodayGoalTitle content={ title } width={ width }/>
                 <MoreBt src={TodayPlusBt} onClick={onMoveLink}/>
             </TodayMainTopWrap>
+            {moreLink ?
+                <TodayMoreBt content={ content } link={ moreLink }/>
+               : <></>
+            }
+            {text ?
+                <TodayGoalBox>
+                    <Text>새로운 목표를 설정하고 <br/>건강한 삶을 위한 한걸음을 내딛어요!</Text>
+                </TodayGoalBox>
+                : <></>
+            }
 
-            <TodayMoreBt content={ content } link={ moreLink }/>
         </TodayBox>
     )
 }

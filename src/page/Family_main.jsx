@@ -19,6 +19,7 @@ const Family_main = () => {
   const [image, setImage] = useState(null);
   const host = 'http://15.165.115.39:8080';
   const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -96,7 +97,6 @@ const Family_main = () => {
             setCreateCareAccount(false); // 팝업 닫기
           })
           .catch(error => {
-            // 에러 처리 (필요하면)
             console.error('새로운 돌봄 계정 생성 에러:', error);
           });
     }
