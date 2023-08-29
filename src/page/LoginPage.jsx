@@ -115,17 +115,12 @@ function LoginPage() {
                 alert('로그인 되었습니다.')
                 const token = response.data.token;
                 localStorage.setItem('token', token);
-<<<<<<< HEAD
-                // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                window.location.href="/agree_page";
-=======
 
                 console.log(response.data.userId);
                 const userId = response.data.userId;
                 localStorage.setItem('userId', userId);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 navigate('/my_today');
->>>>>>> 31fdbd6384b69a3156d80518094c71328ee90a5a
             })
             .catch(function(error) {
                 console.log(error.response.status);
