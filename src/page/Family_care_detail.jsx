@@ -11,9 +11,44 @@ const Family_care_detail = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [task, setTask] = useState('');
   const [todos, setTodos] = useState([]);
+  const user = localStorage.getItem('userId');
+  let now = new Date();
+  const [formData, setFormData] = useState({
+      userId : user,
+      date : "232323",
+      content : ""
+  
+  });
+
+  const handleInputChange = (event) => {
+    const {name, value} = event.target;
+    setFormData({...formData, [name]: value});
+  }
+
+  const handleTask = () => {
+    const requestBody = {
+      userId: formData.userId,
+      date: formData.date,
+      content: formData.content,
+    };
+    axios('http://15.165.115.39:8080/api/todo', {
+      data:requestBody,
+      method: 'POST',
+    })
+    .then(function(response) {
+      alert('등록됨')
+      console.log(response);
+
+    })
+    .catch(function(error) {
+      console.log(error.response.status);
+      console.log('에러');
+    })
+  }
+
   const host = 'http://15.165.115.39:8080';
   const token = localStorage.getItem('token');
-
+  
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
@@ -22,38 +57,39 @@ const Family_care_detail = () => {
     setShowOptions(!showOptions);
   };
 
-  const handleTaskChange = (event) => {
-    setTask(event.target.value);
-  };
+  // const handleTaskChange = (event) => {
+  //   setTask(event.target.value);
+  // };
 
-  const addTask = () => {
-    if (task.trim() !== '') {
-      setTodos([...todos, { task, completed: false }]);
+  // const addTask = () => {
+  //   if (task.trim() !== '') {
+  //     setTodos([...todos, { task, completed: false }]);
 
-      // 요청 데이터 생성
-      const requestData = {
-        userId: 2, // 적절한 userId 값으로 변경
-        date: "2023-08-15", // 적절한 날짜 값으로 변경
-        content: task,
-      };
+  //     // 요청 데이터 생성
+  //     const requestData = {
+  //       userId: 2, // 적절한 userId 값으로 변경
+  //       date: "2023-08-15", // 적절한 날짜 값으로 변경
+  //       content: task,
+  //     };
 
       // POST 요청 보내기
-      axios
-        .post(host + '/api/care-user', requestData, {
-          headers: {
-            'Authorization': 'Bearer ' + token
-          }
-        })
-        .then((response) => {
-          console.log('할일 추가 요청 성공:', response.data);
-        })
-        .catch((error) => {
-          console.error('할일 추가 요청 실패:', error);
-        });
+  //     axios
+  //       .post(host + '/api/care-user', requestData, {
+  //         headers: {
+  //           'Authorization': 'Bearer ' + token
+  //         }
+  //       })
+  //       .then((response) => {
+  //         console.log('할일 추가 요청 성공:', response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('할일 추가 요청 실패:', error);
+  //       });
 
-      setTask('');
-    }
-  };
+  //     setTask('');
+  //   }
+  // };
+
 
   const toggleComplete = (index) => {
     setTodos((prevTodos) => {
@@ -90,8 +126,8 @@ const Family_care_detail = () => {
               <AiOutlinePlusCircle className="text-3xl text-purple-700 bold" />
             </header>
             <div className="mb-4">
-              <input type="text" className="border border-gray-400 rounded p-2 w-full" placeholder="할일을 입력하세요..." value={task} onChange={handleTaskChange} />
-              <button className="bg-purple-700 text-white py-2 px-4 rounded mt-2" onClick={addTask}>추가</button>
+              <input type="text" className="border border-gray-400 rounded p-2 w-full" placeholder="할일을 입력하세요..." name="content" value={formData.content} onChange={handleInputChange} />
+              <button className="bg-purple-700 text-white py-2 px-4 rounded mt-2" onClick={handleTask}>추가</button>
             </div>
             {todos.length > 0 ? (
               <ul className="list-disc pl-8">

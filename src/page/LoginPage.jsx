@@ -114,8 +114,9 @@ function LoginPage() {
             .then(function(response) {
                 alert('로그인 되었습니다.')
                 const token = response.data.token;
+            
                 localStorage.setItem('token', token);
-
+                
                 console.log(response.data.userId);
                 const userId = response.data.userId;
                 localStorage.setItem('userId', userId);
