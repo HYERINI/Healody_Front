@@ -101,7 +101,7 @@ const JoinMembershipPage = () => {
             email : formData.email
         };
         axios({
-            url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/email/${requestBodyemail.email}/exists`,
+            url: `http://15.165.115.39:8080/api/auth/email/${requestBodyemail.email}/exists`,
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -125,7 +125,7 @@ const JoinMembershipPage = () => {
         };
 
         axios({
-            url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/email-confirm`,
+            url: `http://15.165.115.39:8080/api/auth/email-confirm`,
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -149,7 +149,7 @@ const JoinMembershipPage = () => {
         };
 
         axios({
-            url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/email-confirm/check`,
+            url: `http://15.165.115.39:8080/api/auth/email-confirm/check`,
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -171,7 +171,7 @@ const JoinMembershipPage = () => {
         };
         console.log(nickname);
         axios({
-            url: 'http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
+            url: 'http://15.165.115.39:8080/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -199,7 +199,7 @@ const JoinMembershipPage = () => {
                 phone: formData.phone
         };
         axios({
-            url: 'http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/join',
+            url: 'http://15.165.115.39:8080/api/auth/join',
             method: 'POST',
             data: requestBody,
             success: function() {
@@ -296,7 +296,7 @@ const JoinMembershipPage = () => {
             };
             console.log(phone);
             axios({
-                url: `http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/phone/${requestBodyPhone.phone}/exists`,
+                url: `http://15.165.115.39:8080/api/auth/phone/${requestBodyPhone.phone}/exists`,
                 method: 'GET',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
