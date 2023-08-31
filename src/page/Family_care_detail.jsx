@@ -31,7 +31,7 @@ const Family_care_detail = () => {
       date: formData.date,
       content: formData.content,
     };
-    axios('http://15.165.115.39:8080/api/todo', {
+    axios('http://healody.shop/api/todo', {
       data:requestBody,
       method: 'POST',
     })
