@@ -8,6 +8,7 @@ function Loading() {
     // let ingacode = new URL(window.location.href).searchParams.get('code');
     // console.log(ingacode);
     let kakaoUrl = new URL(window.location.href);
+    console.log(kakaoUrl);
     // const ingastr = ingacode.toString();
     const requestBody = {
         // code: `${ingacode}`,
