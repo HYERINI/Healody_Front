@@ -107,7 +107,7 @@ function LoginPage() {
             phone: formData.phone,
             password : formData.password,
         };
-        axios('http://15.165.115.39:8080/api/auth/login',{
+        axios('http://healody.shop/api/auth/login',{
                 data: requestBody,
                 method: 'POST',
             })

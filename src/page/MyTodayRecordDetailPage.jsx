@@ -48,7 +48,7 @@ const TodayGoalTypeButton = styled.div`
 `
 export default function MyTodayRecordDetailPage(){
     const navigate = useNavigate();
-    const host = 'http://15.165.115.39:8080';
+    const host = 'http://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const { type, id } = useParams()
