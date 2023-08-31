@@ -5,13 +5,15 @@ import axios from 'axios';
 
 function Loading() {
     console.log(window.location.href);
-    let ingacode = new URL(window.location.href).searchParams.get('code');
-    console.log(ingacode);
+    // let ingacode = new URL(window.location.href).searchParams.get('code');
+    // console.log(ingacode);
+    let kakaoUrl = new URL(window.location.href);
     // const ingastr = ingacode.toString();
     const requestBody = {
-        code: `${ingacode}`,
+        // code: `${ingacode}`,
+        code: `${kakaoUrl}`,
     };
-    axios('http://healody.shop/api/auth/kakao/callback',{
+    axios('http://healody.shop/api/auth/kakao/callback2',{
         data:requestBody,
         method: 'GET',
     })
