@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BackIcon from "../img/back_icon.png";
 import nextFalse from "../img/next_false.png";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const styles= {
@@ -60,6 +61,7 @@ const styles= {
 
 const JoinMembershipPage = () => {
 
+    const navigate = useNavigate();
     const [name1, setName1] = useState('')
     const [id, setId] = useState('')
     const [email1, setEmail1] = useState('')
@@ -198,14 +200,30 @@ const JoinMembershipPage = () => {
                 confirm : formData.confirm,
                 phone: formData.phone
         };
-        axios({
-            url: 'http://healody.shop/api/auth/join',
-            method: 'POST',
-            data: requestBody,
-            success: function() {
-                console.log(requestBody);
-            }
-        })
+        axios('http://healody.shop/api/auth/join',{
+                data: requestBody,
+                method: 'POST',
+            })
+            .then(function(response) {
+                if(response.data.result == 'SUCCESS') {
+                    alert('회원가입이 되셨습니다');
+                    navigate('/login_page');
+                    localStorage.setItem('name',formData.name);
+                    localStorage.setItem('birth'.formData.bitrh);
+                    localStorage.setItem('email'.formData.email);
+                    localStorage.setItem('gender'.formData.gender);
+                    localStorage.setItem('password'.formData.password);
+                    localStorage.setItem('nickname'.formData.nickname);
+                    localStorage.setItem('phone'.formData.phone);
+                }
+                else {
+                    alert('다시 정보를 올바르게 입력해주세요');
+                }
+            })
+            .catch(function(error) {
+                console.log(error.response.status);
+            })
+       
     }
 
     const onSubmitName = (e,event) => {

@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import TodayMoreBt from './TodayMoreBt';
 import ProfileImg from './../../img/profileImg.svg';
 import TodayPlusBt from './../../img/TodayPlusBt.svg';
-
+import { useState } from 'react';
+import axios from 'axios';
 const ProfileBox = styled.div`
   background-color: #F5F5F5;
   border: 1px solid #B6B6B5;
@@ -76,8 +77,37 @@ const Date = styled.p`
 const ProfileBottomWrap = styled.button``;
 
 export default function TodayProfile({ content, link }) {
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+      message: "",
+    });
 
+    const handleInputChange = (event) => {
+      const {name, value} = event.target;
+      setFormData({...formData, [name]: value});
+    }
+
+    const handleMessage = () => {
+      const requestBody = {
+        message: formData.message,
+      };
+      axios('http://healody.shop/api/user/message',{
+          data:requestBody,
+          method: 'PATCH',
+      })
+      .then(function(response) {
+        alert('상태메세지가 변경되었습니다');
+        console.log(response.data.message);
+        const setmessage = response.data.message;
+        localStorage.setItem('nowMessage',setmessage);
+      })
+      .catch(function(error) {
+        console.log(error.response.status);
+      })
+    }
+
+    const navigate = useNavigate();
+    const name = localStorage.getItem('name');
+    // const date = new Date();
     function movePageTo(link) {
         navigate(link);
     }
@@ -90,10 +120,18 @@ export default function TodayProfile({ content, link }) {
                     <ProfileImage src={ProfileImg} />
                     <ProfileInfoBigWrap>
                         <ProfileInfoWrap>
-                            <Name>이민주</Name>
-                            <Date>2023.07.27.목</Date>
+                            <Name>{name}</Name>
+                            <p></p>
+                            <Date>ddf</Date>
                         </ProfileInfoWrap>
-                        <ProfileIntroInput placeholder="상태메시지를 입력하세요" />
+                        <ProfileIntroInput 
+                            name="message"
+                            value={formData.message}
+                            onChange={handleInputChange} 
+                            placeholder="상태메시지를 입력하세요" 
+                        />
+            
+                        <button onClick={handleMessage}>확인</button>
                     </ProfileInfoBigWrap>
                 </ProfileTopRightWrap>
             </ProfileTopWrap>

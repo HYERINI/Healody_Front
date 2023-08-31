@@ -133,31 +133,15 @@ function LoginPage() {
                     )
                 }
             })
-            
-        
-
-        
-        // axios.post('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login', {
-        //     data: requestBody,
-        //   })
-        //   .then(response => {
-        //     const token = response.data.token;
-        //     // 로컬 스토리지에 토큰 저장
-        //     localStorage.setItem('jwt_token', token);
-        //   });
-
-        //   const token = localStorage.getItem('jwt_token');
-        //   axios.get('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/auth/login', {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`
-        //     }
-        //   })
-        //   .then(response => {
-        //     // 서버로부터 받은 데이터 처리
-        //   })
-        //   .catch(error => {
-        //     // 에러 처리
-        //   });
+        axios('http://healody.shop/api/user', {
+            method: 'GET',
+        })
+        .then(function(response) {
+            console.log(response);
+        })
+        .catch(function(error) {
+            console.log(error.response.status);
+        })
     }
 
     
