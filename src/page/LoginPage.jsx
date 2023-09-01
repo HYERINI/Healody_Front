@@ -107,7 +107,7 @@ function LoginPage() {
             phone: formData.phone,
             password : formData.password,
         };
-        axios('http://healody.shop/api/auth/login',{
+        axios('https://healody.shop/api/auth/login',{
                 data: requestBody,
                 method: 'POST',
             })
@@ -133,7 +133,7 @@ function LoginPage() {
                     )
                 }
             })
-        axios('http://healody.shop/api/user', {
+        axios('https://healody.shop/api/user', {
             method: 'GET',
         })
         .then(function(response) {
