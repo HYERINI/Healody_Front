@@ -144,7 +144,8 @@ export default function MyTodayPage(){
                     }
                 });
                 const data = await response.json();
-                { data.code === 200 ? setRecordData(data) : setRecordData(null)}
+                console.log(data.result)
+                { data.result === 'SUCCESS' ? setRecordData(data) : setRecordData(null)}
                 console.log(recordData)
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -152,7 +153,6 @@ export default function MyTodayPage(){
         };
 
         fetchData();
-        console.log(recordData)
     }, []);
 
     const [activeButton, setActiveButton] = useState(null);
@@ -173,6 +173,7 @@ export default function MyTodayPage(){
         }
     };
 
+    console.log(recordData)
     return (
         <Container>
             <TodayHeader />
@@ -180,28 +181,28 @@ export default function MyTodayPage(){
             <TodayProfile content="내 기록 더보기" link="/create_newRecord" />
             <TodayMainBox title="할일 목록" width="90" content="내 할일 더보기" moreLink="/Celendar" />
 
-            {recordData == null || recordData === '' ? (
+            {recordData == null ? (
                 <TodayMainBox title="목표 목록" width="90" content="내 목표 더보기" link="/create_newGoal" text="goal" />
             ) : (
                 <TodayRecordBoxWrap>
                     <TodayRecordBoxTitleWrap>
                         <TodayGoalTitle content="목표 관리" width="100" />
 
-                        {recordData.behavior === '물마시기' ? (
+                        {recordData.data.behavior === '물마시기' ? (
                             <TodayGoalName>
-                                💧 {recordData.behavior} 도전중
+                                💧 {recordData.data.behavior} 도전중
                             </TodayGoalName>
-                        ) : recordData.behavior === '운동하기' ? (
+                        ) : recordData.data.behavior === '운동하기' ? (
                             <TodayGoalName>
-                                🏋🏻‍ {recordData.behavior} 도전중
+                                🏋🏻‍ {recordData.data.behavior} 도전중
                             </TodayGoalName>
-                        ) : recordData.behavior === '금연하기' ? (
+                        ) : recordData.data.behavior === '금연하기' ? (
                             <TodayGoalName>
-                                🚬 {recordData.behavior} 도전중
+                                🚬 {recordData.data.behavior} 도전중
                             </TodayGoalName>
                         ) : (
                             <TodayGoalName>
-                                🍻 {recordData.behavior} 도전중
+                                🍻 {recordData.data.behavior} 도전중
                             </TodayGoalName>
                         )}
                         <TodayRecordDelete src={Delete} />
@@ -209,7 +210,7 @@ export default function MyTodayPage(){
                     <TodayRecordContentWrap>
                         <TodayTitle>목표 {recordData.days} 일차</TodayTitle>
                         <TodayDates>2023.06.01 ~ 2023.06.30</TodayDates>
-                        {recordData.behavior === '물마시기' ? (
+                        {recordData.data.behavior === '물마시기' ? (
                             <TodayGoalDetailWrap>
                                 <StarWrap><StarImg src={starGoal} /></StarWrap>
                                 <WaterWrap>
@@ -219,7 +220,7 @@ export default function MyTodayPage(){
                                     <WaterImg src={water100} />
                                 </WaterWrap>
                             </TodayGoalDetailWrap>
-                        ) : recordData.behavior === '금주하기' ? (
+                        ) : recordData.data.behavior === '금주하기' ? (
                             <TodayGoalDetailWrap>
                                 <StarAlcoWrap><StarImg src={starGoal} /></StarAlcoWrap>
                                 <AlcoholWrap>
@@ -227,7 +228,7 @@ export default function MyTodayPage(){
                                     <WaterImg src={noAlco} />
                                 </AlcoholWrap>
                             </TodayGoalDetailWrap>
-                        ) : recordData.behavior === '금연하기' ? (
+                        ) : recordData.data.behavior === '금연하기' ? (
                             <TodayGoalDetailWrap>
                                 <StarAlcoWrap><StarImg src={starGoal} /></StarAlcoWrap>
                                 <AlcoholWrap>
