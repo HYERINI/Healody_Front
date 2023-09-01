@@ -89,33 +89,32 @@ function MypagePassword() {
         setFormData({...formData, [name]: value});
     }
 
-    const handlePassword = () => {
+    const handlePassword = async () => {
         const requestBody = {
             password: formData.password,
         };
-        axios('http://port-0-healody-ixj2mllkwb0s3.sel3.cloudtype.app/api/user/password/check',{
-            data: requestBody,
-            method: 'POST',
+        
+        try {
+            const response = await axios.post('https://healody.shop/api/user/password/check', requestBody, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('jwt_token')}`
-            },
-        })
-        .then(function () {
-            console.log(requestBody);
-            // const token = localStorage.getItem('jwt_token');
-            // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+            });
+    
+            const { result, message } = response.data;
+    
+            if (result === 'SUCCESS') {
+            navigate('/Mypage_MemberInformation'); // 비밀번호가 일치하면 마이페이지로 이동
+            } else if (result === 'FAILURE') {
+                alert(message); // 비밀번호가 일치하지 않을 때 서버에서 보내는 메시지 출력
+            }
+        } catch (error) {
+            console.error('비밀번호 확인 요청 에러:', error);
+        }
     }
 
     const navigate = useNavigate();
-   
-    const handleMemberInformationClick = () => {
-        navigate('/Mypage_MemberInformation');
-    };
-
+    
     return (
         <>
             <div style={styles.box}>
