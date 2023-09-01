@@ -103,7 +103,7 @@ const JoinMembershipPage = () => {
             email : formData.email
         };
         axios({
-            url: `http://healody.shop/api/auth/email/${requestBodyemail.email}/exists`,
+            url: `https://healody.shop/api/auth/email/${requestBodyemail.email}/exists`,
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -127,7 +127,7 @@ const JoinMembershipPage = () => {
         };
 
         axios({
-            url: `http://healody.shop/api/auth/email-confirm`,
+            url: `https://healody.shop/api/auth/email-confirm`,
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -151,7 +151,7 @@ const JoinMembershipPage = () => {
         };
 
         axios({
-            url: `http://healody.shop/api/auth/email-confirm/check`,
+            url: `https://healody.shop/api/auth/email-confirm/check`,
             method: 'POST',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -173,7 +173,7 @@ const JoinMembershipPage = () => {
         };
         console.log(nickname);
         axios({
-            url: 'http://healody.shop/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
+            url: 'https://healody.shop/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
             method: 'GET',
             headers: {
                 'Access-Control-Allow-Origin': '*',
@@ -200,7 +200,7 @@ const JoinMembershipPage = () => {
                 confirm : formData.confirm,
                 phone: formData.phone
         };
-        axios('http://healody.shop/api/auth/join',{
+        axios('https://healody.shop/api/auth/join',{
                 data: requestBody,
                 method: 'POST',
             })
@@ -314,7 +314,7 @@ const JoinMembershipPage = () => {
             };
             console.log(phone);
             axios({
-                url: `http://healody.shop/api/auth/phone/${requestBodyPhone.phone}/exists`,
+                url: `https://healody.shop/api/auth/phone/${requestBodyPhone.phone}/exists`,
                 method: 'GET',
                 headers: {
                     'Access-Control-Allow-Origin': '*',

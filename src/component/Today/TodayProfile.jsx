@@ -90,7 +90,7 @@ export default function TodayProfile({ content, link }) {
       const requestBody = {
         message: formData.message,
       };
-      axios('http://healody.shop/api/user/message',{
+      axios('https://healody.shop/api/user/message',{
           data:requestBody,
           method: 'PATCH',
       })

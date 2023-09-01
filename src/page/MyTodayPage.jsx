@@ -128,7 +128,7 @@ const WaterImg = styled.img`
 
 
 export default function MyTodayPage(){
-    const host = 'http://15.165.115.39:8080';
+    const host = 'https://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     const [recordData, setRecordData] = useState(null);
