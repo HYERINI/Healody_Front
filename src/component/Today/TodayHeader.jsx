@@ -42,13 +42,17 @@ const TodayHeader = () => {
         navigate('/Mypage_Password');
     }
 
+    function moveMyHelp(){
+        navigate('/Mypage_Layout');
+    }
+
     return (
         <Container>
             <LeftBox>
                 <LeftImage src={Logo} />
             </LeftBox>
             <RightBox>
-                <RightImage src={info} />
+                <RightImage src={info} onClick={moveMyHelp}/>
                 <RightImage src={profile} onClick={moveMypage}/>
             </RightBox>
         </Container>

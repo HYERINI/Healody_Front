@@ -7,17 +7,18 @@ import TodayDropDown from "../component/Today/TodayDropDown";
 import CalendarAddList from "../component/CalendarAddList";
 import styled from 'styled-components';
 import Select from "../component/Select";
+import CalendarCheckComponent from "../component/CalendarCheckComponent";
 
 import { Container } from "postcss";
 function Dosomething() {
-    const optionsHome = ['나', '엄마', '아빠', '동생'];
-    const optionsHome2 = ['고모', '고모부', '사촌형', '사촌동생'];
-    const optionsHome3 = ['이모', '이모부', '사촌누나', '사촌동생'];
-    const [choose, setChoose] = useState(null);
-    const [selectedDropDownValue, setSelectedDropDownValue] = useState('본가');
-    const handleOptionChange = (option) => {
-        setChoose(option);
-    };
+    // const optionsHome = ['나', '엄마', '아빠', '동생'];
+    // const optionsHome2 = ['고모', '고모부', '사촌형', '사촌동생'];
+    // const optionsHome3 = ['이모', '이모부', '사촌누나', '사촌동생'];
+    // const [choose, setChoose] = useState(null);
+    // const [selectedDropDownValue, setSelectedDropDownValue] = useState('본가');
+    // const handleOptionChange = (option) => {
+    //     setChoose(option);
+    // };
 
 
     const Container = styled.div`
@@ -26,14 +27,33 @@ function Dosomething() {
         position: relative;
         `;
 
+        const [schedules, setSchedules] = useState([]);
+        const handleAddSchedule = (newSchedule) => {
+            setSchedules([...schedules, newSchedule]);
+        };
+
     return (
         <>
         <Container>
             <TodayHeader />
             <TodayNav />
             <CalendarNav />
-            <CalendarComponent />
-            <div>
+            <CalendarComponent onAddSchedule={handleAddSchedule} />
+            <ul>
+                    {schedules.map((schedule, index) => (
+                        <li key={index}>
+                            <strong>날짜:</strong> {schedule.date.toLocaleDateString()}
+                            <strong>일정:</strong> {schedule.text}
+                        </li>
+                    ))}
+            </ul>
+            <br />
+
+            {/* 일정이 나오는 컴포넌트 */}
+            <CalendarCheckComponent />
+
+
+            {/* <div>
                 <TodayDropDown
                     selectedValue={selectedDropDownValue}
                     options={['본가', '친가', '외가']}
@@ -55,7 +75,7 @@ function Dosomething() {
                     <Select options={optionsHome3} onChange={handleOptionChange}/>
                     <CalendarAddList options={optionsHome3} onChange={handleOptionChange}/>
                 </Container>
-            )}
+            )} */}
         </Container>
         </>
     )

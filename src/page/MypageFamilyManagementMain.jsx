@@ -456,6 +456,9 @@ function MypageFamilyManagementMain() {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
     const [showModifyModal, setShowModifyModal] = useState(false);
     const [home, setHome] = useState('본가')
     const [home2, setHome2] = useState('')
@@ -468,11 +471,14 @@ function MypageFamilyManagementMain() {
     const [create, setCreate] = useState('돌봄계정 추가하기')
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [createNameInput, setCreateNameInput] = useState("");
+
     const [familyList, setFamilyList] = useState({});
+
     const [formData, setFormData] = useState({
         name: "",
         info: "",
     })
+
 
     useEffect(() => {
         // API 요청 보내기
@@ -485,6 +491,7 @@ function MypageFamilyManagementMain() {
             console.error("API 요청 중 오류 발생:", error);
           });
       }, [userId]);
+
 
     const onModifyClicked = () => {
         setShowModifyModal(true);
@@ -526,8 +533,10 @@ function MypageFamilyManagementMain() {
     }
 
     const onSubmitHomeInfo = (e) => { //집 설명 입력
+
         const {name, value} = e.target;
         setFormData({...formData, [name]: value});
+
     }
 
     const onChangeFamilyNameInput = (e) => {
@@ -579,11 +588,9 @@ function MypageFamilyManagementMain() {
     const navigate = useNavigate();
 
     const handleFamilyInviteClick = () => {
-      // 페이지 이동 처리
-      navigate('/Mypage_FamilyInvite');
+        // 페이지 이동 처리
+        navigate('/Mypage_FamilyInvite');
     };
-
-    
 
 
 
@@ -594,6 +601,7 @@ function MypageFamilyManagementMain() {
         };
         try {
             const response = await axios.post('https://healody.shop/api/home', requestBody, {
+
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -604,6 +612,7 @@ function MypageFamilyManagementMain() {
             if (result === 'CREATED') {
                 localStorage.setItem('homeId', homeId)
                 closeModal();
+
                 alert(message);
             } else if (result === 'FAILURE') {
                 alert(message);
@@ -611,9 +620,11 @@ function MypageFamilyManagementMain() {
         } catch (error) {
             console.error('집 생성 요청 에러:', error);
         }
+
             
         }
     
+
 
     return (
         <>  
@@ -652,6 +663,7 @@ function MypageFamilyManagementMain() {
                     ))}
                 </div>
             </div>
+
 
                 <button style={styles.purple_box3} onClick={onModifyClicked}>
                     <p style={styles.p}>집 추가하기</p>
@@ -698,6 +710,7 @@ function MypageFamilyManagementMain() {
 
             
         </div>
+
         </>
       );
 }
