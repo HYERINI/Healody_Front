@@ -61,7 +61,7 @@ export default function MyTodayRecordListPage() {
     const [recordData, setRecordData] = useState([]); // 데이터 가져오기
     const navigate = useNavigate();
 
-    const host = 'http://http://healody.shop';
+    const host = 'http://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
