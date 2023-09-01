@@ -456,9 +456,6 @@ function MypageFamilyManagementMain() {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-
     const [showModifyModal, setShowModifyModal] = useState(false);
     const [home, setHome] = useState('본가')
     const [home2, setHome2] = useState('')
