@@ -7,6 +7,7 @@ import TodayDropDown from "../component/Today/TodayDropDown";
 import Select from "../component/Select";
 import styled from 'styled-components';
 import CalendarAddList from "../component/CalendarAddList";
+import CalendarCheckComponent from "../component/CalendarCheckComponent";
 
 const HospitalSelectWrap = styled.div`
   margin-top: 0;
@@ -34,23 +35,38 @@ function Hospital() {
         }
     }
     const [selectedDropDownValue, setSelectedDropDownValue] = useState('본가');
-    
+    const [schedules, setSchedules] = useState([]);
+    const handleAddSchedule = (newSchedule) => {
+        setSchedules([...schedules, newSchedule]);
+    };
+
     return (
         <>
             <Container>
                 <TodayHeader />
                 <TodayNav />
                 <CalendarNav />
-                <CalendarComponent />
-                <HospitalSelectWrap style={styles.drop}>
+                <CalendarComponent onAddSchedule={handleAddSchedule} />
+                <ul>
+                    {schedules.map((schedule, index) => (
+                        <li key={index}>
+                            <strong>날짜:</strong> {schedule.date.toLocaleDateString()}
+                            <strong>일정:</strong> {schedule.text}
+                        </li>
+                    ))}
+                </ul>
+                <br />
+                {/* 일정이 나오는 컴포넌트 */}
+                <CalendarCheckComponent />
+                {/* <HospitalSelectWrap style={styles.drop}>
                     <TodayDropDown
                         selectedValue={selectedDropDownValue}
                         options={['본가', '친가', '외가']}
                         onClick={(value) => setSelectedDropDownValue(value)}
                     />
-                </HospitalSelectWrap>
+                </HospitalSelectWrap> */}
 
-                {selectedDropDownValue === '본가' ? (
+                {/* {selectedDropDownValue === '본가' ? (
                     <HospitalSelectWrap>
                         <Select options={optionsHome} onChange={handleOptionChange}/>
                         <CalendarAddList options={optionsHome} onChange={handleOptionChange}/>
@@ -65,7 +81,7 @@ function Hospital() {
                         <Select options={optionsHome3} onChange={handleOptionChange}/>
                         <CalendarAddList options={optionsHome3} onChange={handleOptionChange}/>
                     </HospitalSelectWrap>
-                )}
+                )} */}
             
             </Container>
         </>

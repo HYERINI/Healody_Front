@@ -99,12 +99,14 @@ export default function TodayProfile({ content, link }) {
         console.log(response.data.message);
         const setmessage = response.data.message;
         localStorage.setItem('nowMessage',setmessage);
+        // const nowMessage = localStorage.getItem('nowMessage');
       })
       .catch(function(error) {
         console.log(error.response.status);
       })
     }
 
+    const nowMessage = localStorage.getItem('nowMessage');
     const navigate = useNavigate();
     const name = localStorage.getItem('name');
     // const date = new Date();
@@ -126,7 +128,7 @@ export default function TodayProfile({ content, link }) {
                         </ProfileInfoWrap>
                         <ProfileIntroInput 
                             name="message"
-                            value={formData.message}
+                            value={nowMessage}
                             onChange={handleInputChange} 
                             placeholder="상태메시지를 입력하세요" 
                         />
