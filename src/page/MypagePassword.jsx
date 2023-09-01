@@ -96,9 +96,9 @@ function MypagePassword() {
         
         try {
             const response = await axios.post('https://healody.shop/api/user/password/check', requestBody, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
             });
     
             const { result, message } = response.data;

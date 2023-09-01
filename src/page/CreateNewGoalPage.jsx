@@ -70,7 +70,7 @@ function CreateNewGoalPage() {
     const [customGoal, setCustomGoal] = useState('');
     const [activeCompleteButton, setActiveCompleteButton] = useState(false);
 
-    const host = 'http://15.165.115.39:8080';
+    const host = 'https://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 

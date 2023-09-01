@@ -46,7 +46,6 @@ const Text = styled.p`
 `
 
 export default function TodayMainBox({ title, content, width, link, moreLink, text}){
-
     const navigate = useNavigate();
 
     function onMoveLink(){
