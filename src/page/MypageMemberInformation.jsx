@@ -132,7 +132,7 @@ export default function MypageMemberInformation(){
         }
         axios({
             url: host + '/api/user/info',
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Authorization':  'Bearer ' + token,
             },

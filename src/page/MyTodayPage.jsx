@@ -208,7 +208,7 @@ export default function MyTodayPage(){
                         <TodayRecordDelete src={Delete} />
                     </TodayRecordBoxTitleWrap>
                     <TodayRecordContentWrap>
-                        <TodayTitle>목표 {recordData.days} 일차</TodayTitle>
+                        <TodayTitle>목표 {recordData.data.days} 일차</TodayTitle>
                         <TodayDates>2023.06.01 ~ 2023.06.30</TodayDates>
                         {recordData.data.behavior === '물마시기' ? (
                             <TodayGoalDetailWrap>

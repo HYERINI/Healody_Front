@@ -17,7 +17,7 @@ const Family_main = () => {
   const [nickname, setNickname] = useState('');
   const [newCareNickname, setNewCareNickname] = useState('');
   const [image, setImage] = useState(null);
-  const host = 'http://15.165.115.39:8080';
+  const host = 'https://healody.shop';
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
 
