@@ -14,7 +14,7 @@ function Loading() {
         // code: `${ingacode}`,
         code: `${kakaoUrl}`,
     };
-    axios('http://healody.shop/api/auth/kakao/callback2',{
+    axios('https://healody.shop/api/auth/kakao/callback2',{
         data:requestBody,
         method: 'GET',
     })
