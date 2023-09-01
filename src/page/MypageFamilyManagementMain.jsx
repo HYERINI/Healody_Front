@@ -70,7 +70,7 @@ const styles = {
         height: "29px",
         width: "143.823px",
         border: "none",
-        marginTop: "-57px",
+        marginTop: "100px",
         marginLeft: "125px",
 
     },
@@ -452,6 +452,9 @@ const styles = {
 }
 
 function MypageFamilyManagementMain() {
+    
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
 
     const [showModifyModal, setShowModifyModal] = useState(false);
     const [home, setHome] = useState('본가')
@@ -465,7 +468,23 @@ function MypageFamilyManagementMain() {
     const [create, setCreate] = useState('돌봄계정 추가하기')
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [createNameInput, setCreateNameInput] = useState("");
-    const [familyList, setFamilyList] = useState([]);
+    const [familyList, setFamilyList] = useState({});
+    const [formData, setFormData] = useState({
+        name: "",
+        info: "",
+    })
+
+    useEffect(() => {
+        // API 요청 보내기
+        axios.get(`https://healody.shop/api/home/${userId}`)
+          .then((response) => {
+            const data = response.data.data;
+            setFamilyList(data);
+          })
+          .catch((error) => {
+            console.error("API 요청 중 오류 발생:", error);
+          });
+      }, [userId]);
 
     const onModifyClicked = () => {
         setShowModifyModal(true);
@@ -497,16 +516,18 @@ function MypageFamilyManagementMain() {
         setFamilyNameInput("")
     };
 
-    const onChangeHomeNameInput = (e) => {
-        setHomeNameInput(e.target.value);
+    const onSubmitHomeNameInput = (e) => { //집 이름 입력
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: value});
     };
 
     const onSubmitHome = (e) => {
         setHome(e.target.value);
     }
 
-    const onSubmitHome2 = (e) => {
-        setHome2(e.target.value);
+    const onSubmitHomeInfo = (e) => { //집 설명 입력
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: value});
     }
 
     const onChangeFamilyNameInput = (e) => {
@@ -551,6 +572,10 @@ function MypageFamilyManagementMain() {
         setCreateNameInput(e.target.value);
     };
 
+    const closeModal = () => {
+        setShowModifyModal(false);
+    }
+
     const navigate = useNavigate();
 
     const handleFamilyInviteClick = () => {
@@ -558,63 +583,121 @@ function MypageFamilyManagementMain() {
       navigate('/Mypage_FamilyInvite');
     };
 
-    useEffect(() => {
+    
 
-        const userId = localStorage.getItem('userId');
-        // 유저 정보를 받아오는 API 요청
-        axios.get(`https://healody.shop/api/home/${userId}`)
-        .then(response => {
-            setFamilyList(response.data.data);
-        })
-        .catch(error => {
-            console.error('Error fetching family data:', error);
-        });
-    }, []);
+
+
+    const createHome = async () => {
+        const requestBody = {
+            name: formData.name,
+            info: formData.info,
+        };
+        try {
+            const response = await axios.post('https://healody.shop/api/home', requestBody, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+            });
+    
+            const { result, message } = response.data;
+            const homeId = response.data.homeId;
+            if (result === 'CREATED') {
+                localStorage.setItem('homeId', homeId)
+                closeModal();
+                alert(message);
+            } else if (result === 'FAILURE') {
+                alert(message);
+            }
+        } catch (error) {
+            console.error('집 생성 요청 에러:', error);
+        }
+            
+        }
+    
 
     return (
-        <>
-          <div style={styles.total_box}>
-            <div style={styles.header}>
-              <Header />
-            </div>
-      
-            <div style={styles.healodyLogo}>
-              <healodyLogo/>
-            </div>
-      
-            {Object.keys(familyList.data).map(house => (
-              <div key={house} style={styles.purple_box}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="328" height="76" viewBox="0 0 328 76" fill="none">
-                  <path d="M1 5C1 2.79086 2.79086 1 5 1H323C325.209 1 327 2.79086 327 5V71C327 73.2091 325.209 75 323 75H5C2.79086 75 1 73.2091 1 71V5Z" fill="white" stroke="#6F02DB" stroke-width="2" />
-                </svg>
-      
-                <div style={styles.box1}>
-                  <p style={styles.p} onClick={() => onModifyClicked(house)}>{house}</p>
-                  {showModifyModal[house] && (
-                    <div style={styles.ModifyModalBackdrop}>
-                      <div style={styles.ModifyModal}>
-                        <p style={styles.p4}>{house}</p>
-                        {/* Modify modal content for the house */}
-                      </div>
-                    </div>
-                  )}
-                  {/* Display user and care-user for the house */}
-                  {familyList.data[house].user.map((user, index) => (
-                    <div key={user.id} style={styles.box2}>
-                      <p style={styles.p}>{user.nickname}</p>
-                    </div>
-                  ))}
-                  {familyList.data[house]["care-user"].map((careUser, index) => (
-                    <div key={careUser.id} style={styles.box2}>
-                      <p style={styles.p}>{careUser.nickname}</p>
-                    </div>
-                  ))}
+        <>  
+        <div style={styles.total_box}>
+                <div style={styles.header}>
+                    <Header />
                 </div>
-              </div>
-            ))}
+
+                <div style={styles.healodyLogo}>
+                    <healodyLogo/>
+                </div>  
+                
       
-            {/* ... */}
-          </div>
+            <div style={styles.purple_box3}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="328" height="76" viewBox="0 0 328 76" fill="none">
+                    <path d="M1 5C1 2.79086 2.79086 1 5 1H323C325.209 1 327 2.79086 327 5V71C327 73.2091 325.209 75 323 75H5C2.79086 75 1 73.2091 1 71V5Z" fill="white" stroke="#6F02DB" stroke-width="2" />
+                </svg>
+                <div style={styles.box1}>
+                    <p style={styles.p4}>본가</p>
+                    {Object.keys(familyList).map((household) => (
+                        <div style={styles.box2} key={household}>
+                            <h2>{household}</h2>
+                            <h3>사용자</h3>
+                            <ul>
+                                {familyList[household].user.map((user) => (
+                                    <li key={user.id}>{user.name}</li>
+                                ))}
+                            </ul>
+                            <h3>돌봄 사용자</h3>
+                            <ul>
+                            {   familyList[household]["care-user"].map((careUser) => (
+                                <li key={careUser.id}>{careUser.nickname}</li>
+                            ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+                <button style={styles.purple_box3} onClick={onModifyClicked}>
+                    <p style={styles.p}>집 추가하기</p>
+                </button>
+                {showModifyModal && (
+                            <div style={styles.ModifyModalBackdrop}>
+                                <div style={styles.ModifyModal}>
+                                    <p style={styles.p}>집 이름 입력</p>
+                                    <div style={styles.input_box}>
+                                        <input
+                                            name="name"
+                                            type="text"
+                                            value={formData.name}
+                                            style={styles.input}
+                                            onChange={onSubmitHomeNameInput}
+                                            placeholder="생성할 집의 이름을 입력해주세요."
+                                        />
+                                    </div>
+
+                                    <p style={styles.p}>집 설명 입력</p>
+                                    <div style={styles.input_box}>
+                                        <input
+                                            name="info"
+                                            type="text"
+                                            value={formData.info}
+                                            style={styles.input}
+                                            onChange={onSubmitHomeInfo}
+                                            placeholder="집에 대한 설명을 입력해주세요."
+                                        />
+                                    </div>
+
+                                    
+                                    <button style={styles.input_box3} onClick={createHome}>
+                                        <p style={styles.p5}>완료</p>
+                                    </button>
+                                    <button style={styles.input_box3} onClick={closeModal}>
+                                        <p style={styles.p5}>취소</p>
+                                    </button>
+                                    
+
+                                </div>
+                            </div>
+                        )}
+
+            
+        </div>
         </>
       );
 }
