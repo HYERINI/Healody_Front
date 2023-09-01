@@ -562,7 +562,7 @@ function MypageFamilyManagementMain() {
 
         const userId = localStorage.getItem('userId');
         // 유저 정보를 받아오는 API 요청
-        axios.get('https://healody.shop/api/home/${userId}')
+        axios.get(`https://healody.shop/api/home/${userId}`)
         .then(response => {
             setFamilyList(response.data.data);
         })
