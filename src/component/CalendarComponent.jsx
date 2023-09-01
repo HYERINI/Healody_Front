@@ -104,9 +104,13 @@ function CalendarComponent({ onAddSchedule }) {
      })
   }
 
+  
+
+
+
   return (
     <div>
-      <button>가족 조회하기</button>
+      <button onClick={handleFamily}>가족 조회하기</button>
       <ul>
 
       </ul>

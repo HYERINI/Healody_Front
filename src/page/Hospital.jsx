@@ -15,14 +15,14 @@ const HospitalSelectWrap = styled.div`
 
 
 function Hospital() {
-    const optionsHome = ['나', '엄마', '아빠', '동생'];
-    const optionsHome2 = ['고모', '고모부', '사촌형', '사촌동생'];
-    const optionsHome3 = ['이모', '이모부', '사촌누나', '사촌동생'];
-    const [choose, setChoose] = useState(null);
+    // const optionsHome = ['나', '엄마', '아빠', '동생'];
+    // const optionsHome2 = ['고모', '고모부', '사촌형', '사촌동생'];
+    // const optionsHome3 = ['이모', '이모부', '사촌누나', '사촌동생'];
+    // const [choose, setChoose] = useState(null);
 
-    const handleOptionChange = (option) => {
-        setChoose(option);
-    };
+    // const handleOptionChange = (option) => {
+    //     setChoose(option);
+    // };
 
     const Container = styled.div`
         width: 360px;
