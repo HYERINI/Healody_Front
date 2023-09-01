@@ -179,7 +179,7 @@ export default function MyTodayPage(){
             <TodayHeader />
             <TodayNav />
             <TodayProfile content="내 기록 더보기" link="/create_newRecord" />
-            <TodayMainBox title="할일 목록" width="90" content="내 할일 더보기" moreLink="/Celendar" />
+            <TodayMainBox title="할일 목록" width="90" content="내 할일 더보기" moreLink="/Calendar" />
 
             {recordData == null ? (
                 <TodayMainBox title="목표 목록" width="90" content="내 목표 더보기" link="/create_newGoal" text="goal" />

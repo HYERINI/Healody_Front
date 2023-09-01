@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import Header from '../component/Today/TodayHeader';
 
 const Container = styled.div`
@@ -70,6 +70,7 @@ export default function MypageMemberInformation(){
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
+    const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [emailMessage, setEmailMessage] = useState('')
     const [isEmail, setIsEmail] = useState(false)
@@ -138,6 +139,8 @@ export default function MypageMemberInformation(){
             },
             data: requestBody
         }).then(function(response){
+            alert(response.data.message)
+            navigate('/my_today')
             console.log(response.data)
         })
     }

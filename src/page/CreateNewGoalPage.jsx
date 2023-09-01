@@ -124,7 +124,7 @@ function CreateNewGoalPage() {
             data: requestBody
         }).then((response) =>{
             console.log(response);
-            if(response.data.code === 200){
+            if(response.status === 200){
                 alert(response.data.data);
                 navigate('/my_today');
             }
