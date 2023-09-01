@@ -144,7 +144,7 @@ export default function MyTodayPage(){
                     }
                 });
                 const data = await response.json();
-                { data.status === 200 ? setRecordData(data) : setRecordData(null)}
+                { data.code === 200 ? setRecordData(data) : setRecordData(null)}
                 console.log(recordData)
             } catch (error) {
                 console.error('Error fetching data:', error);
