@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Header } from "../component/Header";
+import Header from "../component/Today/TodayHeader";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const styles = {
     header: {
-        backgroundColor: "transparent",
-        left: 0,
-        position: "absolute",
-        top: "42px"
+        backgroundColor: "transparent"
     },
 
     healodyLogo: {
@@ -20,9 +17,9 @@ const styles = {
     input: { //엄마곰~
         color: "#000",
         display: "flex",
-        width: "267px",
-        height: "32px",
-        marginLeft: "18px",
+        border: "0.5px solid #000000",
+        borderRadius: "10px",
+        width: "100%",
         textAlign: "center",
         fontSize: "13px",
         fontWeight: 400,
@@ -238,8 +235,6 @@ const styles = {
     },
 
     total_box: {
-        marginLeft: "16px",
-        marginRight: "16px",
     },
 
     ModifyModalBackdrop: {  //배경을 회색으로
@@ -255,12 +250,15 @@ const styles = {
     },
 
     ModifyModal: {  //삭제 박스
-        width: "328px",
-        height: "429px",
+        width: '90%',
+        height: '90vh',
         backgroundColor: "#fff",
         padding: "20px",
         borderRadius: "13px",
-        marginRight: "16px"
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     CreateModalBackdrop: {  //배경을 회색으로
@@ -309,15 +307,10 @@ const styles = {
     },
 
     input_box: {
-        border: "0.5px solid #000000",
-        height: "34px",
-        width: "311.82px",
+        width: "100%",
         textAlign: "center",
         padding: "5px",
         borderRadius: "13px",
-        marginLeft: "0px",
-        marginRight: "34px"
-
     },
 
     input_box2: {
@@ -332,17 +325,30 @@ const styles = {
 
     },
 
-    input_box3: {
+    input_complete: {
         border: "0.5px solid #000000",
-        backgroundColor: "#FFF",
-        height: "34px",
-        width: "324px",
+        backgroundColor: "#6F02DB",
+        height: "40px",
+        width: "100%",
         textAlign: "center",
         padding: "5px",
-        borderRadius: "13px",
-        marginTop: "49px",
-        marginLeft: "0px",
-        marginRight: "18px"
+        fontWeight: "bolder",
+        borderRadius: "10px",
+        marginTop: "50px",
+        color: "white"
+    },
+
+    input_box3: {
+        border: "0.5px solid #000000",
+        backgroundColor: "#6F02DB",
+        height: "40px",
+        width: "100%",
+        textAlign: "center",
+        padding: "5px",
+        fontWeight: "bolder",
+        borderRadius: "10px",
+        marginTop: "20px",
+        color: "white"
     },
 
     input_box4: {
@@ -448,6 +454,18 @@ const styles = {
         marginTop: "-31px",
         marginLeft: "47px",
     },
+    modalBody: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    title: {
+        fontSize: '19px',
+        fontWeight: 'bolder',
+        margin: '15px 0 5px 0'
+    }
 }
 
 function MypageFamilyManagementMain() {
@@ -608,7 +626,6 @@ function MypageFamilyManagementMain() {
             if (result === 'CREATED') {
                 localStorage.setItem('homeId', homeId)
                 closeModal();
-
                 alert(message);
             } else if (result === 'FAILURE') {
                 alert(message);
@@ -660,44 +677,45 @@ function MypageFamilyManagementMain() {
                 </div>
             </div>
 
-
                 <button style={styles.purple_box3} onClick={onModifyClicked}>
                     <p style={styles.p}>집 추가하기</p>
                 </button>
                 {showModifyModal && (
                             <div style={styles.ModifyModalBackdrop}>
                                 <div style={styles.ModifyModal}>
-                                    <p style={styles.p}>집 이름 입력</p>
-                                    <div style={styles.input_box}>
-                                        <input
-                                            name="name"
-                                            type="text"
-                                            value={formData.name}
-                                            style={styles.input}
-                                            onChange={onSubmitHomeNameInput}
-                                            placeholder="생성할 집의 이름을 입력해주세요."
-                                        />
+                                    <div style={styles.modalBody}>
+                                        <p style={styles.title}>집 이름 입력</p>
+                                        <div style={styles.input_box}>
+                                            <input
+                                                name="name"
+                                                type="text"
+                                                value={formData.name}
+                                                style={styles.input}
+                                                onChange={onSubmitHomeNameInput}
+                                                placeholder="생성할 집의 이름을 입력해주세요."
+                                            />
+                                        </div>
+
+                                        <p style={styles.title}>집 설명 입력</p>
+                                        <div style={styles.input_box}>
+                                            <input
+                                                name="info"
+                                                type="text"
+                                                value={formData.info}
+                                                style={styles.input}
+                                                onChange={onSubmitHomeInfo}
+                                                placeholder="집에 대한 설명을 입력해주세요."
+                                            />
+                                        </div>
+
+
+                                        <button style={styles.input_complete} onClick={createHome}>
+                                            완료
+                                        </button>
+                                        <button style={styles.input_box3} onClick={closeModal}>
+                                            취소
+                                        </button>
                                     </div>
-
-                                    <p style={styles.p}>집 설명 입력</p>
-                                    <div style={styles.input_box}>
-                                        <input
-                                            name="info"
-                                            type="text"
-                                            value={formData.info}
-                                            style={styles.input}
-                                            onChange={onSubmitHomeInfo}
-                                            placeholder="집에 대한 설명을 입력해주세요."
-                                        />
-                                    </div>
-
-
-                                    <button style={styles.input_box3} onClick={createHome}>
-                                        <p style={styles.p5}>완료</p>
-                                    </button>
-                                    <button style={styles.input_box3} onClick={closeModal}>
-                                        <p style={styles.p5}>취소</p>
-                                    </button>
 
 
                                 </div>

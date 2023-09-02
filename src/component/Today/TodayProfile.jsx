@@ -17,9 +17,11 @@ const ProfileBox = styled.div`
 `
 
 const ProfileImage = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  border: 1px solid black;
+  margin-left: 15px;
 `
 
 const ProfileTopWrap = styled.div`
@@ -31,7 +33,7 @@ const ProfileTopWrap = styled.div`
 const ProfileTopRightWrap = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
 `
 
 const ProfileInfoBigWrap = styled.div`
@@ -50,7 +52,7 @@ const ProfileIntroInput = styled.input`
   border: 1px solid #B6B6B5;
   border-radius: 20px;
   padding: 5px 10px;
-  margin-left: 10px;
+  margin-left: 5px;
   width: 90%;
 `
 
@@ -66,17 +68,18 @@ const ProfileAddBt = styled.img`
 const Name = styled.p`
   color: black;
   margin: 10px;
+  font-size: 18px;
 `
 
 const Date = styled.p`
   color: #787878;
-  margin: 12px 10px;
+  margin: 15px 5px 0 5px;
   font-size: 13px;
 `
 
 const ProfileBottomWrap = styled.button``;
 
-export default function TodayProfile({ content, link }) {
+export default function TodayProfile({ content, link, userName, userBirth, userImage }) {
     const [formData, setFormData] = useState({
       message: "",
     });
@@ -119,12 +122,12 @@ export default function TodayProfile({ content, link }) {
             <ProfileAddBt src={TodayPlusBt} onClick={() => movePageTo(link)} />
             <ProfileTopWrap>
                 <ProfileTopRightWrap>
-                    <ProfileImage src={ProfileImg} />
+                    <ProfileImage src={userImage} />
                     <ProfileInfoBigWrap>
                         <ProfileInfoWrap>
-                            <Name>{name}</Name>
+                            <Name>{userName}</Name>
                             <p></p>
-                            <Date>{nowMessage}</Date>
+                            <Date>{userBirth}</Date>
                         </ProfileInfoWrap>
                         <ProfileIntroInput 
                             name="message"
@@ -133,7 +136,7 @@ export default function TodayProfile({ content, link }) {
                             placeholder="상태메시지를 입력하세요" 
                         />
             
-                        <button onClick={handleMessage}>확인</button>
+                        {/*<button onClick={handleMessage}>확인</button>*/}
                     </ProfileInfoBigWrap>
                 </ProfileTopRightWrap>
             </ProfileTopWrap>

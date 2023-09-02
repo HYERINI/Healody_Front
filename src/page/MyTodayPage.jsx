@@ -131,8 +131,12 @@ export default function MyTodayPage(){
     const host = 'https://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
+    const [userName, setUserName] = useState('');
+    const [userBirth, setUserBirth] = useState('');
+    const [userImage, setUserImage] = useState('');
     const [recordData, setRecordData] = useState(null);
 
+    console.log(token, userId)
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
         const fetchData = async () => {
@@ -151,8 +155,29 @@ export default function MyTodayPage(){
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
+    }, []);
+
+    useEffect(() => {
+        // 데이터 가져오는 로직 (예시)
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(host + '/api/user', {
+                    method: 'GET',
+                    headers:{
+                        'Authorization' : 'Bearer ' + token
+                    },
+                });
+                const data = await response.json();
+                setUserName(data.data.nickname);
+                setUserImage(data.data.image);
+                setUserBirth(data.data.birth);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchUserData();
     }, []);
 
     const [activeButton, setActiveButton] = useState(null);
@@ -178,7 +203,7 @@ export default function MyTodayPage(){
         <Container>
             <TodayHeader />
             <TodayNav />
-            <TodayProfile content="내 기록 더보기" link="/create_newRecord" />
+            <TodayProfile content="내 기록 더보기" link="/create_newRecord" userName={userName} userBirth={userBirth} userImage={userImage}/>
             <TodayMainBox title="할일 목록" width="90" content="내 할일 더보기" moreLink="/Calendar" />
 
             {recordData == null ? (

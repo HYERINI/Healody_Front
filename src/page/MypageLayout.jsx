@@ -37,6 +37,10 @@ const ProfileTopWrap = styled.div`
 
 const ProfileImg = styled.img`
     margin-right: 10px;
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 50%;
 `
 
 const ProfileInfoWrap = styled.div`
@@ -82,6 +86,7 @@ function MypageLayout() {
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
+    const [userImage, setUserImage] = useState('');
     const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
@@ -97,6 +102,7 @@ function MypageLayout() {
                 const data = await response.json();
                 setUserName(data.data.name);
                 setUserEmail(data.data.email);
+                setUserImage(data.data.image);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -121,6 +127,12 @@ function MypageLayout() {
         navigate('/Mypage_Password');
     };
 
+    const logout = () => {
+        alert('로그아웃 되었습니다.');
+        localStorage.clear();
+        navigate('/login_page');
+    }
+
     return (
         <Container>
             <Header />
@@ -128,7 +140,7 @@ function MypageLayout() {
                 <LayoutBox>
                     <ProfileWrap>
                         <ProfileTopWrap>
-                            <ProfileImg src={profile} />
+                            <ProfileImg src={userImage} />
                             <ProfileInfoWrap>
                                 <ProfileName>{userName}</ProfileName>
                                 <ProfileEmail>{userEmail}</ProfileEmail>
@@ -152,7 +164,7 @@ function MypageLayout() {
                     <LayoutLink>개인정보 처리 방침</LayoutLink>
                 </LayoutBox>
                 <LayoutBox>
-                    <LayoutTitle>로그아웃</LayoutTitle>
+                    <LayoutTitle onClick={logout}>로그아웃</LayoutTitle>
                 </LayoutBox>
             </Body>
         </Container>

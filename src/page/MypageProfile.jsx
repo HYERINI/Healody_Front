@@ -94,9 +94,15 @@ export default function MypageProfile() {
             const data = new FormData();
 
             data.append('image', image);
-            data.append('nickname', name);
 
-            console.log(data)
+            const request = {
+                'nickname': name
+            };
+
+            const requestDataBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
+            data.append('request', requestDataBlob);
+
+            // console.log('보내는데이터:' + data)
             axios.patch(host + '/api/user/profile', data, {
                 headers: {
                     'Authorization': 'Bearer ' + token
