@@ -93,7 +93,7 @@ function AddInfopage() {
             birth: formData.birth,
             phone: formData.phone,
         };
-        axios(`https://healody.shop/api/auth/kakao/join/getInfo?email=${requestBody.email}&nickName=${requestBody.nickName}&gender=${requestBody.gender}&brith=${requestBody.birth}&phone=${requestBody.phone}`, {
+        axios(`https://healody.shop/api/auth/kakao/join/getInfo?email=${requestBody.email}&nickName=${requestBody.nickName}&gender=${requestBody.gender}&birth=${requestBody.birth}&phone=${requestBody.phone}`, {
             method: 'GET',
         })
         .then(function(response) {
