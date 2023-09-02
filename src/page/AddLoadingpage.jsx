@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 function AddLoadingpage() {
     const navigate = useNavigate();
     const phone = localStorage.getItem('phone');
     
     const requestBody = {
-        phone: {phone},
+        phone,
         password: "kakao12341234!?",
 
     }
