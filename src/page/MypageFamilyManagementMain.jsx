@@ -36,29 +36,34 @@ const styles = {
         marginLeft: "16px"
     },
 
-    box1: { //본가
-        display: "flex",
-        height: "29px",
-        width: "300px",
-        border: "none",
-        marginTop: "-50px",
-        marginLeft: "18px",
-        flexDirection: "column",
-        justifyContent: "center",
-        flexShrink: 0,
+    box1: {
     },
 
 
     box2: {
         border: "0.5px solid #000000",
-        height: "34px",
-        width: "293px",
-        textAlign: "center",
-        padding: "5px",
+        width: "100%",
+        padding: "5px 15px",
         borderRadius: "13px",
         marginTop: "15px",
-        marginLeft: "34px",
-        marginRight: "34px",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
+    },
+
+    houseBox:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    },
+    houseName:{
+        fontSize: '15px',
+        fontWeight: 'bolder',
+        borderRadius: '10px',
+        margin: '5px 0',
+        backgroundColor: '#6F02DB',
+        padding: '5px 10px',
+        color: 'white'
     },
 
     box3: {
@@ -84,13 +89,15 @@ const styles = {
     },
 
     purple_box3: {  //집 추가하기
-        width: "328px",
-        height: "76px",
-        fill: "#FFF",
-        strokeWidth: "2px",
-        stroke: "#6F02DB",
-        marginTop: "17px",
-        marginLeft: "16px"
+        backgroundColor: "#6F02DB",
+        width: '90%',
+        color: 'white',
+        margin: '20px auto',
+        padding: '5px 0',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderRadius: '10px'
     },
 
     p: {
@@ -342,7 +349,7 @@ const styles = {
         border: "0.5px solid #000000",
         backgroundColor: "#6F02DB",
         height: "40px",
-        width: "100%",
+        width: "90%",
         textAlign: "center",
         padding: "5px",
         fontWeight: "bolder",
@@ -646,20 +653,12 @@ function MypageFamilyManagementMain() {
                     <Header />
                 </div>
 
-                <div style={styles.healodyLogo}>
-                    <healodyLogo/>
-                </div>
-
-
-            <div style={styles.purple_box3}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="328" height="76" viewBox="0 0 328 76" fill="none">
-                    <path d="M1 5C1 2.79086 2.79086 1 5 1H323C325.209 1 327 2.79086 327 5V71C327 73.2091 325.209 75 323 75H5C2.79086 75 1 73.2091 1 71V5Z" fill="white" stroke="#6F02DB" stroke-width="2" />
-                </svg>
-                <div style={styles.box1}>
-                    <p style={styles.p4}>본가</p>
-                    {Object.keys(familyList).map((household) => (
+            <div>
+                <div>
+                    {/*<div style={styles.houseBox}>*/}
+                        {Object.keys(familyList).map((household) => (
                         <div style={styles.box2} key={household}>
-                            <h2>{household}</h2>
+                            <h2 style={styles.houseName}>{household}</h2>
                             <h3>사용자</h3>
                             <ul>
                                 {familyList[household].user.map((user) => (
@@ -678,7 +677,7 @@ function MypageFamilyManagementMain() {
             </div>
 
                 <button style={styles.purple_box3} onClick={onModifyClicked}>
-                    <p style={styles.p}>집 추가하기</p>
+                    집 추가하기
                 </button>
                 {showModifyModal && (
                             <div style={styles.ModifyModalBackdrop}>
