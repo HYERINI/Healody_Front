@@ -96,8 +96,8 @@ export default function TodayProfile({ content, link }) {
       })
       .then(function(response) {
         alert('상태메세지가 변경되었습니다');
-        console.log(response.data.message);
-        const setmessage = response.data.message;
+        console.log(response.data.data.message);
+        const setmessage = response.data.data.message;
         localStorage.setItem('nowMessage',setmessage);
         // const nowMessage = localStorage.getItem('nowMessage');
       })
@@ -124,11 +124,11 @@ export default function TodayProfile({ content, link }) {
                         <ProfileInfoWrap>
                             <Name>{name}</Name>
                             <p></p>
-                            <Date>ddf</Date>
+                            <Date>{nowMessage}</Date>
                         </ProfileInfoWrap>
                         <ProfileIntroInput 
                             name="message"
-                            value={nowMessage}
+                            value={formData.message}
                             onChange={handleInputChange} 
                             placeholder="상태메시지를 입력하세요" 
                         />
