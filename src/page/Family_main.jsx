@@ -292,6 +292,7 @@ const Family_main = () => {
                                 돌봄 계정을 생성하고 관리해봐요!
                             </p> */}
                             {familyData &&
+                                familyData[selectedFamily] &&
                                 familyData[selectedFamily]["care-user"]}
                         </div>
                     </div>
