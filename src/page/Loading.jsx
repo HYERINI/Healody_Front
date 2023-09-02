@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import Email from './../component/Email';
 
 function Loading() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -7,7 +9,7 @@ function Loading() {
     console.log(code);
     // const id = localStorage.setItem('')
     const code1 = code.toString();
-
+    const navigate = useNavigate();
     console.log(window.location.href);
     // let ingacode = new URL(window.location.href).searchParams.get('code');
     // console.log(ingacode);
@@ -18,8 +20,16 @@ function Loading() {
         method: "GET",
     })
         .then(function (response) {
-            alert("로그인됐다임마");
+            alert("카카오로그인이 되셨습니다.");
             console.log(response);
+            if(response.data.staus == false) {
+                localStorage.setItem('email',response.data.email);
+                navigate('/add_info');
+            }
+            else {
+                localStorage.setItem('phone',response.data.phone);
+                navigate('/ka_login');
+            }
         })
         .catch(function (error) {
             console.log(error);

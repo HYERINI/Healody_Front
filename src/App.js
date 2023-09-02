@@ -26,6 +26,9 @@ import Celendar from './page/Celendar';
 import Hospital from './page/Hospital';
 import Dosomething from './page/Dosomething';
 import Loading from './page/Loading';
+import AddInfopage from './page/AddInfopage';
+import AddLoadingpage from './page/AddLoadingpage';
+import Ka_loginpage from './page/Ka_loginpage';
 // import KakaoLoginRedirect from './component/KakaoLoginRedirect';
 // import tailwindcss from 'tailwind.css';
 
@@ -61,6 +64,10 @@ function App() {
             <Route path="/login_page" element={<LoginPage />} />
             <Route path="/agree_page" element={<AgreePage />} />
             <Route path="/phone_certified" element={<PhoneCertified />} />
+
+            <Route path="/add_info" element={<AddInfopage />} />
+            <Route path="/add_loadingpage" element={<AddLoadingpage />} />
+            <Route path="/ka_login" element={<Ka_loginpage />} />
 
             <Route path="/my_today" element={<MyTodayPage />}/>
             <Route path="/my_todayRecord" element={<MyTodayRecordListPage />}/>
