@@ -22,12 +22,12 @@ function Loading() {
         .then(function (response) {
             alert("카카오로그인이 되셨습니다.");
             console.log(response);
-            console.log(response.data.data.status);
-            if(response.data.data.staus == false) {
+            console.log(response.data.status);
+            if(response.data.status == false) {
                 localStorage.setItem('email',response.data.email);
                 navigate('/add_info');
             }
-            else if(response.data.data.staus == true) {
+            else if(response.data.status == true) {
                 localStorage.setItem('phone',response.data.phone);
                 navigate('/ka_login');
             }
