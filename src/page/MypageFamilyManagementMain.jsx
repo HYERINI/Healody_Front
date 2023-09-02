@@ -39,9 +39,11 @@ const styles = {
     box1: {
     },
 
-
+    container: {
+        width: '360px',
+        margin: '0 auto',
+    },
     box2: {
-        border: "0.5px solid #000000",
         width: "100%",
         padding: "5px 15px",
         borderRadius: "13px",
@@ -64,6 +66,10 @@ const styles = {
         backgroundColor: '#6F02DB',
         padding: '5px 10px',
         color: 'white'
+    },
+    h3: {
+        fontSize: '18px',
+        fontWeight: 'bolder'
     },
 
     box3: {
@@ -494,13 +500,10 @@ function MypageFamilyManagementMain() {
     const [createNameInput, setCreateNameInput] = useState("");
 
     const [familyList, setFamilyList] = useState({});
-
     const [formData, setFormData] = useState({
         name: "",
         info: "",
     })
-
-
     useEffect(() => {
         // API 요청 보내기
         axios.get(`https://healody.shop/api/home/${userId}`)
@@ -508,11 +511,7 @@ function MypageFamilyManagementMain() {
             const data = response.data.data;
             setFamilyList(data);
           })
-          .catch((error) => {
-            console.error("API 요청 중 오류 발생:", error);
-          });
-      }, [userId]);
-
+      }, []);
 
     const onModifyClicked = () => {
         setShowModifyModal(true);
@@ -640,11 +639,7 @@ function MypageFamilyManagementMain() {
         } catch (error) {
             console.error('집 생성 요청 에러:', error);
         }
-
-
-        }
-
-
+    }
 
     return (
         <>
@@ -653,10 +648,9 @@ function MypageFamilyManagementMain() {
                     <Header />
                 </div>
 
-            <div>
+            <div style={styles.container}>
                 <div>
-                    {/*<div style={styles.houseBox}>*/}
-                        {Object.keys(familyList).map((household) => (
+                    {Object.keys(familyList).map((household) => (
                         <div style={styles.box2} key={household}>
                             <h2 style={styles.houseName}>{household}</h2>
                             <h3>사용자</h3>
@@ -667,15 +661,14 @@ function MypageFamilyManagementMain() {
                             </ul>
                             <h3>돌봄 사용자</h3>
                             <ul>
-                            {   familyList[household]["care-user"].map((careUser) => (
-                                <li key={careUser.id}>{careUser.nickname}</li>
-                            ))}
+                                {   familyList[household]["care-user"].map((careUser) => (
+                                    <li key={careUser.id}>{careUser.nickname}</li>
+                                ))}
                             </ul>
                         </div>
                     ))}
                 </div>
-            </div>
-
+        </div>
                 <button style={styles.purple_box3} onClick={onModifyClicked}>
                     집 추가하기
                 </button>
