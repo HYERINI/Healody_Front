@@ -5,6 +5,8 @@ function Loading() {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     console.log(code);
+    // const id = localStorage.setItem('')
+    const code1 = code.toString();
 
     console.log(window.location.href);
     // let ingacode = new URL(window.location.href).searchParams.get('code');
@@ -12,12 +14,7 @@ function Loading() {
     // let kakaoUrl = new URL(window.location.href);
     // console.log(kakaoUrl);
     // const ingastr = ingacode.toString();
-    const requestBody = {
-        // code: `${ingacode}`,
-        code: code,
-    };
-    axios("https://healody.shop/api/auth/kakao/callback2", {
-        data: requestBody,
+    axios(`https://healody.shop/api/auth/kakao/callback2?code=${code1}`, {
         method: "GET",
     })
         .then(function (response) {
