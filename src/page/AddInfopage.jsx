@@ -89,7 +89,7 @@ function AddInfopage() {
         const requestBody = {
             email: localStorage.getItem('email'),
             nickName: formData.nickName,
-            gender: formData.gender,
+            gender: formData.gender.toString(),
             birth: formData.birth,
             phone: formData.phone,
         };
