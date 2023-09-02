@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import Header from "../component/Today/TodayHeader";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import threedot from '../img/threeDot.svg';
 
 const styles = {
     header: {
         backgroundColor: "transparent"
     },
-
+    houseTopWrap: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
     healodyLogo: {
         height: "38px",
         position: "relative",
@@ -63,9 +68,9 @@ const styles = {
         fontWeight: 'bolder',
         borderRadius: '10px',
         margin: '5px 0',
-        backgroundColor: '#6F02DB',
+        width: '100%',
+        border: '1px solid black',
         padding: '5px 10px',
-        color: 'white'
     },
     h3: {
         fontSize: '18px',
@@ -355,7 +360,7 @@ const styles = {
         border: "0.5px solid #000000",
         backgroundColor: "#6F02DB",
         height: "40px",
-        width: "90%",
+        width: "100%",
         textAlign: "center",
         padding: "5px",
         fontWeight: "bolder",
@@ -478,6 +483,11 @@ const styles = {
         fontSize: '19px',
         fontWeight: 'bolder',
         margin: '15px 0 5px 0'
+    },
+    houseDetail:{
+        margin: '5px 0',
+        fontSize: '15px',
+        fontWeight: '600'
     }
 }
 
@@ -487,6 +497,7 @@ function MypageFamilyManagementMain() {
     const userId = localStorage.getItem('userId');
 
     const [showModifyModal, setShowModifyModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [home, setHome] = useState('본가')
     const [home2, setHome2] = useState('')
     const [homeNameInput, setHomeNameInput] = useState("");
@@ -509,6 +520,7 @@ function MypageFamilyManagementMain() {
         axios.get(`https://healody.shop/api/home/${userId}`)
           .then((response) => {
             const data = response.data.data;
+            // data['']
             setFamilyList(data);
           })
       }, []);
@@ -517,6 +529,12 @@ function MypageFamilyManagementMain() {
         setShowModifyModal(true);
     };
 
+    const onEditClicked = () =>{
+        setShowEditModal(true);
+    }
+    const cancelEditClicked = () =>{
+        setShowEditModal(false);
+    }
     const onModifyClicked2 = () => {
         setShowModifyModal2(true);
     };
@@ -558,6 +576,8 @@ function MypageFamilyManagementMain() {
         setFormData({...formData, [name]: value});
 
     }
+
+
 
     const onChangeFamilyNameInput = (e) => {
         setFamilyNameInput(e.target.value);
@@ -652,7 +672,17 @@ function MypageFamilyManagementMain() {
                 <div>
                     {Object.keys(familyList).map((household) => (
                         <div style={styles.box2} key={household}>
-                            <h2 style={styles.houseName}>{household}</h2>
+                            <div style={styles.houseName}>
+                                <div style={styles.houseTopWrap}>
+                                    <p>{household}</p>
+                                    <img
+                                        src={threedot}
+                                        onClick={onEditClicked} // threedot 클릭 시 모달 열기
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                </div>
+                                <div style={styles.houseDetail}>{familyList[household].home[0]}</div>
+                            </div>
                             <h3>사용자</h3>
                             <ul>
                                 {familyList[household].user.map((user) => (
@@ -661,7 +691,7 @@ function MypageFamilyManagementMain() {
                             </ul>
                             <h3>돌봄 사용자</h3>
                             <ul>
-                                {   familyList[household]["care-user"].map((careUser) => (
+                                {familyList[household]["care-user"].map((careUser) => (
                                     <li key={careUser.id}>{careUser.nickname}</li>
                                 ))}
                             </ul>
@@ -672,6 +702,45 @@ function MypageFamilyManagementMain() {
                 <button style={styles.purple_box3} onClick={onModifyClicked}>
                     집 추가하기
                 </button>
+                {showEditModal && (
+                    <div style={styles.ModifyModalBackdrop}>
+                        <div style={styles.ModifyModal}>
+                            <div style={styles.modalBody}>
+                                <p style={styles.title}>집 이름 수정하기</p>
+                                <div style={styles.input_box}>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        value={formData.name}
+                                        style={styles.input}
+                                        onChange={onSubmitHomeNameInput}
+                                        placeholder="생성할 집의 이름을 입력해주세요."
+                                    />
+                                </div>
+
+                                <p style={styles.title}>집 설명 수정하기</p>
+                                <div style={styles.input_box}>
+                                    <input
+                                        name="info"
+                                        type="text"
+                                        value={formData.info}
+                                        style={styles.input}
+                                        onChange={onSubmitHomeInfo}
+                                        placeholder="집에 대한 설명을 입력해주세요."
+                                    />
+                                </div>
+
+
+                                <button style={styles.input_complete} onClick={createHome}>
+                                    집 삭제하기
+                                </button>
+                                <button style={styles.input_box3} onClick={cancelEditClicked}>
+                                    취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 {showModifyModal && (
                             <div style={styles.ModifyModalBackdrop}>
                                 <div style={styles.ModifyModal}>
@@ -708,8 +777,6 @@ function MypageFamilyManagementMain() {
                                             취소
                                         </button>
                                     </div>
-
-
                                 </div>
                             </div>
                         )}
