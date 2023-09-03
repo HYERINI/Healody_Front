@@ -113,67 +113,51 @@ const JoinMembershipPage = () => {
         const requestBodyemail = {
             email : formData.email
         };
-        axios({
-            url: `https://healody.shop/api/auth/email/${requestBodyemail.email}/exists`,
+        axios(`https://healody.shop/api/auth/email/${requestBodyemail.email}/exists`,{
             method: 'GET',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                withCredentials: true
-            },
-            data: requestBodyemail,
-            success: function(){
-                console.log(requestBodyemail);
-            }
-        })
+            })
+            .then(function(response) {
+                alert("이메일 중복체크가 되었습니다")
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+        }
 
-        
-    }
     //이메일 인증번호 발송
     const handlecertifyEmail = () => {
-        var email = new String(formData.email);
-
         const requestBodyemail = {
-            email : email,
+            email : formData.email,
         };
 
-        axios({
-            url: `https://healody.shop/api/auth/email-confirm`,
+        axios(`https://healody.shop/api/auth/email-confirm`,{
             method: 'POST',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                withCredentials: true
-            },
             data: requestBodyemail,
-            success: function(){
-                console.log(requestBodyemail);
-            }
-        })
+            })
+            .then(function(response) {
+                alert("인증번호가 발송되었습니다");
+            }) 
+            .catch(function(error) {
+                console.log(error);
+            })
+        }
 
-    }
 
     //이메일 인증번호 확인
     const handleconfirmEmail = () => {
-        var confirm = new String(formData.confirm);
-
         const requestBodyConfirm = {
-            confirm : confirm,
+            confirm : formData.confirm,
         };
-
-        axios({
-            url: `https://healody.shop/api/auth/email-confirm/check`,
+        axios(`https://healody.shop/api/auth/email-confirm/check`,{
             method: 'POST',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                withCredentials: true
-            },
             data: requestBodyConfirm,
-            success: function(){
-                console.log(requestBodyConfirm);
-            }
-        })
+            })
+            .then(function(response) {
+                alert('인증번호가 확인이되었습니다')
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
     }
 
     const handleSaveNickname = () => {
@@ -316,25 +300,20 @@ const JoinMembershipPage = () => {
         }
 
         const handlecertifyPhone = () => {
-             var phone =new String(formData.phone);
-
              const requestBodyPhone = {
-                phone : phone
+                phone : formData.phone
             };
-            console.log(phone);
-            axios({
-                url: `https://healody.shop/api/auth/phone/${requestBodyPhone.phone}/exists`,
+            
+            axios(`https://healody.shop/api/auth/phone/${requestBodyPhone.phone}/exists`,{
                 method: 'GET',
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type': 'application/json',
-                    withCredentials: true
-                },
-                data: requestBodyPhone,
-                success: function(){
-                    console.log(requestBodyPhone);
-                }
-            })
+                })
+                .then(function(response) {
+                    alert("핸드폰 중복체크가 완료되었습니다")
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                })
         }
 
         
