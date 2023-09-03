@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import BackIcon from "../img/back_icon.png";
 import nextFalse from "../img/next_false.png";
+import nextTrue from "../img/Next_true.png";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../css/button.css';
 
 const styles= {
     input: {
@@ -10,6 +12,7 @@ const styles= {
         width: 320,
         height: 40,
         marginTop: "10px",
+        display: "flex",
         },
     input_box: {
         border: "1px solid #D9D9D9",
@@ -18,8 +21,7 @@ const styles= {
         textAlign: "center",
         padding: "5px",
         borderRadius: "10px",
-        marginTop: "10px"
-        
+        marginTop: "10px",
     },
     p: {
         float: "left",
@@ -51,6 +53,10 @@ const styles= {
     },
     false: {
         marginTop: "20px",
+    },
+    true: {
+        marginTop: "20px",
+        cursor: 'pointer',
     }
 }
 // const InputBox = (props) => {
@@ -81,6 +87,10 @@ const JoinMembershipPage = () => {
     const [isPassword, setIsPassword] = useState(false)
     const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
 
+    const result = localStorage.getItem('result');
+
+    const [showImage, setShowImage] = useState(true);
+
     const [formData, setFormData] = useState({
         name: "",
         birth: "",
@@ -95,6 +105,7 @@ const JoinMembershipPage = () => {
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setFormData({ ...formData, [name]: value});
+
     }
 
     //이메일 중복체크
@@ -172,19 +183,20 @@ const JoinMembershipPage = () => {
             nickname : nickname
         };
         console.log(nickname);
-        axios({
-            url: 'https://healody.shop/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
+        axios('https://healody.shop/api/auth/nickname/'+requestBodynickname.nickname+'/exists',{
             method: 'GET',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                withCredentials: true
-            },
-            data: requestBodynickname,
-            success: function(){
-                console.log(requestBodynickname);
-            }
-        })
+            // data: requestBodynickname,
+            })
+            .then(function(response) {
+                alert("닉네임 중복 체크가 되셨습니다.");
+                if(response.data.result == 'SUCCESS'){
+                    alert('다음 버튼을 눌러주세요')
+                    setShowImage(!showImage);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
 
@@ -209,12 +221,12 @@ const JoinMembershipPage = () => {
                     alert('회원가입이 되셨습니다');
                     navigate('/login_page');
                     localStorage.setItem('name',formData.name);
-                    localStorage.setItem('birth'.formData.bitrh);
-                    localStorage.setItem('email'.formData.email);
-                    localStorage.setItem('gender'.formData.gender);
-                    localStorage.setItem('password'.formData.password);
-                    localStorage.setItem('nickname'.formData.nickname);
-                    localStorage.setItem('phone'.formData.phone);
+                    localStorage.setItem('birth',formData.birth);
+                    localStorage.setItem('email',formData.email);
+                    localStorage.setItem('gender',formData.gender);
+                    localStorage.setItem('password',formData.password);
+                    localStorage.setItem('nickname',formData.nickname);
+                    localStorage.setItem('phone',formData.phone);
                 }
                 else {
                     alert('다시 정보를 올바르게 입력해주세요');
@@ -226,11 +238,8 @@ const JoinMembershipPage = () => {
        
     }
 
-    const onSubmitName = (e,event) => {
-        const {name, value} = event.target;
+    const onSubmitName = (e) => {
         setName1(e.target.value1);
-        
-        setFormData({ ...formData, [name]: value});
         if (e.target.value1.length < 1 || e.target.value1.length > 10) {
           setNameMessage('한글 혹은 영문을 포함하여 1~10자로 입력하세요.');
           setIsName(false);
@@ -359,7 +368,7 @@ const JoinMembershipPage = () => {
                 type="text"
                 style={styles.input}
                 onChange={handleInputChange}
-                placeholder="생일 입력해"
+                placeholder="생일을 입력해주세요"
             />
             </div>
             {/* <p style={styles.under}>{nameMessage}</p> */}
@@ -376,10 +385,14 @@ const JoinMembershipPage = () => {
                 onChange={handleInputChange}
                 placeholder="이메일을 입력해주세요"
             />
-            <button onClick={handleSaveEmail}>이메일 중복체크 버튼</button>
-            <button onClick={handlecertifyEmail}>이메일 인증번호 발송 버튼</button>
             </div>
             <p style={styles.under}>{emailMessage}</p>
+        
+        </div>
+        <div class="frame">
+                <button class="custom-btn btn-3" onClick={handleSaveEmail}><span>이메일 중복체크 버튼</span></button>
+                <br />
+                <button class="custom-btn btn-3" onClick={handlecertifyEmail}><span>이메일 인증번호 발송 버튼</span></button>
         </div>
 
         <div>
@@ -393,7 +406,9 @@ const JoinMembershipPage = () => {
                 onChange={handleInputChange}
                 placeholder="인증번호를 입력해주세요"
             />
-            <button onClick={handleconfirmEmail}>인증번호 확인 버튼</button>
+            </div>
+            <div class="frame">
+                <button class="custom-btn btn-3" onClick={handleconfirmEmail}><span>인증번호 확인 버튼</span></button>
             </div>
         </div>
 
@@ -408,7 +423,9 @@ const JoinMembershipPage = () => {
                 onChange={handleInputChange}
                 placeholder="전화번호를 입력해주세요"
             />
-            <buton onClick={handlecertifyPhone}>전화번호 중복체크</buton>
+            </div>
+            <div class="frame">
+                <buton class="custom-btn btn-3" onClick={handlecertifyPhone}><span>전화번호 중복체크</span></buton>
             </div>
         </div>
 
@@ -474,7 +491,10 @@ const JoinMembershipPage = () => {
                 onChange={handleInputChange}
                 placeholder="닉네임을 입력해주세요"
             />
-            <button onClick={handleSaveNickname}>눌러</button>
+            
+            </div>
+            <div class="frame">
+                <button class="custom-btn btn-3" onClick={handleSaveNickname}><span>닉네임 중복체크</span></button>
             </div>
             <p style={styles.under}>{nameMessage}</p>
         </div>
@@ -554,8 +574,22 @@ const JoinMembershipPage = () => {
             
             </div>
         </div> */}
-        
-        <img style={styles.false} src={nextFalse} onClick={handleSave}/>
+        <div>
+      {showImage ? (
+        <img
+        src={nextFalse}
+        style={styles.false}
+        alt="false"
+        />
+      ) : (
+        <img
+          src={nextTrue}
+          style={styles.true}
+          alt="true"
+          onClick={handleSave}
+        />
+      )}
+    </div>
         
     </div>
 
