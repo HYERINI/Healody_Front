@@ -347,7 +347,7 @@ const JoinMembershipPage = () => {
                 type="text"
                 style={styles.input}
                 onChange={handleInputChange}
-                placeholder="생일을 입력해주세요"
+                placeholder="생일을 입력해주세요(ex. 2000-05-21)"
             />
             </div>
             {/* <p style={styles.under}>{nameMessage}</p> */}

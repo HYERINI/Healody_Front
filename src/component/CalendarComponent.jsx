@@ -87,22 +87,22 @@ function CalendarComponent({ onAddSchedule }) {
   const user_id = localStorage.getItem('userId');
 
   //유저 정보 받아오기
-  const handleFamily = () => {
-     axios(`https://healody.shop/api/home/${user_id}`, {
-        method: 'GET',
-     })
-     .then(function(response) {
-      alert('가족구성원 조회가 되었습니다.');
-      const Item = response;
-      for(const key in Object.keys(Item)) {
-        console.log(Item[key].user);
-        //일단 콘솔만 찍게 해뒀고 나중에 map함수로 나타내야함
-      }
-     })
-     .catch(function(error) {
-      console.log(error.response.status);
-     })
-  }
+  // const handleFamily = () => {
+  //    axios(`https://healody.shop/api/home/${user_id}`, {
+  //       method: 'GET',
+  //    })
+  //    .then(function(response) {
+  //     alert('가족구성원 조회가 되었습니다.');
+  //     const Item = response;
+  //     for(const key in Object.keys(Item)) {
+  //       console.log(Item[key].user);
+  //       //일단 콘솔만 찍게 해뒀고 나중에 map함수로 나타내야함
+  //     }
+  //    })
+  //    .catch(function(error) {
+  //     console.log(error.response.status);
+  //    })
+  // }
 
   
 
@@ -117,7 +117,7 @@ function CalendarComponent({ onAddSchedule }) {
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
-        dateFormat="yyyy/MM/dd"
+        dateFormat="yyyy-MM-dd"
         placeholderText="날짜 선택"
       />
       <input
