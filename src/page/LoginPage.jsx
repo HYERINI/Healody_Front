@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import BackIcon from "../img/back_icon.png";
-import LoginFalse from "../img/login_false.png";
+import nextFalse from "../img/next_false.png";
+import nextTrue from "../img/Next_true.png";
 import axios from 'axios';
 import LoginModal from "../component/LoginModal";
 
@@ -68,7 +69,14 @@ const styles={
         position: "fixed",
         bottom: "65px",
         right: "55px",
-    }
+    },
+    false: {
+        marginTop: "20px",
+    },
+    true: {
+        marginTop: "20px",
+        cursor: 'pointer',
+    },
 }
 
 // const [name, setName] = useState('')
@@ -96,10 +104,22 @@ function LoginPage() {
         phone: "",
         password: "",
     });
-
+    const [showImage, setShowImage] = useState(true);
+    const [indexCount, setIndexCount] = useState(0);
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setFormData({...formData, [name]: value});
+        
+        const word = event.target.value.split(' ');
+        const totalIndex = word.reduce((acc, words) => {
+            return acc + words.length + 1;
+        }, 0);
+        
+        setIndexCount(totalIndex - 1);
+
+        if(indexCount > 0 ) {
+            setShowImage(!showImage);
+        }
     }
 
     const handleLogin = () => {
@@ -208,7 +228,22 @@ function LoginPage() {
                 </ul>
             </div>
             <div style={styles.logbox}>
-                <img onClick={handleLogin} src={LoginFalse} />
+            <div>
+            {showImage ? (
+                <img
+                src={nextFalse}
+                style={styles.false}
+                alt="false"
+                />
+            ) : (
+                <img
+                src={nextTrue}
+                style={styles.true}
+                alt="true"
+                onClick={handleLogin}
+                />
+            )}
+            </div>
             </div>
         </>
     );
