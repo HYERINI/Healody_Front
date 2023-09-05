@@ -126,7 +126,7 @@ const Family_main = () => {
         getFamilyData();
     }, []);
 
-    console.log(familyData);
+    // console.log(familyData);
 
     return (
         <div className="h-screen">

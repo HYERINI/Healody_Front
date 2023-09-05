@@ -3,6 +3,7 @@ import Header from "../component/Today/TodayHeader";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import threedot from '../img/threeDot.svg';
+import {getDefaultLocale} from "react-datepicker";
 
 const styles = {
     header: {
@@ -509,11 +510,20 @@ function MypageFamilyManagementMain() {
     const [create, setCreate] = useState('돌봄계정 추가하기')
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [createNameInput, setCreateNameInput] = useState("");
+    const [editHomeName, setEditHomeName] = useState('');
+    const [editHomeInfo, setEditHomeInfo] = useState('');
+    const [editHomeId, setEditHomeId] = useState('');
 
-    const [familyList, setFamilyList] = useState({});
+    const [familyList, setFamilyList] = useState([]);
     const [formData, setFormData] = useState({
         name: "",
         info: "",
+    })
+
+    const [editData, setEditData] = useState({
+        name: '',
+        info:'',
+        home_id: ''
     })
     useEffect(() => {
         // API 요청 보내기
@@ -529,9 +539,22 @@ function MypageFamilyManagementMain() {
         setShowModifyModal(true);
     };
 
-    const onEditClicked = () =>{
+    const [selectedHomeInfo, setSelectedHomeInfo] = useState({
+        name: "",
+        info: "",
+        home_id: ""
+    });
+
+    // console.log(selectedHomeInfo)
+
+// threedot 클릭 시 모달 열기 이벤트 핸들러 수정
+    const onEditClicked = (index) => () => {
+        setEditHomeId(familyList[index].home.home_id)
+        setEditHomeName(index)
+        setEditHomeInfo(familyList[index].home.home_info)
         setShowEditModal(true);
-    }
+    };
+
     const cancelEditClicked = () =>{
         setShowEditModal(false);
     }
@@ -570,14 +593,53 @@ function MypageFamilyManagementMain() {
         setHome(e.target.value);
     }
 
-    const onSubmitHomeInfo = (e) => { //집 설명 입력
-
+    const onSubmitEditHome = (e) => {
         const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
-
+        setSelectedHomeInfo({...formData, [name]: value})
     }
 
+    const onSubmitEditHomeInfo = (e) => {
+        const {name, value} = e.target;
+        setSelectedHomeInfo({...formData, [name]: value})
+    }
 
+    const submitHome = async () => {
+        const requestBody = {
+            name: editHomeName,
+            info: editHomeInfo,
+            home_id: editHomeId,
+        };
+
+        try {
+            const response = await axios.patch(`https://healody.shop/api/home/${editHomeId}`, requestBody, {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            });
+
+            console.log(requestBody)
+            const { result, message } = response.data;
+            if (result === 'SUCCESS') {
+                alert(message)
+                setShowEditModal(false);
+                window.location.reload();
+            } else if (result === 'FAILURE') {
+                alert(message);
+            }
+        } catch (error) {
+            console.error('집 정보 수정 요청 에러:', error);
+        }
+    }
+
+    const onSubmitHomeInfo = (e) => { //집 설명 입력
+        const {name, value} = e.target;
+        setFormData({...formData, [name]: value});
+    }
+
+    const onEditHomeInfo = (e) => { //집 설명 입력
+        const {name, value} = e.target;
+        setEditData({...formData, [name]: value});
+    }
 
     const onChangeFamilyNameInput = (e) => {
         setFamilyNameInput(e.target.value);
@@ -653,6 +715,7 @@ function MypageFamilyManagementMain() {
                 localStorage.setItem('homeId', homeId)
                 closeModal();
                 alert(message);
+                window.location.reload();
             } else if (result === 'FAILURE') {
                 alert(message);
             }
@@ -670,31 +733,42 @@ function MypageFamilyManagementMain() {
 
             <div style={styles.container}>
                 <div>
+                    {/*{familyList ? : */}
+                    {/*}*/}
                     {Object.keys(familyList).map((household) => (
                         <div style={styles.box2} key={household}>
                             <div style={styles.houseName}>
                                 <div style={styles.houseTopWrap}>
                                     <p>{household}</p>
                                     <img
+                                        id={familyList[household].home.home_id}
                                         src={threedot}
-                                        onClick={onEditClicked} // threedot 클릭 시 모달 열기
+                                        onClick={onEditClicked(household)} // threedot 클릭 시 모달 열기
                                         style={{ cursor: "pointer" }}
                                     />
                                 </div>
-                                <div style={styles.houseDetail}>{familyList[household].home[0]}</div>
+                                <div style={styles.houseDetail}>{familyList[household].home.home_info}</div>
                             </div>
-                            <h3>사용자</h3>
-                            <ul>
-                                {familyList[household].user.map((user) => (
-                                    <li key={user.id}>{user.name}</li>
-                                ))}
-                            </ul>
-                            <h3>돌봄 사용자</h3>
-                            <ul>
-                                {familyList[household]["care-user"].map((careUser) => (
-                                    <li key={careUser.id}>{careUser.nickname}</li>
-                                ))}
-                            </ul>
+                            { familyList['user'] ?
+                                <>
+                                <h3>사용자</h3>
+                                <ul>
+                                    {familyList[household]["user"].map((user) => (
+                                        <li key={user.id}>{user.name}</li>
+                                    ))}
+                                </ul> </>
+                                : <></>
+                            }
+                            { familyList["care-user"] ?
+                                <>
+                                    <h3>돌봄 사용자</h3>
+                                    <ul>
+                                        {familyList[household]["care-user"].map((careUser) => (
+                                            <li key={careUser.id}>{careUser.nickname}</li>
+                                        ))}
+                                    </ul> </>
+                                : <></>
+                            }
                         </div>
                     ))}
                 </div>
@@ -702,45 +776,47 @@ function MypageFamilyManagementMain() {
                 <button style={styles.purple_box3} onClick={onModifyClicked}>
                     집 추가하기
                 </button>
-                {showEditModal && (
-                    <div style={styles.ModifyModalBackdrop}>
-                        <div style={styles.ModifyModal}>
-                            <div style={styles.modalBody}>
-                                <p style={styles.title}>집 이름 수정하기</p>
-                                <div style={styles.input_box}>
-                                    <input
-                                        name="name"
-                                        type="text"
-                                        value={formData.name}
-                                        style={styles.input}
-                                        onChange={onSubmitHomeNameInput}
-                                        placeholder="생성할 집의 이름을 입력해주세요."
-                                    />
-                                </div>
 
-                                <p style={styles.title}>집 설명 수정하기</p>
-                                <div style={styles.input_box}>
-                                    <input
-                                        name="info"
-                                        type="text"
-                                        value={formData.info}
-                                        style={styles.input}
-                                        onChange={onSubmitHomeInfo}
-                                        placeholder="집에 대한 설명을 입력해주세요."
-                                    />
-                                </div>
+            {showEditModal && (
+                <div style={styles.ModifyModalBackdrop}>
+                    <div style={styles.ModifyModal}>
+                        <div style={styles.modalBody}>
+                            <p style={styles.title}>집 이름 수정하기</p>
+                            <div style={styles.input_box}>
+                                <input
+                                    name="name"
+                                    type="text"
+                                    value={editHomeName}
+                                    style={styles.input}
+                                    onChange={(e) => setEditHomeName(e.target.value)}
+                                    placeholder="집의 이름을 입력해주세요."
+                                />
 
-
-                                <button style={styles.input_complete} onClick={createHome}>
-                                    집 삭제하기
-                                </button>
-                                <button style={styles.input_box3} onClick={cancelEditClicked}>
-                                    취소
-                                </button>
                             </div>
+
+                            <p style={styles.title}>집 설명 수정하기</p>
+                            <div style={styles.input_box}>
+                                <input
+                                    name="info"
+                                    type="text"
+                                    value={editHomeInfo}
+                                    style={styles.input}
+                                    onChange={(e) => setEditHomeInfo(e.target.value)}
+                                    placeholder="집에 대한 설명을 입력해주세요."
+                                />
+                            </div>
+
+
+                            <button style={styles.input_complete} onClick={submitHome}>
+                                완료
+                            </button>
+                            <button style={styles.input_box3} onClick={cancelEditClicked}>
+                                취소
+                            </button>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
                 {showModifyModal && (
                             <div style={styles.ModifyModalBackdrop}>
                                 <div style={styles.ModifyModal}>
