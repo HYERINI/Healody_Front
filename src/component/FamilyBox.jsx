@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import threedot from '../img/threeDot.svg';
 
 const FamilyBoxWrap = styled.div`
   background-color: #F5F5F5;
@@ -17,6 +18,12 @@ const FamilyRightWrap = styled.div`
   flex-direction: column;
 `
 
+const FamilyIntroWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const FamilyImage = styled.img``
 const FamilyNameWrap = styled.div`
   display: flex;
 `
@@ -53,10 +60,13 @@ export default function FamilyBox({image, name, nickname}){
         <FamilyBoxWrap>
             <ProfileImage src={image} />
             <FamilyRightWrap>
-                <FamilyNameWrap>
-                    <FamilyName>{name}</FamilyName>
-                    <FamilyNickName>{nickname}</FamilyNickName>
-                </FamilyNameWrap>
+                <FamilyIntroWrap>
+                    <FamilyNameWrap>
+                        <FamilyName>{name}</FamilyName>
+                        <FamilyNickName>{nickname}</FamilyNickName>
+                    </FamilyNameWrap>
+                    <FamilyImage src={threedot} />
+                </FamilyIntroWrap>
                 <FamilyIntroInput
                     name="message"
                     placeholder="상태메시지를 입력하세요"

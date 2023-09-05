@@ -165,11 +165,6 @@ const Family_main = () => {
                             {selectedFamilyList[selectedHome] ? (
                                 Object.keys(selectedFamilyList[selectedHome].user).map((userId) => (
                                     <FamilyBox image={selectedFamilyList[selectedHome].user[userId].image} name={selectedFamilyList[selectedHome].user[userId].name} nickname={selectedFamilyList[selectedHome].user[userId].nickname} />
-                                    // <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">
-                                    //     <div key={userId}>
-                                    //         {selectedFamilyList[selectedHome].user[userId].name}
-                                    //     </div>
-                                    // </div>
                                 ))
                             ) : (
                                 // 선택한 가족에 사용자 정보가 없는 경우 예외 처리
@@ -182,7 +177,7 @@ const Family_main = () => {
                     <div>
                         {/* 돌봄 계정-헤더 */}
                         <div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                 <button
                                     className="bg-purple-600 text-white py-2 px-4 rounded-3xl"
                                     style={{ backgroundColor: "#6F02DB" }}
@@ -258,20 +253,6 @@ const Family_main = () => {
                                 </div>
                             )}
                         </div>
-
-                        {/* 돌봄 계정-컨텐츠 */}
-                        {/*<div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">*/}
-                        {/*    <Link to="/Family_care_detail">*/}
-                        {/*        <FaUserAlt />*/}
-                        {/*    </Link>*/}
-                        {/*    /!* <p className="text-gray-600 p-7">*/}
-                        {/*        가족 전체의 도움이 필요한 노약자 혹은 반려동물의*/}
-                        {/*        돌봄 계정을 생성하고 관리해봐요!*/}
-                        {/*    </p> *!/*/}
-                        {/*    /!*{familyData &&*!/*/}
-                        {/*    /!*    familyData[selectedFamily] &&*!/*/}
-                        {/*    /!*    familyData[selectedFamily]["care-user"]}*!/*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </div>

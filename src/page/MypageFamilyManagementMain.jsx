@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import threedot from '../img/threeDot.svg';
 import {getDefaultLocale} from "react-datepicker";
+import FamilyBox from "../component/FamilyBox";
 
 const styles = {
     header: {
@@ -540,7 +541,6 @@ function MypageFamilyManagementMain() {
         axios.get(`https://healody.shop/api/home/${userId}`)
             .then((response) => {
                 const data = response.data.data;
-                // data['']
                 setFamilyList(data);
             })
     }, []);
@@ -741,8 +741,6 @@ function MypageFamilyManagementMain() {
 
             <div style={styles.container}>
                 <div>
-                    {/*{familyList ? : */}
-                    {/*}*/}
                     {Object.keys(familyList).map((household) => (
                         <div style={styles.box2} key={household}>
                             <div style={styles.houseName}>
@@ -757,15 +755,22 @@ function MypageFamilyManagementMain() {
                                 </div>
                                 <div style={styles.houseDetail}>{familyList[household].home.home_info}</div>
                             </div>
-                            { familyList['user'] ?
+                            {
                                 <>
                                 <h3>사용자</h3>
                                 <ul>
-                                    {familyList[household]["user"].map((user) => (
-                                        <li key={user.id}>{user.name}</li>
-                                    ))}
-                                </ul> </>
-                                : <></>
+                                    {
+                                        Object.keys(familyList[household].user).map((userId) => (
+                                            <li>{familyList[household].user[userId].nickname}</li>
+                                            // <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">
+                                            //     <div key={userId}>
+                                            //         {selectedFamilyList[selectedHome].user[userId].name}
+                                            //     </div>
+                                            // </div>
+                                        )
+                                    )}
+                                </ul>
+                                </>
                             }
                             { familyList["care-user"] ?
                                 <>
