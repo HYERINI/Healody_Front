@@ -130,9 +130,8 @@ const JoinMembershipPage = () => {
             email : formData.email,
         };
 
-        axios(`https://healody.shop/api/auth/email-confirm`,{
+        axios(`https://healody.shop/api/auth/email-confirm?email=${requestBodyemail.email}`,{
             method: 'POST',
-            data: requestBodyemail,
             })
             .then(function(response) {
                 alert("인증번호가 발송되었습니다");
@@ -148,9 +147,8 @@ const JoinMembershipPage = () => {
         const requestBodyConfirm = {
             confirm : formData.confirm,
         };
-        axios(`https://healody.shop/api/auth/email-confirm/check`,{
+        axios(`https://healody.shop/api/auth/email-confirm/check?check=${requestBodyConfirm.confirm}`,{
             method: 'POST',
-            data: requestBodyConfirm,
             })
             .then(function(response) {
                 alert('인증번호가 확인이되었습니다')
