@@ -135,8 +135,8 @@ export default function TodayProfile({ content, link, userName, userBirth, userI
                             onChange={handleInputChange} 
                             placeholder="상태메시지를 입력하세요" 
                         />
-            
-                        {/*<button onClick={handleMessage}>확인</button>*/}
+                        {/* {nowMessage}
+                        <button onClick={handleMessage}>확인</button> */}
                     </ProfileInfoBigWrap>
                 </ProfileTopRightWrap>
             </ProfileTopWrap>

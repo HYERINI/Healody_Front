@@ -6,6 +6,7 @@ import nextTrue from "../img/Next_true.png";
 import axios from 'axios';
 import LoginModal from "../component/LoginModal";
 
+
 const styles={
     input: {
         border: "none",
@@ -109,17 +110,39 @@ function LoginPage() {
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setFormData({...formData, [name]: value});
-        
-        const word = event.target.value.split(' ');
-        const totalIndex = word.reduce((acc, words) => {
-            return acc + words.length + 1;
-        }, 0);
-        
-        setIndexCount(totalIndex - 1);
-
-        if(indexCount > 0 ) {
+        const count = event.target.value.length;
+        console.log(count);
+        if( count > 0 && showImage == true) {
             setShowImage(!showImage);
         }
+        else if( count == 0 && showImage == false) {
+            setShowImage(!showImage);
+              }
+        // const word = event.target.value.split(' ');
+        // const totalIndex = word.reduce((acc, words) => {
+        //     return acc + words.length;
+        // }, 0);
+        // if(indexCount != 0 && showImage == true){
+        //     setShowImage(!showImage);
+        // }
+        // else if(indexCount == 0 ){
+        //     setShowImage(showImage);
+        // }
+
+        // setIndexCount(totalIndex -1);
+        
+        // console.log(showImage);
+        // console.log(totalIndex);
+
+        // const word = formData.phone;console.log(word.length)
+        // if( word != "" && showImage == true) {
+        //     setShowImage(!showImage);
+        // }
+        // else if( word == "" && showImage == false) {
+        //     setShowImage(!showImage);
+        // }
+        // console.log(showImage);
+        
     }
 
     const handleLogin = () => {
@@ -209,7 +232,7 @@ function LoginPage() {
             </div>
             </div>
             <div style={styles.listbox}>
-                <ul style={styles.list}>
+                {/* <ul style={styles.list}>
                     <li style={styles.inList}>
                         아이디 찾기
                     </li>
@@ -225,7 +248,7 @@ function LoginPage() {
                     <li style={styles.inList}>
                         회원가입
                     </li>
-                </ul>
+                </ul> */}
             </div>
             <div style={styles.logbox}>
             <div>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import BackIcon from "../img/back_icon.png";
-import LoginFalse from "../img/login_false.png";
+import nextFalse from "../img/next_false.png";
+import nextTrue from "../img/Next_true.png";
 import axios from 'axios';
+import '../css/button.css';
 
 function AddInfopage() {
 
@@ -69,9 +71,17 @@ function AddInfopage() {
             position: "fixed",
             bottom: "65px",
             right: "55px",
-        }
+        },
+        false: {
+            marginTop: "20px",
+        },
+        true: {
+            marginTop: "20px",
+            cursor: 'pointer',
+        },
     }
     const navigate = useNavigate();
+    const [showImage, setShowImage] = useState(true);
     const [formData, setFormData] = useState({
         email: "",
         nickName: "",
@@ -113,19 +123,21 @@ function AddInfopage() {
             nickname : nickname
         };
         console.log(nickname);
-        axios({
-            url: 'https://healody.shop/api/auth/nickname/'+requestBodynickname.nickname+'/exists',
+        axios('https://healody.shop/api/auth/nickname/'+requestBodynickname.nickname+'/exists',{
             method: 'GET',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-                withCredentials: true
-            },
-            data: requestBodynickname,
-            success: function(){
-                console.log(requestBodynickname);
-            }
-        })
+            })
+            .then(function(response) {
+                alert('닉네임 중복체크 되었습니다.');
+                if(response.data.result == 'SUCCESS'){
+                    alert('나머지 정보들을 기입해주세요')
+                    setShowImage(!showImage);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+            
+        
     }
 
     return (
@@ -144,9 +156,10 @@ function AddInfopage() {
                     onChange={handleInputChange}
                     placeholder="닉네임을 입력해주세요"
                 /> 
-                <button onClick={handleSaveNickname}>닉네임 중복체크하기</button>
             </div>
-            
+            <div class="frame">
+                <button class="custom-btn btn-3" onClick={handleSaveNickname}><span>닉네임 중복체크하기</span></button>
+            </div>
 
             <br />
             <div style={styles.input_box}>
@@ -157,7 +170,7 @@ function AddInfopage() {
                     value={formData.gender}
                     style={styles.input}
                     onChange={handleInputChange}
-                    placeholder="성별을 입력해주세요"
+                    placeholder="성별을 입력해주세요(man or woman)"
                 />
             </div>
 
@@ -169,7 +182,7 @@ function AddInfopage() {
                     value={formData.birth}
                     style={styles.input}
                     onChange={handleInputChange}
-                    placeholder="생년월일을 입력해주세요"
+                    placeholder="생년월일을 입력해주세요(ex.2000-05-21)"
                 />
             </div>
 
@@ -181,11 +194,27 @@ function AddInfopage() {
                     value={formData.phone}
                     style={styles.input}
                     onChange={handleInputChange}
-                    placeholder="전화번호를 입력해주세요"
+                    placeholder="전화번호를 입력해주세요(ex. 01054318251)"
                 />
             </div>
 
-            <button onClick={handleLogin}>입력</button>
+            
+            <div>
+                {showImage ? (
+                    <img
+                    src={nextFalse}
+                    style={styles.false}
+                    alt="false"
+                    />
+                ) : (
+                    <img
+                    src={nextTrue}
+                    style={styles.true}
+                    alt="true"
+                    onClick={handleLogin}
+                    />
+                )}
+        </div>
             </div>
         </>
     )
