@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import TodayHeader from "../component/Today/TodayHeader";
 import TodayNav from "../component/Today/TodayNav";
 import CalendarNav from "../component/CalendarNav";
@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import CalendarAddList from "../component/CalendarAddList";
 import CalendarCheckComponent from "../component/CalendarCheckComponent";
 import axios from 'axios';
+import '../css/button.css';
 
 const HospitalSelectWrap = styled.div`
   margin-top: 0;
@@ -30,15 +31,21 @@ function Hospital() {
         margin: 0 auto;
         position: relative;
         `;
-    const styles={
-        drop: {
-            zIndex: 1,
-        }
-    }
-    const [selectedDropDownValue, setSelectedDropDownValue] = useState('본가');
+    
+    
     const [schedules, setSchedules] = useState([]);
     const handleAddSchedule = (newSchedule) => {
         setSchedules([...schedules, newSchedule]);
+    };
+    const [selectedName, setSelectedName] = useState(null);
+    const [selectUserId, setSelectUserId] = useState();
+    const [items, setItems] = useState({});
+
+    const handlenameClick  = (name, userid) => {
+        setSelectedName(name);
+        setSelectUserId(userid);
+        localStorage.setItem('yourid',userid);
+        localStorage.setItem('hisname',name);
     };
 
     const handleFamily = () => {
@@ -49,8 +56,21 @@ function Hospital() {
         })
         .then(function(response) {
             alert('가족조회가 되었습니다.');
-            // const userId = response.data.data[]
-
+            const data = response.data.data;
+            const newData ={};
+            data.forEach((item, index) => {
+                newData[`item${index+1}`] = item;
+            });
+            setItems(newData);
+                // const newData = {};
+                // data.forEach((item, index) => {
+                //     newData[`item${index+1}`] = item;
+                // });
+                // setItems(newData);
+            console.log(newData);
+        })
+        .catch(function(error) {
+            console.log(error)
         })
     }
 
@@ -61,6 +81,19 @@ function Hospital() {
                 <TodayNav />
                 <CalendarNav />
                 <button onClick={handleFamily}>가족 조회하기</button>
+                <ul>
+                {Object.keys(items).map((key) => (
+                    <li key={key}>
+                        <button 
+                            class="custom-btn btn-3"
+                            onClick={() => handlenameClick(items[key].name, items[key].userId)}
+                            ><span>{`${items[key].name}`}</span>
+                        </button>
+                    </li>
+                    ))}
+                    <h3>선택한이름: {selectedName}</h3>
+                    <h3>선택한 유저 아이디:{selectUserId}</h3>
+                </ul>
                 <CalendarComponent onAddSchedule={handleAddSchedule} />
                 <ul>
                     {schedules.map((schedule, index) => (
@@ -72,31 +105,9 @@ function Hospital() {
                 </ul>
                 <br />
                 {/* 일정이 나오는 컴포넌트 */}
-                <CalendarCheckComponent />
-                {/* <HospitalSelectWrap style={styles.drop}>
-                    <TodayDropDown
-                        selectedValue={selectedDropDownValue}
-                        options={['본가', '친가', '외가']}
-                        onClick={(value) => setSelectedDropDownValue(value)}
-                    />
-                </HospitalSelectWrap> */}
 
-                {/* {selectedDropDownValue === '본가' ? (
-                    <HospitalSelectWrap>
-                        <Select options={optionsHome} onChange={handleOptionChange}/>
-                        <CalendarAddList options={optionsHome} onChange={handleOptionChange}/>
-                    </HospitalSelectWrap>
-                ) : selectedDropDownValue === '친가' ? (
-                    <HospitalSelectWrap>
-                        <Select options={optionsHome2} onChange={handleOptionChange}/>
-                        <CalendarAddList options={optionsHome2} onChange={handleOptionChange}/>
-                    </HospitalSelectWrap>
-                ) : (
-                    <HospitalSelectWrap>
-                        <Select options={optionsHome3} onChange={handleOptionChange}/>
-                        <CalendarAddList options={optionsHome3} onChange={handleOptionChange}/>
-                    </HospitalSelectWrap>
-                )} */}
+                <CalendarCheckComponent />
+                
             
             </Container>
         </>

@@ -64,6 +64,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
+
 function CalendarComponent({ onAddSchedule }) {
   const [schedule, setSchedule] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
@@ -74,14 +75,34 @@ function CalendarComponent({ onAddSchedule }) {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    
   };
 
   const handleAddSchedule = () => {
     if (schedule.trim() !== '' && selectedDate !== null) {
       onAddSchedule({ date: selectedDate, text: schedule });
+      const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+      localStorage.setItem('date', formattedDate);
+      localStorage.setItem('do',schedule);
       setSchedule('');
       setSelectedDate(null);
     }
+    const requestBody = {
+      userId : localStorage.getItem('yourid'),
+      date : localStorage.getItem('date'),
+      content : localStorage.getItem('do'),
+    };
+    axios('https://healody.shop/api/todo', {
+      data: requestBody,
+      method: 'POST',
+    })
+    .then(function(response) {
+      alert(localStorage.getItem('hisname')+"님의 일정이 추가되었습니다")
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
   };
 
   const user_id = localStorage.getItem('userId');
