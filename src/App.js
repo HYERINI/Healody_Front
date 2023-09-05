@@ -94,7 +94,7 @@ function App() {
             )}
             {isCreated && (
               <>
-                <Route exact path="/Family_invite" element={<Family_invite />} />
+                <Route exact path="/Family_invite/" element={<Family_invite />} />
                 <Route exact path="/Family_care_detail" element={<Family_care_detail />} />
               </>
             )}

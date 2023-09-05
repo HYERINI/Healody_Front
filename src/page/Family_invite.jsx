@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { IoIosArrowBack } from 'react-icons/io';
 import TodayHeader from './../component/Today/TodayHeader';
 import TodayNav from './../component/Today/TodayNav';
 import axios from "axios";
 
-const Family_main = () => {
+const Family_main = ({props}) => {
   const navigate = useNavigate();
-  const host = 'http://15.165.115.39:8080';
+  const host = 'https://healody.shop';
   const token = localStorage.getItem('token');
   const userId = localStorage.getItem('userId');
+  const [homeId, setHomeId] = useState('');
+  const {state} = useLocation()
+  const {id} = state;
 
+  console.log(state, id)
   const [phone, setPhone] = useState('')
 
   const [activeTab, setActiveTab] = useState(0);
   const [showOptions, setShowOptions] = useState(false);
 
+  // useEffect(()=> {
+  //   const params = useParams();
+  //   setHomeId(params)
+  // })
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
@@ -38,7 +47,7 @@ const Family_main = () => {
       },
       data: {
         'userPhone': phone,
-        'homeId': '1'
+        'homeId': id
       }
     }).then(function(response){
       alert(response.data.message);

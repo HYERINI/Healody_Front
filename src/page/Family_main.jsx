@@ -1,27 +1,36 @@
 import React, { useState, FormEvent, useEffect } from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate, useLocation} from "react-router-dom";
+import styled from 'styled-components';
 import { GrFormClose } from "react-icons/gr";
 import { PiUserCirclePlusFill } from "react-icons/pi";
 import TodayHeader from "./../component/Today/TodayHeader";
 import TodayNav from "./../component/Today/TodayNav";
+import FamilyBox from "../component/FamilyBox";
 import { BsPlus } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 import axios from "axios";
 
+const FamilyWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 const Family_main = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [showOptions, setShowOptions] = useState(false);
     const [createCareAccount, setCreateCareAccount] = useState(false);
-    const [selectedFamily, setSelectedFamily] = useState();
+    const [selectedFamily, setSelectedFamily] = useState('');
+    const [selectedHome, setSelectedHome] = useState('');
+    const [selectedFamilyList, setSelectedFamilyList] = useState([]);
     const [profilePicture, setProfilePicture] = useState(null);
     const [nickname, setNickname] = useState("");
     const [newCareNickname, setNewCareNickname] = useState("");
     const [image, setImage] = useState(null);
-    const [familyData, setFamilyData] = useState();
+    const [familyData, setFamilyData] = useState([]);
     const host = "https://healody.shop";
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
 
+    const navigate = useNavigate();
     const handleTabClick = (index) => {
         setActiveTab(index);
     };
@@ -35,51 +44,32 @@ const Family_main = () => {
     };
 
     const handleFamilySelect = (family) => {
-        setSelectedFamily(family);
+        setSelectedHome(family);
+        // console.log(selectedFamilyList[family].user)
+
+        getFamilyList(family)
         setShowOptions(false); // 선택하기 버튼을 누르면 옵션 창을 닫도록 추가
     };
 
-    // const handleProfilePictureSelect = (event) => {
-    //   const file = event.target.files[0];
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     setProfilePicture(reader.result);
-    //   };
-    //   if (file) {
-    //     reader.readAsDataURL(file);
-    //   }
-    // };
+    function getFamilyList(family){
+        setSelectedHome(family)
+    }
 
-    // const handleNicknameChange = (event) => {
-    //   setNickname(event.target.value);
-    // };
-    //
-    // const handleProfileConfirm = () => {
-    //   // Perform any validation or additional actions here
-    //   // For now, let's simply close the profile edit popup
-    //   setCreateCareAccount(false);
-    // };
 
     const handleImageChange = (event) => {
         const selectedImage = event.target.files[0];
-        console.log(selectedImage);
-
-        // const imageObject = new Blob([selectedImage], { type: selectedImage.type });
-        // console.log(imageObject)
         setImage(selectedImage);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(image);
-
         if (image) {
             const data = new FormData();
 
             data.append("image", image);
 
             const requestDTO = {
-                homeId: "1",
+                homeId: familyData[selectedHome].home.home_id,
                 nickname: newCareNickname,
             };
 
@@ -114,10 +104,8 @@ const Family_main = () => {
                     },
                 })
                 .then((response) => {
-                    console.log(Object.keys(response.data.data));
-                    console.log(Object.entries(response.data.data));
                     setFamilyData(response.data.data);
-                    setSelectedFamily(Object.keys(response.data.data)[0]);
+                    setSelectedFamilyList(response.data.data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -125,8 +113,6 @@ const Family_main = () => {
         };
         getFamilyData();
     }, []);
-
-    // console.log(familyData);
 
     return (
         <div className="h-screen">
@@ -146,88 +132,79 @@ const Family_main = () => {
                                     style={{ backgroundColor: "#6F02DB" }}
                                     onClick={handleToggleClick}
                                 >
-                                    {selectedFamily}▽
+                                    { selectedHome } ▽
                                 </button>
+
                                 {showOptions && (
                                     <div className="absolute top-0 left-0 h-screen w-screen bg-black bg-opacity-40 flex items-center justify-center">
                                         <div className="w-60 flex flex-col bg-white p-6 rounded-2xl">
-                                            {familyData &&
-                                                Object.keys(familyData)?.map(
-                                                    (key) => {
-                                                        return (
-                                                            <>
-                                                                <button
-                                                                    className="text-black py-2 px-4 rounded-3xl rounded-lg border border-gray-300 w-full my-2"
-                                                                    onClick={() =>
-                                                                        handleFamilySelect(
-                                                                            key
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    {key}
-                                                                </button>
-                                                            </>
-                                                        );
-                                                    }
-                                                )}
-                                            {/* <button
-                                                className="text-black py-2 px-4 rounded-3xl rounded-lg border border-gray-300 w-full my-2"
-                                                onClick={() =>
-                                                    handleFamilySelect("본가")
-                                                }
-                                            >
-                                                본가
-                                            </button>
-                                            <button
-                                                className="text-black py-2 px-4 rounded-3xl rounded-lg border border-gray-300 w-full my-2"
-                                                onClick={() =>
-                                                    handleFamilySelect("외가")
-                                                }
-                                            >
-                                                외가
-                                            </button>
-                                            <button
-                                                className="text-black py-2 px-4 rounded-3xl rounded-lg border border-gray-300 w-full my-2"
-                                                onClick={() =>
-                                                    handleFamilySelect("친가")
-                                                }
-                                            >
-                                                친가
-                                            </button> */}
-                                            <button className="bg-purple-600 text-white py-2 px-4 rounded-3xl mt-4 rounded-lg border border-gray-300 w-full my-2">
-                                                선택하기
-                                            </button>
+                                            {Object.keys(familyData).map((key) => (
+                                                <button
+                                                    className="text-black py-2 px-4 rounded-3xl rounded-lg border border-gray-300 w-full my-2"
+                                                    onClick={() => handleFamilySelect(key)}
+                                                    key={key}
+                                                >
+                                                    {key}
+                                                </button>
+                                            ))}
                                         </div>
                                     </div>
                                 )}
                             </div>
-                            <Link to="/Family_invite">
-                                <BsPlus className="w-14 h-14" />
-                            </Link>
+                                <BsPlus onClick={() => {
+                                    navigate('/Family_invite/',{
+                                        state : {
+                                            id: familyData[selectedHome].home.home_id
+                                        }
+                                    } );
+                                }} className="w-14 h-14" />
+
                         </div>
 
                         {/* 가족 계정-컨텐츠 */}
-                        <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">
-                            {familyData && familyData[selectedFamily]?.user}
-                        </div>
+                            {selectedFamilyList[selectedHome] ? (
+                                Object.keys(selectedFamilyList[selectedHome].user).map((userId) => (
+                                    <FamilyBox image={selectedFamilyList[selectedHome].user[userId].image} name={selectedFamilyList[selectedHome].user[userId].name} nickname={selectedFamilyList[selectedHome].user[userId].nickname} />
+                                    // <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">
+                                    //     <div key={userId}>
+                                    //         {selectedFamilyList[selectedHome].user[userId].name}
+                                    //     </div>
+                                    // </div>
+                                ))
+                            ) : (
+                                // 선택한 가족에 사용자 정보가 없는 경우 예외 처리
+                                <div>No user data</div>
+                            )}
+
                     </div>
 
                     {/* 돌봄 계정 */}
                     <div>
                         {/* 돌봄 계정-헤더 */}
-                        <div className="flex justify-between items-center mb-4">
-                            <div>
+                        <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
                                 <button
                                     className="bg-purple-600 text-white py-2 px-4 rounded-3xl"
                                     style={{ backgroundColor: "#6F02DB" }}
                                 >
                                     돌봄계정
                                 </button>
+
+                                <BsPlus
+                                    className="w-14 h-14"
+                                    onClick={handleCareClick}
+                                />
                             </div>
-                            <BsPlus
-                                className="w-14 h-14"
-                                onClick={handleCareClick}
-                            />
+                            <div>
+                                {selectedFamilyList[selectedHome] ? (
+                                    Object.keys(selectedFamilyList[selectedHome]["care-user"]).map((userId) => (
+                                        <FamilyBox name="돌봄계정" image={selectedFamilyList[selectedHome]["care-user"][userId].image} nickname={selectedFamilyList[selectedHome]["care-user"][userId].nickname} />
+                                    ))
+                                ) : (
+                                    // 선택한 가족에 사용자 정보가 없는 경우 예외 처리
+                                    <div>No user data</div>
+                                )}
+                            </div>
                             {/* 프로필 편집 팝업 */}
                             {createCareAccount && (
                                 <div className="absolute top-0 left-0 h-screen w-screen bg-black bg-opacity-40 flex items-center justify-center">
@@ -283,18 +260,18 @@ const Family_main = () => {
                         </div>
 
                         {/* 돌봄 계정-컨텐츠 */}
-                        <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">
-                            <Link to="/Family_care_detail">
-                                <FaUserAlt />
-                            </Link>
-                            {/* <p className="text-gray-600 p-7">
-                                가족 전체의 도움이 필요한 노약자 혹은 반려동물의
-                                돌봄 계정을 생성하고 관리해봐요!
-                            </p> */}
-                            {familyData &&
-                                familyData[selectedFamily] &&
-                                familyData[selectedFamily]["care-user"]}
-                        </div>
+                        {/*<div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">*/}
+                        {/*    <Link to="/Family_care_detail">*/}
+                        {/*        <FaUserAlt />*/}
+                        {/*    </Link>*/}
+                        {/*    /!* <p className="text-gray-600 p-7">*/}
+                        {/*        가족 전체의 도움이 필요한 노약자 혹은 반려동물의*/}
+                        {/*        돌봄 계정을 생성하고 관리해봐요!*/}
+                        {/*    </p> *!/*/}
+                        {/*    /!*{familyData &&*!/*/}
+                        {/*    /!*    familyData[selectedFamily] &&*!/*/}
+                        {/*    /!*    familyData[selectedFamily]["care-user"]}*!/*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>

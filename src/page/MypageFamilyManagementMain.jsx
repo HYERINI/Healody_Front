@@ -525,15 +525,6 @@ function MypageFamilyManagementMain() {
         info:'',
         home_id: ''
     })
-    useEffect(() => {
-        // API 요청 보내기
-        axios.get(`https://healody.shop/api/home/${userId}`)
-          .then((response) => {
-            const data = response.data.data;
-            // data['']
-            setFamilyList(data);
-          })
-      }, []);
 
     const onModifyClicked = () => {
         setShowModifyModal(true);
@@ -544,6 +535,15 @@ function MypageFamilyManagementMain() {
         info: "",
         home_id: ""
     });
+    useEffect(() => {
+        // API 요청 보내기
+        axios.get(`https://healody.shop/api/home/${userId}`)
+            .then((response) => {
+                const data = response.data.data;
+                // data['']
+                setFamilyList(data);
+            })
+    }, []);
 
     // console.log(selectedHomeInfo)
 
@@ -603,6 +603,14 @@ function MypageFamilyManagementMain() {
         setSelectedHomeInfo({...formData, [name]: value})
     }
 
+    const deleteHome = async () => {
+        axios({
+            url: 'https://healody.shop/api/home/' + editHomeId,
+            method: 'DELETE'
+        }).then(function(response){
+            window.location.reload()
+        })
+    }
     const submitHome = async () => {
         const requestBody = {
             name: editHomeName,
@@ -809,6 +817,9 @@ function MypageFamilyManagementMain() {
 
                             <button style={styles.input_complete} onClick={submitHome}>
                                 완료
+                            </button>
+                            <button style={styles.input_box3} onClick={deleteHome}>
+                                삭제
                             </button>
                             <button style={styles.input_box3} onClick={cancelEditClicked}>
                                 취소
