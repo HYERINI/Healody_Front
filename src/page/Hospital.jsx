@@ -8,6 +8,7 @@ import Select from "../component/Select";
 import styled from 'styled-components';
 import CalendarAddList from "../component/CalendarAddList";
 import CalendarCheckComponent from "../component/CalendarCheckComponent";
+import axios from 'axios';
 
 const HospitalSelectWrap = styled.div`
   margin-top: 0;
@@ -40,12 +41,26 @@ function Hospital() {
         setSchedules([...schedules, newSchedule]);
     };
 
+    const handleFamily = () => {
+        const token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios('https://healody.shop/api/calender/view', {
+            method: 'GET',
+        })
+        .then(function(response) {
+            alert('가족조회가 되었습니다.');
+            // const userId = response.data.data[]
+
+        })
+    }
+
     return (
         <>
             <Container>
                 <TodayHeader />
                 <TodayNav />
                 <CalendarNav />
+                <button onClick={handleFamily}>가족 조회하기</button>
                 <CalendarComponent onAddSchedule={handleAddSchedule} />
                 <ul>
                     {schedules.map((schedule, index) => (
