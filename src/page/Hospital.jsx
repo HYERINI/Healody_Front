@@ -80,7 +80,23 @@ function Hospital() {
                 <TodayHeader />
                 <TodayNav />
                 <CalendarNav />
+                <h1>자신의 일정을 추가해보세요!</h1>
+                <br />
+                <CalendarComponent onAddSchedule={handleAddSchedule} />
+                <ul>
+                    {schedules.map((schedule, index) => (
+                        <li key={index}>
+                            <strong>날짜:</strong> {schedule.date.toLocaleDateString()}
+                            <strong>일정:</strong> {schedule.text}
+                        </li>
+                    ))}
+                </ul>
+                <br />
+                <h1>가족을 조회하여 가족들의 일정을 확인해보세요!</h1>
                 <button onClick={handleFamily}>가족 조회하기</button>
+                <br />
+                <br />
+                <h1>조회된 가족들을 클릭하고 날짜를 선택하여 그날의 일정을 조회해 보세요!</h1>
                 <ul>
                 {Object.keys(items).map((key) => (
                     <li key={key}>
@@ -94,15 +110,7 @@ function Hospital() {
                     <h3>선택한이름: {selectedName}</h3>
                     <h3>선택한 유저 아이디:{selectUserId}</h3>
                 </ul>
-                <CalendarComponent onAddSchedule={handleAddSchedule} />
-                <ul>
-                    {schedules.map((schedule, index) => (
-                        <li key={index}>
-                            <strong>날짜:</strong> {schedule.date.toLocaleDateString()}
-                            <strong>일정:</strong> {schedule.text}
-                        </li>
-                    ))}
-                </ul>
+                
                 <br />
                 {/* 일정이 나오는 컴포넌트 */}
 

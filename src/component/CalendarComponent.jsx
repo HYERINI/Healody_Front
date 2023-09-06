@@ -88,7 +88,7 @@ function CalendarComponent({ onAddSchedule }) {
       setSelectedDate(null);
     }
     const requestBody = {
-      userId : localStorage.getItem('yourid'),
+      
       date : localStorage.getItem('date'),
       content : localStorage.getItem('do'),
     };

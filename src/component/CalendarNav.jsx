@@ -5,7 +5,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 const Container = styled.div`
   margin: 10px auto 0 auto;
   display: grid;
-  grid-template-columns: 180px 180px;
+//   grid-template-columns: 180px 180px;
   text-align: center;
   width: 100%;
 `
@@ -33,7 +33,7 @@ const CalendarNav = () => {
 
     
     const isHospitalActive = location.pathname.includes('/hospital');
-    const isDosomethingActive = location.pathname.includes('/dosomething');
+    
 
     return (
         <Container>
@@ -42,13 +42,7 @@ const CalendarNav = () => {
                 to="/hospital"
                 isActive={isHospitalActive}
             >
-                병원
-            </TabLink>
-            <TabLink
-                to="/dosomething"
-                isActive={isDosomethingActive}
-            >
-                할일
+                일정추가 및 가족 일정 조회
             </TabLink>
         </Container>
     )

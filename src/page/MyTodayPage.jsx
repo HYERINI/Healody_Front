@@ -21,6 +21,7 @@ import exer25 from '../img/exer25.svg';
 import exer50 from '../img/exer50.svg';
 import exer75 from '../img/exer75.svg';
 import exer100 from '../img/exer100.svg';
+import TodayDoBox from '../component/Today/TodayDoBox';
 
 
 const Container = styled.div`
@@ -204,7 +205,7 @@ export default function MyTodayPage(){
             <TodayHeader />
             <TodayNav />
             <TodayProfile content="내 기록 더보기" link="/create_newRecord" userName={userName} userBirth={userBirth} userImage={userImage}/>
-            <TodayMainBox title="할일 목록" width="90" content="내 할일 더보기" moreLink="/Calendar" />
+            <TodayDoBox />
 
             {recordData == null ? (
                 <TodayMainBox title="목표 목록" width="90" content="내 목표 더보기" link="/create_newGoal" text="goal" />

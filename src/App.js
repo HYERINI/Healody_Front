@@ -24,7 +24,6 @@ import MypageProfile from './page/MypageProfile'
 import MypageFamilyInvite from './page/MypageFamilyInvite'
 import Celendar from './page/Celendar';
 import Hospital from './page/Hospital';
-import Dosomething from './page/Dosomething';
 import Loading from './page/Loading';
 import AddInfopage from './page/AddInfopage';
 import AddLoadingpage from './page/AddLoadingpage';
@@ -84,7 +83,7 @@ function App() {
 
             <Route path="/calendar" element={<Celendar />} />
             <Route path="/hospital" element={<Hospital />} />
-            <Route path="/dosomething" element={<Dosomething />} />
+            
 
             <Route path="/loading" element={<Loading />} />
             {isCreated ? (
