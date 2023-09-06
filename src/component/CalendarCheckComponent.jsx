@@ -12,12 +12,15 @@ function CalendarCheckComponent() {
 
   const handleAddSchedule = () => {
     if (selectedDate !== null) {
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const formattedDate = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
       localStorage.setItem('memodate', formattedDate);
       setSelectedDate(null);
     }
     const requestBody = {
-      userId : localStorage.getItem('yourid'),
+      // userId : localStorage.getItem('yourid'),
+      userId: "5",
       date: localStorage.getItem('memodate').toString(),
     };
     axios('https://healody.shop/api/calender/note', {
