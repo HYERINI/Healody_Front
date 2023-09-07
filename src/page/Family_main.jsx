@@ -14,6 +14,12 @@ const FamilyWrap = styled.div`
   display: flex;
   justify-content: space-between;
 `
+const Container = styled.div`
+  width: 360px;
+  margin: 0 auto;
+  position: relative;
+`
+
 const Family_main = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [showOptions, setShowOptions] = useState(false);
@@ -115,8 +121,7 @@ const Family_main = () => {
     }, []);
 
     return (
-        <div className="h-screen">
-            <div className="w-360px max-w-lg">
+        <Container>
                 <TodayHeader />
                 <TodayNav />
                 {/* Centered Box */}
@@ -255,8 +260,7 @@ const Family_main = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </Container>
     );
 };
 
