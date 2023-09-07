@@ -63,7 +63,29 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import '../css/button2.scss';
+import styled from 'styled-components';
 
+const TodayBox = styled.div`
+  background-color: #F5F5F5;
+  border: 1px solid #B6B6B5;
+  border-radius: 10px;
+  padding: 10px 5px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+`
+const TodayGoalBox = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #B6B6B5;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 5px;
+`
 
 function CalendarComponent({ onAddSchedule }) {
   const [schedule, setSchedule] = useState('');
@@ -130,25 +152,67 @@ function CalendarComponent({ onAddSchedule }) {
 
 
   return (
-    <div>
-      
-      <ul>
-
-      </ul>
+    <div style={{textAlign: "center",
+                  
+                  }}>
+      <TodayBox>
+        <div style={{borderRadius: '5px',
+         backgroundColor: "rgb(87, 108, 228)",
+         width: "100px",
+         fontSize: "14px",
+         color: "white",
+         padding: '1px',}}>
+          일정 추가
+        </div>
+      <TodayGoalBox>
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd"
         placeholderText="날짜 선택"
       />
+      </TodayGoalBox>
+      <TodayGoalBox>
       <input
         type="text"
         placeholder="일정 추가"
         value={schedule}
         onChange={handleInputChange}
       />
-      <button onClick={handleAddSchedule}>일정 추가</button>
+      </TodayGoalBox>
+      <br />
+      <TodayGoalBox style={{height: "40px",
+                            width: "200px",
+                            textAlign: "center",}}>
+      <button style={{marginTop: "-3px",}} class="btn btn-primary btn-jittery" onClick={handleAddSchedule}>일정 추가하기</button>
+      </TodayGoalBox>
+      </TodayBox>
+      {/* <div class="buttons">
+      <button class="btn btn-primary btn-jittery">
+        Click Me
+      </button>
+      <button class="btn btn-primary loading">Loading</button>
+  <button class="btn btn-primary btn-ghost">Ghost</button>
+  <button class="btn btn-primary">
+    <div class="inline-flex items-center space-x-2">
+      <i class="plus-icon"></i>
+      <div>Icon</div>
     </div>
+  </button>
+  <button class="btn btn-primary btn-dashed">Dashed</button>
+  <button class="btn btn-primary btn-link">Link</button>
+      </div> */}
+
+<div class="buttons">
+  
+  
+  
+ 
+ 
+</div>
+    </div>
+
+    
   );
 }
 
