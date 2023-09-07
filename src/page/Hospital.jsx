@@ -10,11 +10,23 @@ import CalendarAddList from "../component/CalendarAddList";
 import CalendarCheckComponent from "../component/CalendarCheckComponent";
 import axios from 'axios';
 import '../css/button.css';
+import '../css/button2.scss';
+
 
 const HospitalSelectWrap = styled.div`
   margin-top: 0;
 `
 
+const TodayBox = styled.div`
+  background-color: #F5F5F5;
+  border: 1px solid #B6B6B5;
+  border-radius: 10px;
+  padding: 10px 5px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+`
 
 function Hospital() {
     // const optionsHome = ['나', '엄마', '아빠', '동생'];
@@ -80,24 +92,53 @@ function Hospital() {
                 <TodayHeader />
                 <TodayNav />
                 <CalendarNav />
-                <h1>자신의 일정을 추가해보세요!</h1>
+                <h1 style={{
+                    textAlign: "center",
+                }}>
+                    <div class="btn btn-primary btn-round btn-marquee">
+                        <span data-text="자신의 일정을 추가해보세요!">자신의 일정을 추가해보세요!</span>
+                    </div>
+                </h1>
                 <br />
                 <CalendarComponent onAddSchedule={handleAddSchedule} />
-                <ul>
+                {/* <ul>
                     {schedules.map((schedule, index) => (
                         <li key={index}>
                             <strong>날짜:</strong> {schedule.date.toLocaleDateString()}
                             <strong>일정:</strong> {schedule.text}
                         </li>
                     ))}
-                </ul>
+                </ul> */}
                 <br />
-                <h1>가족을 조회하여 가족들의 일정을 확인해보세요!</h1>
-                <button onClick={handleFamily}>가족 조회하기</button>
-                <br />
-                <br />
-                <h1>조회된 가족들을 클릭하고 날짜를 선택하여 그날의 일정을 조회해 보세요!</h1>
+                <div style={{width: "450px",
+                            textAlign:"center",
+                            marginLeft: "-40px",
+                            }}
+                            class="btn btn-primary btn-round btn-marquee">
+                        <span data-text="가족을 선택하고 날짜를 선택하여 일정을 조회해 보세요!">가족을 선택하고 날짜를 선택하여 일정을 조회해 보세요!</span>
+                    </div>
+                
+                <TodayBox>
+                <div style={{borderRadius: '5px',
+                    backgroundColor: "rgb(87, 108, 228)",
+                    width: "100px",
+                    fontSize: "14px",
+                    color: "white",
+                    padding: '1px',
+                    textAlign: "center",}}>
+                    가족 조회
+                    </div>
+                <div style={{textAlign:"center",}}>
+                    <button style={{border: '2px solid #333', 
+                    padding: '5px', 
+                    borderRadius: '5px', 
+                    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)'
+                        }}
+                    class="btn btn-primary btn-ghost btn-open-line" onClick={handleFamily}>가족 조회하기</button>
+                </div>
+                
                 <ul>
+                <div style={{textAlign: "center",}}>
                 {Object.keys(items).map((key) => (
                     <li key={key}>
                         <button 
@@ -107,15 +148,15 @@ function Hospital() {
                         </button>
                     </li>
                     ))}
-                    <h3>선택한이름: {selectedName}</h3>
-                    <h3>선택한 유저 아이디:{selectUserId}</h3>
+                </div>
+                    {/* <h3>선택한이름: {selectedName}</h3> */}
                 </ul>
                 
                 <br />
                 {/* 일정이 나오는 컴포넌트 */}
 
                 <CalendarCheckComponent />
-                
+                </TodayBox>
             
             </Container>
         </>

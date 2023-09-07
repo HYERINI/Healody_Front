@@ -2,6 +2,34 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import '../css/button2.scss';
+import styled from 'styled-components';
+
+const TodayBox = styled.div`
+  background-color: #F5F5F5;
+  border: 1px solid #B6B6B5;
+  border-radius: 10px;
+  padding: 10px 5px;
+  box-sizing: border-box;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+`
+const TodayGoalBox = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid #B6B6B5;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 5px;
+`
+const Text = styled.p`
+  color: #60605F;
+  font-size: 15px;
+`
+
 function CalendarCheckComponent() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [items, setItems] = useState({});
@@ -50,21 +78,32 @@ function CalendarCheckComponent() {
   };
 
   return (
-    <div>
+    <div style={{textAlign: "center",}}>
+      <TodayGoalBox>
       <DatePicker
         selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="yyyy-MM-dd"
         placeholderText="날짜 선택"
       />
-      <button onClick={handleAddSchedule}>일정 보기</button>
+      </TodayGoalBox>
+      
+      <button style={{
+        border: '2px solid #333', 
+        padding: '5px', 
+        borderRadius: '5px', 
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)'
+      }}
+      class="btn btn-primary btn-jittery" onClick={handleAddSchedule}>일정 보기</button>
+      <TodayBox>
       {Object.keys(items).map((key) => (
-                    <li key={key}>
-                        날짜:{`${items[key].date}`}
-                        <br />
-                        할일:{`${items[key].content}`}
+                  <TodayGoalBox>
+                    <li style={{listStyle: "none",}} key={key}>
+                        <Text>날짜:{`${items[key].date}`} 할일:{`${items[key].content}`}</Text>
                     </li>
+                  </TodayGoalBox>
                     ))}
+      </TodayBox>
     </div>
   );
 }
