@@ -192,8 +192,8 @@ const Family_main = () => {
                             </div>
                             <div>
                                 {selectedFamilyList[selectedHome] ? (
-                                    Object.keys(selectedFamilyList[selectedHome]["care-user"]).map((userId) => (
-                                        <FamilyBox name="돌봄계정" image={selectedFamilyList[selectedHome]["care-user"][userId].image} nickname={selectedFamilyList[selectedHome]["care-user"][userId].nickname} />
+                                    Object.keys(selectedFamilyList[selectedHome].careUser).map((userId) => (
+                                        <FamilyBox image={selectedFamilyList[selectedHome].careUser[userId].image} nickname={selectedFamilyList[selectedHome].careUser[userId].nickname} />
                                     ))
                                 ) : (
                                     // 선택한 가족에 사용자 정보가 없는 경우 예외 처리

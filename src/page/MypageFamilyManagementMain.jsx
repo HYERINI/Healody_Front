@@ -490,6 +490,21 @@ const styles = {
         margin: '5px 0',
         fontSize: '15px',
         fontWeight: '600'
+    },
+    houseList: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        borderRadius: '10px',
+        border: '1px solid black',
+        padding: '15px 10px',
+        margin: '5px 0',
+        boxSizing: 'border-box'
+    },
+    dropdown:{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
     }
 }
 
@@ -515,6 +530,14 @@ function MypageFamilyManagementMain() {
     const [editHomeInfo, setEditHomeInfo] = useState('');
     const [editHomeId, setEditHomeId] = useState('');
 
+    const [submitUserName, onSubmitUserName] = useState('');
+    const [editUserHomeId, setEditUserHomeId] = useState('');
+    const [editUserId, setEditUserId] = useState([]);
+    const [showUserModal, setShowUserModal] = useState(false);
+    const [changeUserName, setChangeUserName] = useState('');
+    const [showOptions, setShowOptions] = useState(false);
+    const [selectedHome, setSelectedHome] = useState('');
+
     const [familyList, setFamilyList] = useState([]);
     const [formData, setFormData] = useState({
         name: "",
@@ -526,6 +549,14 @@ function MypageFamilyManagementMain() {
         info:'',
         home_id: ''
     })
+
+    const [selectedFamily, setSelectedFamily] = useState(null);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const handleFamilySelect = (familyKey) => {
+        setSelectedFamily(familyKey);
+        setShowDropdown(false);
+    };
 
     const onModifyClicked = () => {
         setShowModifyModal(true);
@@ -554,6 +585,22 @@ function MypageFamilyManagementMain() {
         setEditHomeInfo(familyList[index].home.home_info)
         setShowEditModal(true);
     };
+
+    const onEditUser = (index, users) => () => {
+        console.log(index, users)
+        setEditUserHomeId(familyList[index].home.home_id)
+        setEditUserId(users);
+        setShowUserModal(true);
+    }
+
+    const cancelUserModel = () => {
+        setShowUserModal(false);
+    }
+
+    const onSubmitEditUserName = (e) => {
+        // const {name, value} = e.target;
+        setChangeUserName(e.target.value);
+    }
 
     const cancelEditClicked = () =>{
         setShowEditModal(false);
@@ -592,7 +639,17 @@ function MypageFamilyManagementMain() {
     const onSubmitHome = (e) => {
         setHome(e.target.value);
     }
+    const handleFamilySelected = (family) => {
+        setSelectedHome(family);
+        // console.log(selectedFamilyList[family].user)
 
+        getFamilyList(family)
+        setShowOptions(false); // 선택하기 버튼을 누르면 옵션 창을 닫도록 추가
+    };
+
+    function getFamilyList(family){
+        setSelectedHome(family)
+    }
     const onSubmitEditHome = (e) => {
         const {name, value} = e.target;
         setSelectedHomeInfo({...formData, [name]: value})
@@ -697,6 +754,9 @@ function MypageFamilyManagementMain() {
 
     const navigate = useNavigate();
 
+    const handleToggleClick = () => {
+        setShowOptions(!showOptions);
+    };
     const handleFamilyInviteClick = () => {
         // 페이지 이동 처리
         navigate('/Mypage_FamilyInvite');
@@ -757,30 +817,40 @@ function MypageFamilyManagementMain() {
                             </div>
                             {
                                 <>
-                                <h3>사용자</h3>
-                                <ul>
                                     {
                                         Object.keys(familyList[household].user).map((userId) => (
-                                            <li>{familyList[household].user[userId].nickname}</li>
-                                            // <div className="bg-white rounded-lg border border-gray-300 p-4 mb-4">
-                                            //     <div key={userId}>
-                                            //         {selectedFamilyList[selectedHome].user[userId].name}
-                                            //     </div>
-                                            // </div>
+                                            // <li>{familyList[household].user[userId].nickname}</li>
+                                                <div style={styles.houseList}>
+                                                    <p>{familyList[household].user[userId].nickname}</p>
+                                                    <img
+                                                        id={familyList[household].user[userId].id}
+                                                        src={threedot}
+                                                        onClick={onEditUser(household, familyList[household].user[userId])} // threedot 클릭 시 모달 열기
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                </div>
                                         )
                                     )}
-                                </ul>
                                 </>
                             }
-                            { familyList["care-user"] ?
+                            <h3>돌봄계정</h3>
+                            {
                                 <>
-                                    <h3>돌봄 사용자</h3>
-                                    <ul>
-                                        {familyList[household]["care-user"].map((careUser) => (
-                                            <li key={careUser.id}>{careUser.nickname}</li>
-                                        ))}
-                                    </ul> </>
-                                : <></>
+                                    {
+                                        Object.keys(familyList[household].careUser).map((userId) => (
+                                                // <li>{familyList[household].user[userId].nickname}</li>
+                                                <div style={styles.houseList}>
+                                                    <p>{familyList[household].careUser[userId].nickname}</p>
+                                                    <img
+                                                        id={familyList[household].careUser[userId].id}
+                                                        src={threedot}
+                                                        onClick={onEditUser(household, familyList[household].careUser[userId])} // threedot 클릭 시 모달 열기
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                </div>
+                                            )
+                                        )}
+                                </>
                             }
                         </div>
                     ))}
@@ -874,6 +944,60 @@ function MypageFamilyManagementMain() {
                         )}
 
 
+            {showUserModal && (
+                <div style={styles.ModifyModalBackdrop}>
+                    <div style={styles.ModifyModal}>
+                        <div style={styles.modalBody}>
+                            <p style={styles.title}>이름 수정하기</p>
+                            <div style={styles.input_box}>
+                                <input
+                                    name="name"
+                                    type="text"
+                                    value={editUserId.name}
+                                    style={styles.input}
+                                    onChange={(e) => onSubmitUserName(e.target.value)}
+                                />
+                            </div>
+
+                            <p style={styles.title}>집 이동하기</p>
+
+                            <button
+                                className="bg-purple-600 text-white py-2 px-4 rounded-3xl"
+                                style={{ backgroundColor: "#6F02DB" }}
+                                onClick={handleToggleClick}
+                            >
+                                { selectedHome } ▽
+
+                            </button>
+                            {showOptions && (
+                                <div className="absolute top-0 left-0 h-screen w-screen bg-black bg-opacity-40 flex items-center justify-center">
+                                    <div className="w-60 flex flex-col bg-white p-6 rounded-2xl">
+                                        {Object.keys(familyList).map((key) => (
+                                            <button
+                                                className="text-black py-2 px-4 rounded-3xl rounded-lg border border-gray-300 w-full my-2"
+                                                onClick={() => handleFamilySelected(key)}
+                                                key={key}
+                                            >
+                                                {key}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <button style={styles.input_complete} onClick={createHome}>
+                                수정하기
+                            </button>
+                            <button style={styles.input_box3} onClick={createHome}>
+                                삭제하기
+                            </button>
+                            <button style={styles.input_box3} onClick={cancelUserModel}>
+                                취소
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
 
         </>
