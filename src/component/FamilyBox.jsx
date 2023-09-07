@@ -55,9 +55,10 @@ const FamilyIntroInput = styled.input`
   width: 90%;
 `
 
-export default function FamilyBox({image, name, nickname}){
+export default function FamilyBox({image, name, nickname, onClick}){
+
     return(
-        <FamilyBoxWrap>
+        <FamilyBoxWrap onClick={onClick}>
             <ProfileImage src={image} />
             <FamilyRightWrap>
                 <FamilyIntroWrap>
@@ -65,7 +66,6 @@ export default function FamilyBox({image, name, nickname}){
                         <FamilyName>{name}</FamilyName>
                         <FamilyNickName>{nickname}</FamilyNickName>
                     </FamilyNameWrap>
-                    <FamilyImage src={threedot} />
                 </FamilyIntroWrap>
                 <FamilyIntroInput
                     name="message"

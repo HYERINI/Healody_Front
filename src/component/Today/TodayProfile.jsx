@@ -79,7 +79,7 @@ const Date = styled.p`
 
 const ProfileBottomWrap = styled.button``;
 
-export default function TodayProfile({ content, link, userName, userBirth, userImage }) {
+export default function TodayProfile({ content, link, moreLink, userName, userBirth, userImage, id }) {
     const [formData, setFormData] = useState({
       message: "",
     });
@@ -112,14 +112,16 @@ export default function TodayProfile({ content, link, userName, userBirth, userI
     const nowMessage = localStorage.getItem('nowMessage');
     const navigate = useNavigate();
     const name = localStorage.getItem('name');
-    // const date = new Date();
-    function movePageTo(link) {
-        navigate(link);
-    }
-
+    const moveLink = link
     return (
         <ProfileBox>
-            <ProfileAddBt src={TodayPlusBt} onClick={() => movePageTo(link)} />
+            <ProfileAddBt src={TodayPlusBt} onClick={() => {
+                navigate(moveLink,{
+                    state : {
+                        id: { id }
+                    }
+                } );
+            }}/>
             <ProfileTopWrap>
                 <ProfileTopRightWrap>
                     <ProfileImage src={userImage} />
@@ -140,7 +142,7 @@ export default function TodayProfile({ content, link, userName, userBirth, userI
                     </ProfileInfoBigWrap>
                 </ProfileTopRightWrap>
             </ProfileTopWrap>
-            <TodayMoreBt content={content} link='/my_todayRecord'/>
+            <TodayMoreBt content={content} link={moreLink} id={id}/>
         </ProfileBox>
     );
 }

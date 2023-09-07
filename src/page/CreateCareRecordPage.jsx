@@ -10,7 +10,7 @@ import TodayGoalTitle from "../component/Today/TodayGoalTitle";
 import TodayDropDown from "../component/Today/TodayDropDown";
 import TodayRecordTypeButton from "../component/Today/TodayRecordTypeButton";
 import TodayButton from "../component/Today/TodayButton";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import TodayMakeGoal from './../component/Today/TodayMakeGoal';
 
 axios.defaults.withCredentials = true;
@@ -115,7 +115,9 @@ const TodayDropDownWrap = styled.div`
   padding-left: 20px;
 `
 
-function CreateNewRecordPage(){
+function CreateCareRecordPage(){
+    const {state} = useLocation()
+    const {id} = state;
     const navigate = useNavigate();
     const host = 'https://healody.shop';
     const token = localStorage.getItem('token');
@@ -126,14 +128,18 @@ function CreateNewRecordPage(){
         date: "",
         title: "",
         purpose: "",
-        name: "",
+        symptomName: "",
+        hospitalName: "",
         surgery: "",
         medicine1: "",
         medicine2: "",
         medicine3: "",
         place: "",
-        memo: ""
+        memo: "",
+        userId: ''
     });
+    console.log(id)
+
 
     const [medicineInputs, setMedicineInputs] = useState(1);
     const handleInputChange = (event) => {
@@ -161,15 +167,16 @@ function CreateNewRecordPage(){
         // 병원일 때 호출
         if (selectedDropDownValue === '병원') {
             const requestBody = {
+                userId: id.id,
                 date: formData.date + ' ' + formData.time,
                 purpose: selectedPurpose,
-                name: formData.name,
+                hospitalName: formData.hospitalName,
                 surgery: formData.surgery,
                 memo: formData.memo,
                 title: formData.title,
             };
             axios({
-                url: host + '/api/note/hospital',
+                url: host + '/api/care-user/note',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -179,7 +186,6 @@ function CreateNewRecordPage(){
                 data: requestBody
             }).then(function(response){
                 alert('기록이 생성되었습니다')
-                navigate('/my_todayRecord')
             }).catch(function(error){
                 console.log(error)
                 if(error.response.status === 400){
@@ -188,6 +194,7 @@ function CreateNewRecordPage(){
             })
         } else if (selectedDropDownValue === '약') {
             const requestBody = {
+                userId: id.id,
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
                 medicine1: formData.medicine1,
@@ -197,7 +204,7 @@ function CreateNewRecordPage(){
                 memo: formData.memo
             };
             axios({
-                url: host + '/api/note/medicine',
+                url: host + '/api/care-user/note',
                 method: 'POST',
                 headers:{
                     'Authorization' : 'Bearer ' + token,
@@ -207,19 +214,19 @@ function CreateNewRecordPage(){
                 data: requestBody
             }).then(function(data){
                 alert('기록이 생성되었습니다')
-                navigate('/my_todayRecord')
             }).catch(function(error){
                 console.log(error.code)
             })
         } else if (selectedDropDownValue === '증상') {
             const requestBody = {
+                userId: id.id,
                 date: formData.date + ' ' + formData.time,
                 title: formData.title,
-                name: formData.name,
+                symptomName: formData.symptomName,
                 memo: formData.memo
             };
             axios({
-                url: host + '/api/note/symptom',
+                url: host + '/api/care-user/note',
                 method: 'POST',
                 headers: {
                     'Authorization':'Bearer '+ token,
@@ -229,7 +236,6 @@ function CreateNewRecordPage(){
                 data: requestBody
             }).then(function(response){
                 alert('기록이 생성되었습니다')
-                navigate('/my_todayRecord')
             }).catch(function(error){
                 if(error.status === 400){
                     alert('빈칸 없이 입력해주세요')
@@ -297,8 +303,8 @@ function CreateNewRecordPage(){
                         <TodayGoalTitle content="병원*" width="70" />
                         <TodayInputWrap>
                             <TodayTitleInput type="text" placeholder='병원 이름을 입력하세요.'
-                                             name="name"
-                                             value={formData.name}
+                                             name="hospitalName"
+                                             value={formData.hospitalName}
                                              onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
@@ -368,8 +374,8 @@ function CreateNewRecordPage(){
                         <TodayGoalTitle content="증상*" width="70" />
                         <TodayInputWrap>
                             <TodayTitleInput type="text" placeholder='나타나는 증상을 입력하세요'
-                                             name="name"
-                                             value={formData.name}
+                                             name="symptomName"
+                                             value={formData.symptomName}
                                              onChange={handleInputChange}/>
                         </TodayInputWrap>
                     </TodayListWrap>
@@ -394,4 +400,4 @@ function CreateNewRecordPage(){
     )
 }
 
-export default CreateNewRecordPage;
+export default CreateCareRecordPage;

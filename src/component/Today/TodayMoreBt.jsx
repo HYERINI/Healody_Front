@@ -26,16 +26,22 @@ const MoreText = styled.p`
   font-size: 13px;
 `
 
-export default function TodayMoreBt({content, link}){
+export default function TodayMoreBt({content, link, id}){
     const navigate = useNavigate();
 
-    function movePageRecord(link) {
-        navigate(link);
-    }
-
     return(
-        <Button onClick={() => movePageRecord(link)}>
-            <MoreBtImage src={MoreBottom} onClick={() => movePageRecord({link})}/>
+        <Button onClick={() => {
+            navigate(link,{
+                state : {
+                    id: { id }
+                }
+            } );
+        }}>
+            <MoreBtImage src={MoreBottom} onClick={() => navigate(link,{
+                state : {
+                    id: { id }
+                }
+            } )}/>
             <MoreText>{content}</MoreText>
         </Button>
     )

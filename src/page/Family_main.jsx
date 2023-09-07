@@ -91,9 +91,10 @@ const Family_main = () => {
                     },
                 })
                 .then((response) => {
-                    console.log("새로운 돌봄 계정 생성됨:", response.data);
+                    alert(response.data.message);
                     setNewCareNickname(""); // 입력 필드 초기화
                     setCreateCareAccount(false); // 팝업 닫기
+                    window.location.reload();
                 })
                 .catch((error) => {
                     console.error("새로운 돌봄 계정 생성 에러:", error);
@@ -169,11 +170,24 @@ const Family_main = () => {
                         {/* 가족 계정-컨텐츠 */}
                             {selectedFamilyList[selectedHome] ? (
                                 Object.keys(selectedFamilyList[selectedHome].user).map((userId) => (
-                                    <FamilyBox image={selectedFamilyList[selectedHome].user[userId].image} name={selectedFamilyList[selectedHome].user[userId].name} nickname={selectedFamilyList[selectedHome].user[userId].nickname} />
+                                    <FamilyBox
+                                        onClick={() => {
+                                            navigate('/family_today',{
+                                                state : {
+                                                    id: familyData[selectedHome].user[userId].id,
+                                                    name: familyData[selectedHome].user[userId].name,
+                                                    nickname: familyData[selectedHome].user[userId].nickname,
+                                                    profileImage: familyData[selectedHome].user[userId].image,
+                                                }
+                                            } );
+                                        }}
+                                        image={selectedFamilyList[selectedHome].user[userId].image}
+                                        name={selectedFamilyList[selectedHome].user[userId].name}
+                                        nickname={selectedFamilyList[selectedHome].user[userId].nickname} />
                                 ))
                             ) : (
                                 // 선택한 가족에 사용자 정보가 없는 경우 예외 처리
-                                <div>No user data</div>
+                                <div>집을 선택하세요</div>
                             )}
 
                     </div>
@@ -181,7 +195,7 @@ const Family_main = () => {
                     {/* 돌봄 계정 */}
                     <div>
                         {/* 돌봄 계정-헤더 */}
-                        <div>
+                        <div style={{ marginBottom : '15px'}}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                 <button
                                     className="bg-purple-600 text-white py-2 px-4 rounded-3xl"
@@ -198,11 +212,24 @@ const Family_main = () => {
                             <div>
                                 {selectedFamilyList[selectedHome] ? (
                                     Object.keys(selectedFamilyList[selectedHome].careUser).map((userId) => (
-                                        <FamilyBox image={selectedFamilyList[selectedHome].careUser[userId].image} nickname={selectedFamilyList[selectedHome].careUser[userId].nickname} />
+                                        <FamilyBox
+                                            image={selectedFamilyList[selectedHome].careUser[userId].image}
+                                            name={selectedFamilyList[selectedHome].careUser[userId].nickname}
+                                            onClick={() => {
+                                                navigate('/care_today',{
+                                                    state : {
+                                                        id: familyData[selectedHome].careUser[userId].id,
+                                                        careName: familyData[selectedHome].careUser[userId].nickname,
+                                                        careImage: familyData[selectedHome].careUser[userId].image,
+                                                        homeId: familyData[selectedHome].home.home_id
+                                                    }
+                                                } );
+                                            }}
+                                        />
                                     ))
                                 ) : (
                                     // 선택한 가족에 사용자 정보가 없는 경우 예외 처리
-                                    <div>No user data</div>
+                                    <div>집을 선택하세요</div>
                                 )}
                             </div>
                             {/* 프로필 편집 팝업 */}

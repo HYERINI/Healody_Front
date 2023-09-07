@@ -14,7 +14,10 @@ import Family_main from './page/Family_main';
 import CreateNewGoalPage from './page/CreateNewGoalPage';
 import CreateNewRecordPage from './page/CreateNewRecordPage';
 import MyTodayPage from './page/MyTodayPage';
+import FamilyTodayPage from './page/FamilyTodayPage';
+import CareTodayPage from './page/CareTodayPage';
 import MyTodayRecordListPage from "./page/MyTodayRecordListPage";
+import CareRecordPage from "./page/CareRecordPage";
 import MyTodayRecordDetailPage from './page/MyTodayRecordDetailPage';
 import MypagePassword from './page/MypagePassword'
 import MypageLayout from './page/MypageLayout'
@@ -28,6 +31,7 @@ import Loading from './page/Loading';
 import AddInfopage from './page/AddInfopage';
 import AddLoadingpage from './page/AddLoadingpage';
 import Ka_loginpage from './page/Ka_loginpage';
+import CreateCareRecordPage from "./page/CreateCareRecordPage";
 // import KakaoLoginRedirect from './component/KakaoLoginRedirect';
 // import tailwindcss from 'tailwind.css';
 
@@ -69,10 +73,14 @@ function App() {
             <Route path="/ka_login" element={<Ka_loginpage />} />
 
             <Route path="/my_today" element={<MyTodayPage />}/>
+            <Route path="/family_today" element={<FamilyTodayPage />}/>
+            <Route path="/care_today" element={<CareTodayPage />}/>
             <Route path="/my_todayRecord" element={<MyTodayRecordListPage />}/>
             <Route path="/my_todayRecord/:type/:id" element={<MyTodayRecordDetailPage />} />
+            <Route path="/care_todayRecord" element={<CareRecordPage />} />
             <Route path="/create_newGoal" element={<CreateNewGoalPage />} />
             <Route path="/create_newRecord" element={<CreateNewRecordPage />} />
+            <Route path="/create_careRecord" element={<CreateCareRecordPage />} />
 
             <Route path="/Mypage_Password" element={<MypagePassword />} />
             <Route path="/Mypage_Layout" element={<MypageLayout />} />

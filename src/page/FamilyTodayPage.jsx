@@ -128,7 +128,7 @@ const WaterImg = styled.img`
 `
 
 
-export default function MyTodayPage(){
+export default function FamilyTodayPage(){
     const host = 'https://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
@@ -137,33 +137,13 @@ export default function MyTodayPage(){
     const [userImage, setUserImage] = useState('');
     const [recordData, setRecordData] = useState(null);
 
-    // console.log(token, userId)
-    useEffect(() => {
-        // 데이터 가져오는 로직 (예시)
-        const fetchData = async () => {
-            try {
-                const response = await fetch(host + '/api/goal/' + userId,{
-                    method: 'GET',
-                    headers:{
-                        'Authorization' : 'Bearer ' + token
-                    }
-                });
-                const data = await response.json();
-                console.log(data.result)
-                { data.result === 'SUCCESS' ? setRecordData(data) : setRecordData(null)}
-                console.log(recordData)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
-    }, []);
+    const {state} = useLocation()
+    const {id, nickname, name, profileImage} = state;
 
     useEffect(() => {
-        // 데이터 가져오는 로직 (예시)
         const fetchUserData = async () => {
             try {
-                const response = await fetch(host + '/api/user', {
+                const response = await fetch(host + '/api/care-user/note/' + id, {
                     method: 'GET',
                     headers:{
                         'Authorization' : 'Bearer ' + token
@@ -199,12 +179,11 @@ export default function MyTodayPage(){
         }
     };
 
-    console.log(recordData)
     return (
         <Container>
             <TodayHeader />
             <TodayNav />
-            <TodayProfile content="내 기록 더보기" link="/create_newRecord" moreLink="/my_todayRecord" userName={userName} userBirth={userBirth} userImage={userImage}/>
+            <TodayProfile content="내 기록 더보기" link="/create_careRecord" userName={name} userImage={profileImage}/>
             <TodayDoBox />
 
             {recordData == null ? (

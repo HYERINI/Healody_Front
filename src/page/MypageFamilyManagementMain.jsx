@@ -554,6 +554,8 @@ function MypageFamilyManagementMain() {
     const [editUserHomeId, setEditUserHomeId] = useState('');
     const [editUserId, setEditUserId] = useState([]);
     const [showUserModal, setShowUserModal] = useState(false);
+    const [editCareUserId, setEditCareUserId] = useState([]);
+    const [showCareUserModal, setShowCareUserModal] = useState(false);
     const [changeUserName, setChangeUserName] = useState('');
     const [showOptions, setShowOptions] = useState(false);
     const [selectedHome, setSelectedHome] = useState('');
@@ -607,7 +609,7 @@ function MypageFamilyManagementMain() {
     };
 
     const onEditUser = (index, users) => () => {
-        console.log(index, users)
+        // console.log(index, users)
         setEditUserHomeId(familyList[index].home.home_id)
         setEditUserId(users);
         setShowUserModal(true);
@@ -615,6 +617,17 @@ function MypageFamilyManagementMain() {
 
     const cancelUserModel = () => {
         setShowUserModal(false);
+    }
+
+    const onEditCareUser = (index, users) => () => {
+        // console.log(index, users)
+        setEditUserHomeId(familyList[index].home.home_id)
+        setEditCareUserId(users.id);
+        setShowCareUserModal(true);
+    }
+
+    const cancelCareUserModel = () => {
+        setShowCareUserModal(false);
     }
 
     const onSubmitEditUserName = (e) => {
@@ -688,6 +701,19 @@ function MypageFamilyManagementMain() {
                 'Authorization': 'Bearer '+ token
             }
         }).then(function(response){
+            window.location.reload()
+        })
+    }
+
+    const deleteCareUser = async () => {
+        axios({
+            url: 'https://healody.shop/api/care-user/' + editCareUserId,
+            method: 'DELETE',
+            header:{
+                'Authorization': 'Bearer '+ token
+            }
+        }).then(function(response){
+            alert(response.data.message)
             window.location.reload()
         })
     }
@@ -897,7 +923,7 @@ function MypageFamilyManagementMain() {
                                                     <img
                                                         id={familyList[household].careUser[userId].id}
                                                         src={threedot}
-                                                        onClick={onEditUser(household, familyList[household].careUser[userId])} // threedot 클릭 시 모달 열기
+                                                        onClick={onEditCareUser(household, familyList[household].careUser[userId])} // threedot 클릭 시 모달 열기
                                                         style={{ cursor: "pointer" }}
                                                     />
                                                 </div>
@@ -1046,6 +1072,31 @@ function MypageFamilyManagementMain() {
                                 삭제하기
                             </button>
                             <button style={styles.input_box3} onClick={cancelUserModel}>
+                                취소
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showCareUserModal && (
+                <div style={styles.ModifyModalBackdrop}>
+                    <div style={styles.ModifyModal}>
+                        <div style={styles.modalBody}>
+                            <button
+                                style={styles.input_complete}
+                                onClick={() => {
+                                    navigate('/family_today',{
+                                        state : {
+                                            id: editCareUserId
+                                        }
+                                    } );
+                                }}>
+                                돌봄 계정 페이지 보러가기
+                            </button>
+                            <button style={styles.input_box3} onClick={deleteCareUser}>
+                                삭제하기
+                            </button>
+                            <button style={styles.input_box3} onClick={cancelCareUserModel}>
                                 취소
                             </button>
                         </div>

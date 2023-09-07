@@ -7,7 +7,7 @@ import TodayRecordBox from "../component/Today/TodayRecordBox";
 import TodayDeleteModal from "../component/Today/TodayDeleteModal";
 import TodayDeleteCheckBox from "../component/Today/TodayDeleteCheckBox";
 import TodayPlusBt from './../img/TodayPlusBt.svg';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Container = styled.div`
   width: 360px;
@@ -55,7 +55,7 @@ const TodayNotRecord = styled.div`
   align-items: center;
   text-align: center;
 `
-export default function MyTodayRecordListPage() {
+export default function CareRecordPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [deleteCheckBoxStates, setDeleteCheckBoxStates] = useState([]); // 삭제 확인 체크박스 상태 배열 추가
     const [recordData, setRecordData] = useState([]); // 데이터 가져오기
@@ -64,12 +64,15 @@ export default function MyTodayRecordListPage() {
     const host = 'https://healody.shop';
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
+    const {state} = useLocation()
+    const {id} = state;
+    console.log('아이디 :' + id.id)
 
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
         const fetchData = async () => {
             try {
-                const response = await fetch(host + '/api/care-user/note/' + userId,{
+                const response = await fetch(host + '/api/care-user/note/' + id.id,{
                     method: 'GET',
                     headers:{
                         'Authorization' : 'Bearer ' + token
@@ -87,7 +90,11 @@ export default function MyTodayRecordListPage() {
     }, []);
 
     function onMoveAddRecord() {
-        navigate('/create_newRecord');
+        navigate('create_careRecord',{
+            state : {
+                id: id
+            }
+        } );
     }
 
     const handleDeleteButtonClick = () => {
@@ -117,13 +124,13 @@ export default function MyTodayRecordListPage() {
         let deleteUrl;
         switch (purpose) {
             case '병원':
-                deleteUrl = host + `/api/note/hospital/${recordData[index].noteId}`;
+                deleteUrl = host + `/api/care-user/note/${recordData[index].noteId}`;
                 break;
             case '약':
-                deleteUrl = host + `/api/note/medicine/${recordData[index].noteId}`;
+                deleteUrl = host + `/api/care-user/note/${recordData[index].noteId}`;
                 break;
             case '증상':
-                deleteUrl = host + `/api/note/symptom/${recordData[index].noteId}`;
+                deleteUrl = host + `/api/care-user/note/${recordData[index].noteId}`;
                 break;
             default:
                 return;
@@ -146,35 +153,25 @@ export default function MyTodayRecordListPage() {
 
     };
 
-    function moveDetailRecord(type, id){
-        switch(type){
-            case '병원':
-                navigate(`/care_todayRecord/hospital/${id}`);
-                break;
-            case '약':
-                navigate(`/care_todayRecord/medicine/${id}`);
-                break;
-            case '증상':
-                navigate(`/care_todayRecord/symptom/${id}`);
-                break;
-            default:
-                return;
-        }
-    }
 
     return (
         <Container>
             <TodayHeader />
             <TodayNav />
             <TodayTitle content="기록 목록" />
-            <TodayAddRecord src={TodayPlusBt} onClick={onMoveAddRecord} />
+            <TodayAddRecord src={TodayPlusBt} onClick={() => {
+                navigate('/create_careRecord',{
+                    state : {
+                        id: id
+                    }
+                } );}
+            } />
             <TodayRecordBoxWrap>
                 {recordData.length !== 0 ?
                     <>
                         {recordData.map((record, index) => (
                             <React.Fragment key={index}>
                                 <TodayRecordBox
-                                    onClick={() => moveDetailRecord(record.noteType, record.noteId)}
                                     type={record.noteType}
                                     date={new Date(record.date).toISOString().split('T')[0]}
                                     content={record.title}
