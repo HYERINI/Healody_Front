@@ -7,6 +7,26 @@ import {getDefaultLocale} from "react-datepicker";
 import FamilyBox from "../component/FamilyBox";
 
 const styles = {
+    addBoxWrap: {
+        width: '90%',
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '15px'
+    },
+    addBox:{
+        border: '2px solid #6F02DB',
+        width: '100%',
+        padding: '15px 0'
+    },
+    titleWrap: {
+        backgroundColor: '#6F02DB',
+        padding: '5px 10px',
+        fontSize: '14px',
+        color: 'white',
+        borderRadius: '15px',
+        margin: '10px 0 0 0'
+    },
     header: {
         backgroundColor: "transparent"
     },
@@ -71,7 +91,7 @@ const styles = {
         borderRadius: '10px',
         margin: '5px 0',
         width: '100%',
-        border: '1px solid black',
+        border: '2px solid black',
         padding: '5px 10px',
     },
     h3: {
@@ -663,7 +683,10 @@ function MypageFamilyManagementMain() {
     const deleteHome = async () => {
         axios({
             url: 'https://healody.shop/api/home/' + editHomeId,
-            method: 'DELETE'
+            method: 'DELETE',
+            header:{
+                'Authorization': 'Bearer '+ token
+            }
         }).then(function(response){
             window.location.reload()
         })
@@ -792,6 +815,36 @@ function MypageFamilyManagementMain() {
         }
     }
 
+    const changeHome = async() => {
+        const requestBody = {
+            'userId': editUserId.id,
+            'homeId': editUserHomeId
+        }
+        try{
+            const response = await axios.post(`https://healody.shop/api/family/update/${familyList[selectedHome].home.home_id}`, requestBody,{
+                headers: {
+                    Authorization : 'Bearer ' + token
+                }
+            })
+            alert(response.data.message)
+        } catch(error){
+
+        }
+    }
+
+    const deleteFamily = async () => {
+        try{
+            const response = await axios.delete(`https://healody.shop/api/family/delete/${editUserId.id}/${editUserHomeId}`, {
+                headers: {
+                    Authorization : 'Bearer ' + token
+                }
+            })
+            alert(response.data.message)
+        } catch(error) {
+
+        }
+    }
+
     return (
         <>
         <div style={styles.total_box}>
@@ -833,7 +886,7 @@ function MypageFamilyManagementMain() {
                                     )}
                                 </>
                             }
-                            <h3>돌봄계정</h3>
+                            <h3 style={styles.titleWrap}>돌봄계정</h3>
                             {
                                 <>
                                     {
@@ -856,9 +909,11 @@ function MypageFamilyManagementMain() {
                     ))}
                 </div>
         </div>
-                <button style={styles.purple_box3} onClick={onModifyClicked}>
+            <div style={styles.addBoxWrap}>
+                <button style={styles.addBox} onClick={onModifyClicked}>
                     집 추가하기
                 </button>
+            </div>
 
             {showEditModal && (
                 <div style={styles.ModifyModalBackdrop}>
@@ -955,7 +1010,6 @@ function MypageFamilyManagementMain() {
                                     type="text"
                                     value={editUserId.name}
                                     style={styles.input}
-                                    onChange={(e) => onSubmitUserName(e.target.value)}
                                 />
                             </div>
 
@@ -985,10 +1039,10 @@ function MypageFamilyManagementMain() {
                                 </div>
                             )}
 
-                            <button style={styles.input_complete} onClick={createHome}>
-                                수정하기
+                            <button style={styles.input_complete} onClick={changeHome}>
+                                이동하기
                             </button>
-                            <button style={styles.input_box3} onClick={createHome}>
+                            <button style={styles.input_box3} onClick={deleteFamily}>
                                 삭제하기
                             </button>
                             <button style={styles.input_box3} onClick={cancelUserModel}>
