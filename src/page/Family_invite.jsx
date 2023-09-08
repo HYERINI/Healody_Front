@@ -64,6 +64,10 @@ const Family_main = ({props}) => {
     }
   };
 
+  const inviteFamily = (e) => {
+    sendPostRequest();
+  }
+
   return (
     <div className="h-screen">
       <div className="w-360px max-w-lg">
@@ -90,6 +94,9 @@ const Family_main = ({props}) => {
               placeholder="가족의 전화번호를 입력하고 집에 초대 해보세요."
               className="text-center text-xs border border-gray-300 rounded-xl p-2 w-full mb-4 text-#B6B6B5"
             />
+            <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+              <button type="button" onClick={inviteFamily} style={{width: '100%', padding: '5px', color: 'white', borderRadius: '15px', cursor: 'pointer', backgroundColor: '#6F02DB'}}>추가하기</button>
+            </div>
             {/* 검색 결과 표시 부분을 추가할 수 있습니다. */}
           </div>
         </div>

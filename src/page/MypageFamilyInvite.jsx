@@ -145,6 +145,8 @@ function MypageFamilyInvite() {
                         onKeyDown={handleEnterKey}
                         placeholder="가족의 전화번호를 입력하고 집에 초대해보세요"
                     />
+
+                    <button type="button"> 추가하기</button>
                 </div>
 
                 {namesList.map((item, index) => (
