@@ -622,7 +622,7 @@ function MypageFamilyManagementMain() {
     const onEditCareUser = (index, users) => () => {
         // console.log(index, users)
         setEditUserHomeId(familyList[index].home.home_id)
-        setEditCareUserId(users.id);
+        setEditCareUserId(users);
         setShowCareUserModal(true);
     }
 
@@ -707,7 +707,7 @@ function MypageFamilyManagementMain() {
 
     const deleteCareUser = async () => {
         axios({
-            url: 'https://healody.shop/api/care-user/' + editCareUserId,
+            url: 'https://healody.shop/api/care-user/' + editCareUserId.id,
             method: 'DELETE',
             header:{
                 'Authorization': 'Bearer '+ token
@@ -1087,7 +1087,9 @@ function MypageFamilyManagementMain() {
                                 onClick={() => {
                                     navigate('/care_today',{
                                         state : {
-                                            id: editCareUserId
+                                            id: editCareUserId.id,
+                                            careName: editCareUserId.nickname,
+                                            careImage: editCareUserId.image
                                         }
                                     } );
                                 }}>
