@@ -184,7 +184,7 @@ export default function CareTodayPage(){
     };
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
-        const fetchUserData = async () => {
+        const fetchcareUserData = async () => {
             try {
                 const response = await fetch(host + '/api/care-user/note/' + id, {
                     method: 'GET',
@@ -200,7 +200,7 @@ export default function CareTodayPage(){
             }
         };
 
-        fetchUserData();
+        fetchcareUserData();
     }, []);
 
     const [activeButton, setActiveButton] = useState(null);

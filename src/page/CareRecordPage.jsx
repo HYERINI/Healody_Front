@@ -145,7 +145,7 @@ export default function CareRecordPage() {
                     'Authorization' : 'Bearer ' + token
                 },
             })
-            window.location.reload()
+            navigate('/family')
 
         } catch (error) {
             alert('기록을 삭제할 수 없습니다.');

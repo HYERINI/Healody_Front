@@ -67,9 +67,9 @@ export default function MyTodayRecordListPage() {
 
     useEffect(() => {
         // 데이터 가져오는 로직 (예시)
-        const fetchData = async () => {
+        const fetchUserData = async () => {
             try {
-                const response = await fetch(host + '/api/care-user/note/' + userId,{
+                const response = await fetch(host + '/api/note/' + userId,{
                     method: 'GET',
                     headers:{
                         'Authorization' : 'Bearer ' + token
@@ -83,7 +83,7 @@ export default function MyTodayRecordListPage() {
             }
         };
 
-        fetchData();
+        fetchUserData();
     }, []);
 
     function onMoveAddRecord() {
@@ -149,13 +149,13 @@ export default function MyTodayRecordListPage() {
     function moveDetailRecord(type, id){
         switch(type){
             case '병원':
-                navigate(`/care_todayRecord/hospital/${id}`);
+                navigate(`/my_todayRecord/hospital/${id}`);
                 break;
             case '약':
-                navigate(`/care_todayRecord/medicine/${id}`);
+                navigate(`/my_todayRecord/medicine/${id}`);
                 break;
             case '증상':
-                navigate(`/care_todayRecord/symptom/${id}`);
+                navigate(`/my_todayRecord/symptom/${id}`);
                 break;
             default:
                 return;

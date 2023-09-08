@@ -186,6 +186,7 @@ function CreateCareRecordPage(){
                 data: requestBody
             }).then(function(response){
                 alert('기록이 생성되었습니다')
+                navigate('/family')
             }).catch(function(error){
                 console.log(error)
                 if(error.response.status === 400){
@@ -214,6 +215,7 @@ function CreateCareRecordPage(){
                 data: requestBody
             }).then(function(data){
                 alert('기록이 생성되었습니다')
+                navigate('/family')
             }).catch(function(error){
                 console.log(error.code)
             })
@@ -236,6 +238,7 @@ function CreateCareRecordPage(){
                 data: requestBody
             }).then(function(response){
                 alert('기록이 생성되었습니다')
+                navigate('/family')
             }).catch(function(error){
                 if(error.status === 400){
                     alert('빈칸 없이 입력해주세요')
