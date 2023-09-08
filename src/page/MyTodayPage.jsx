@@ -22,6 +22,7 @@ import exer50 from '../img/exer50.svg';
 import exer75 from '../img/exer75.svg';
 import exer100 from '../img/exer100.svg';
 import TodayDoBox from '../component/Today/TodayDoBox';
+import TodayDeleteCheckBox from "../component/Today/TodayDeleteCheckBox";
 
 
 const Container = styled.div`
@@ -136,6 +137,7 @@ export default function MyTodayPage(){
     const [userBirth, setUserBirth] = useState('');
     const [userImage, setUserImage] = useState('');
     const [recordData, setRecordData] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     // console.log(token, userId)
     useEffect(() => {
@@ -231,11 +233,11 @@ export default function MyTodayPage(){
                                 🍻 {recordData.data.behavior} 도전중
                             </TodayGoalName>
                         )}
-                        <TodayRecordDelete src={Delete} />
+                        {/*<TodayRecordDelete src={Delete} />*/}
                     </TodayRecordBoxTitleWrap>
                     <TodayRecordContentWrap>
                         <TodayTitle>목표 {recordData.data.days} 일차</TodayTitle>
-                        <TodayDates>2023.06.01 ~ 2023.06.30</TodayDates>
+                        <TodayDates>{recordData.data.startDate} ~ {recordData.data.endDate}</TodayDates>
                         {recordData.data.behavior === '물마시기' ? (
                             <TodayGoalDetailWrap>
                                 <StarWrap><StarImg src={starGoal} /></StarWrap>
@@ -276,6 +278,16 @@ export default function MyTodayPage(){
                     </TodayRecordContentWrap>
                 </TodayRecordBoxWrap>
             )}
+            {/*{showModal && (*/}
+            {/*    <React.Fragment>*/}
+            {/*        <TodayDeleteModal isOpen={showModal} onClose={() => setShowModal(false)} />*/}
+            {/*        <TodayDeleteCheckBox*/}
+            {/*            content="삭제하시겠습니까?"*/}
+            {/*            buttonText="삭제하기"*/}
+            {/*            onDelete={() => handleDeleteGoal(index, recordData..noteType)}*/}
+            {/*        />*/}
+            {/*    </React.Fragment>*/}
+            {/*)}*/}
         </Container>
     );
 }

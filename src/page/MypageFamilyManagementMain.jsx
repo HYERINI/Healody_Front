@@ -1085,7 +1085,7 @@ function MypageFamilyManagementMain() {
                             <button
                                 style={styles.input_complete}
                                 onClick={() => {
-                                    navigate('/family_today',{
+                                    navigate('/care_today',{
                                         state : {
                                             id: editCareUserId
                                         }

@@ -172,7 +172,7 @@ const Family_main = () => {
                                 Object.keys(selectedFamilyList[selectedHome].user).map((userId) => (
                                     <FamilyBox
                                         onClick={() => {
-                                            navigate('/family_today',{
+                                            navigate('/care_today',{
                                                 state : {
                                                     id: familyData[selectedHome].user[userId].id,
                                                     name: familyData[selectedHome].user[userId].name,

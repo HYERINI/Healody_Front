@@ -45,6 +45,15 @@ const Text = styled.p`
   font-size: 15px;
 `
 
+const Button = styled.button`
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #787878;
+  padding: 10px 0;
+`
+
 function TodayDoBox() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [items, setItems] = useState({});
@@ -104,14 +113,14 @@ function TodayDoBox() {
                 <MoreBt src={TodayPlusBt} onClick={onMoveLink}/>
                 
             </TodayMainTopWrap>
-            <DatePicker
+            <DatePicker style={{ display: 'flex', justifyContent: 'center'}}
                 selected={selectedDate}
                 onChange={handleDateChange}
                 dateFormat="yyyy-MM-dd"
                 placeholderText="날짜 선택해서 일정 보기!"
             />
             <div class="frame">
-                <button class="custom-btn btn-3" onClick={handleAddSchedule}><span>이날의 일정 보기</span></button>
+                <Button onClick={handleAddSchedule}><span>이날의 일정 보기</span></Button>
             </div>
 
             
