@@ -7,9 +7,9 @@ import { Container } from "postcss";
 
 const styles= {
     l_logo: {
-        width: 226,
-        height: 108,
-       
+        width: 180,
+        height: 90,
+        marginLeft: '30px'
     },
 
     logo_space: {
@@ -34,7 +34,7 @@ const styles= {
 
     login_box: {
         height: "100%",
-        marginTop: "300px",
+        marginTop: "100px",
     },
     all: {
         margin: "0 auto",

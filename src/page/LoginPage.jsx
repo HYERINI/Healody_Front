@@ -118,30 +118,6 @@ function LoginPage() {
         else if( count == 0 && showImage == false) {
             setShowImage(!showImage);
               }
-        // const word = event.target.value.split(' ');
-        // const totalIndex = word.reduce((acc, words) => {
-        //     return acc + words.length;
-        // }, 0);
-        // if(indexCount != 0 && showImage == true){
-        //     setShowImage(!showImage);
-        // }
-        // else if(indexCount == 0 ){
-        //     setShowImage(showImage);
-        // }
-
-        // setIndexCount(totalIndex -1);
-        
-        // console.log(showImage);
-        // console.log(totalIndex);
-
-        // const word = formData.phone;console.log(word.length)
-        // if( word != "" && showImage == true) {
-        //     setShowImage(!showImage);
-        // }
-        // else if( word == "" && showImage == false) {
-        //     setShowImage(!showImage);
-        // }
-        // console.log(showImage);
         
     }
 
