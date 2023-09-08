@@ -94,10 +94,11 @@ function Hospital() {
                 <CalendarNav />
                 <h1 style={{
                     textAlign: "center",
+                    marginTop: "5px",
                 }}>
-                    <div class="btn btn-primary btn-round btn-marquee">
-                        <span data-text="자신의 일정을 추가해보세요!">자신의 일정을 추가해보세요!</span>
-                    </div>
+
+                        <span>자신의 일정을 추가해보세요!</span>
+
                 </h1>
                 <br />
                 <CalendarComponent onAddSchedule={handleAddSchedule} />
@@ -114,10 +115,10 @@ function Hospital() {
                             textAlign:"center",
                             marginLeft: "-40px",
                             }}
-                            class="btn btn-primary btn-round btn-marquee">
-                        <span data-text="가족을 선택하고 날짜를 선택하여 일정을 조회해 보세요!">가족을 선택하고 날짜를 선택하여 일정을 조회해 보세요!</span>
-                    </div>
-                
+                            />
+                        <span>가족을 선택하고 날짜를 선택하여 일정을 조회해 보세요!</span>
+
+
                 <TodayBox>
                 <div style={{borderRadius: '5px',
                     backgroundColor: "rgb(87, 108, 228)",
@@ -132,16 +133,20 @@ function Hospital() {
                     <button style={{border: '2px solid #333', 
                     padding: '5px', 
                     borderRadius: '5px', 
-                    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)'
+                    boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+                        fontSize:"10px",
+                        marginRight: "250px",
+                        marginTop: "5px",
                         }}
-                    class="btn btn-primary btn-ghost btn-open-line" onClick={handleFamily}>가족 조회하기</button>
+                            onClick={handleFamily}>가족 조회</button>
                 </div>
                 
                 <ul>
                 <div style={{textAlign: "center",}}>
                 {Object.keys(items).map((key) => (
                     <li key={key}>
-                        <button 
+                        <button style={{width: "100px",
+                                        fontSize: "15px",}}
                             class="custom-btn btn-3"
                             onClick={() => handlenameClick(items[key].name, items[key].userId)}
                             ><span>{`${items[key].name}`}</span>

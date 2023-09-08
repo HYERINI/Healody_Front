@@ -367,9 +367,10 @@ const JoinMembershipPage = () => {
         
         </div>
         <div class="frame">
-                <button class="custom-btn btn-3" onClick={handleSaveEmail}><span>이메일 중복체크 버튼</span></button>
+                <button style={{width: "120px",}}
+                        class="custom-btn btn-3" onClick={handleSaveEmail}><span>이메일 중복체크</span></button>
                 <br />
-                <button class="custom-btn btn-3" onClick={handlecertifyEmail}><span>이메일 인증번호 발송 버튼</span></button>
+                <button style={{width: "145px",}} class="custom-btn btn-3" onClick={handlecertifyEmail}><span>이메일 인증번호 발송</span></button>
         </div>
 
         <div>
@@ -385,7 +386,7 @@ const JoinMembershipPage = () => {
             />
             </div>
             <div class="frame">
-                <button class="custom-btn btn-3" onClick={handleconfirmEmail}><span>인증번호 확인 버튼</span></button>
+                <button style={{width: "110px"}}class="custom-btn btn-3" onClick={handleconfirmEmail}><span>인증번호 확인</span></button>
             </div>
         </div>
 
@@ -402,7 +403,7 @@ const JoinMembershipPage = () => {
             />
             </div>
             <div class="frame">
-                <buton class="custom-btn btn-3" onClick={handlecertifyPhone}><span>전화번호 중복체크</span></buton>
+                <buton style={{width: "120px",}}class="custom-btn btn-3" onClick={handlecertifyPhone}><span>전화번호 중복체크</span></buton>
             </div>
         </div>
 
@@ -471,7 +472,7 @@ const JoinMembershipPage = () => {
             
             </div>
             <div class="frame">
-                <button class="custom-btn btn-3" onClick={handleSaveNickname}><span>닉네임 중복체크</span></button>
+                <button style={{width: "120px",}}class="custom-btn btn-3" onClick={handleSaveNickname}><span>닉네임 중복체크</span></button>
             </div>
             <p style={styles.under}>{nameMessage}</p>
         </div>

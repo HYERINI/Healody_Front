@@ -181,11 +181,16 @@ function CalendarComponent({ onAddSchedule }) {
       />
       </TodayGoalBox>
       <br />
-      <TodayGoalBox style={{height: "40px",
-                            width: "200px",
-                            textAlign: "center",}}>
-      <button style={{marginTop: "-3px",}} class="btn btn-primary btn-jittery" onClick={handleAddSchedule}>일정 추가하기</button>
-      </TodayGoalBox>
+
+      <button style={{border: '2px solid #333',
+          padding: '5px',
+          borderRadius: '5px',
+          boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+          fontSize:"10px",
+          marginLeft: "250px",
+          marginTop: "5px",
+      }} onClick={handleAddSchedule}>일정 추가하기</button>
+
       </TodayBox>
       {/* <div class="buttons">
       <button class="btn btn-primary btn-jittery">

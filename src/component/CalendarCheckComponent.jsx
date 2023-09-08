@@ -92,9 +92,11 @@ function CalendarCheckComponent() {
         border: '2px solid #333', 
         padding: '5px', 
         borderRadius: '5px', 
-        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)'
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.2)',
+        marginTop: "10px",
+        fontSize: "10px",
       }}
-      class="btn btn-primary btn-jittery" onClick={handleAddSchedule}>일정 보기</button>
+      onClick={handleAddSchedule}>일정 보기</button>
       <TodayBox>
       {Object.keys(items).map((key) => (
                   <TodayGoalBox>
