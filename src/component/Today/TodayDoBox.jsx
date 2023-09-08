@@ -113,12 +113,14 @@ function TodayDoBox() {
                 <MoreBt src={TodayPlusBt} onClick={onMoveLink}/>
                 
             </TodayMainTopWrap>
-            <DatePicker style={{ display: 'flex', justifyContent: 'center'}}
-                selected={selectedDate}
-                onChange={handleDateChange}
-                dateFormat="yyyy-MM-dd"
-                placeholderText="날짜 선택해서 일정 보기!"
-            />
+            <div>
+                <DatePicker
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="yyyy-MM-dd"
+                            placeholderText="날짜 선택해서 일정 보기!"
+                />
+            </div>
             <div class="frame">
                 <Button onClick={handleAddSchedule}><span>이날의 일정 보기</span></Button>
             </div>
